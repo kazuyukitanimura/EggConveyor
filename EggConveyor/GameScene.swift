@@ -9,14 +9,19 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    let screenSize = UIScreen.mainScreen().bounds// * UIScreen.mainScreen().scale
+    let screenHeight = UIScreen.mainScreen().bounds.height * UIScreen.mainScreen().scale
+
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-        
-        self.addChild(myLabel)
+        // background
+        let backGround = SKSpriteNode(imageNamed: "background")
+        self.addChild(backGround)
+        backGround.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        // steel
+        let steel = SKSpriteNode(imageNamed: "steel")
+        steel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 4.0)
+        steel.setScale(screenSize.width / steel.size.height) // ???
+        self.addChild(steel)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
