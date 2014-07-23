@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		80471935197F56610075C696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80471934197F56610075C696 /* AppDelegate.swift */; };
+		80471937197F56610075C696 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 80471936197F56610075C696 /* GameScene.sks */; };
+		80471939197F56610075C696 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80471938197F56610075C696 /* GameScene.swift */; };
+		8047193B197F56610075C696 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047193A197F56610075C696 /* GameViewController.swift */; };
+		8047193E197F56610075C696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8047193C197F56610075C696 /* Main.storyboard */; };
+		80471940197F56610075C696 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8047193F197F56610075C696 /* Images.xcassets */; };
+		8047194C197F56610075C696 /* EggConveyorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047194B197F56610075C696 /* EggConveyorTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		80471946197F56610075C696 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 80471927197F56610075C696 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8047192E197F56610075C696;
+			remoteInfo = EggConveyor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8047192F197F56610075C696 /* EggConveyor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EggConveyor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		80471933197F56610075C696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80471934197F56610075C696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		80471936197F56610075C696 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		80471938197F56610075C696 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		8047193A197F56610075C696 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		8047193D197F56610075C696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8047193F197F56610075C696 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		80471945197F56610075C696 /* EggConveyorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EggConveyorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8047194A197F56610075C696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8047194B197F56610075C696 /* EggConveyorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggConveyorTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8047192C197F56610075C696 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80471942197F56610075C696 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		80471926197F56610075C696 = {
+			isa = PBXGroup;
+			children = (
+				80471931197F56610075C696 /* EggConveyor */,
+				80471948197F56610075C696 /* EggConveyorTests */,
+				80471930197F56610075C696 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		80471930197F56610075C696 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8047192F197F56610075C696 /* EggConveyor.app */,
+				80471945197F56610075C696 /* EggConveyorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		80471931197F56610075C696 /* EggConveyor */ = {
+			isa = PBXGroup;
+			children = (
+				80471934197F56610075C696 /* AppDelegate.swift */,
+				80471936197F56610075C696 /* GameScene.sks */,
+				80471938197F56610075C696 /* GameScene.swift */,
+				8047193A197F56610075C696 /* GameViewController.swift */,
+				8047193C197F56610075C696 /* Main.storyboard */,
+				8047193F197F56610075C696 /* Images.xcassets */,
+				80471932197F56610075C696 /* Supporting Files */,
+			);
+			path = EggConveyor;
+			sourceTree = "<group>";
+		};
+		80471932197F56610075C696 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				80471933197F56610075C696 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		80471948197F56610075C696 /* EggConveyorTests */ = {
+			isa = PBXGroup;
+			children = (
+				8047194B197F56610075C696 /* EggConveyorTests.swift */,
+				80471949197F56610075C696 /* Supporting Files */,
+			);
+			path = EggConveyorTests;
+			sourceTree = "<group>";
+		};
+		80471949197F56610075C696 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8047194A197F56610075C696 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8047192E197F56610075C696 /* EggConveyor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8047194F197F56610075C696 /* Build configuration list for PBXNativeTarget "EggConveyor" */;
+			buildPhases = (
+				8047192B197F56610075C696 /* Sources */,
+				8047192C197F56610075C696 /* Frameworks */,
+				8047192D197F56610075C696 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EggConveyor;
+			productName = EggConveyor;
+			productReference = 8047192F197F56610075C696 /* EggConveyor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		80471944197F56610075C696 /* EggConveyorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80471952197F56610075C696 /* Build configuration list for PBXNativeTarget "EggConveyorTests" */;
+			buildPhases = (
+				80471941197F56610075C696 /* Sources */,
+				80471942197F56610075C696 /* Frameworks */,
+				80471943197F56610075C696 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				80471947197F56610075C696 /* PBXTargetDependency */,
+			);
+			name = EggConveyorTests;
+			productName = EggConveyorTests;
+			productReference = 80471945197F56610075C696 /* EggConveyorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		80471927197F56610075C696 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Kazuyuki Tanimura";
+				TargetAttributes = {
+					8047192E197F56610075C696 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					80471944197F56610075C696 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 8047192E197F56610075C696;
+					};
+				};
+			};
+			buildConfigurationList = 8047192A197F56610075C696 /* Build configuration list for PBXProject "EggConveyor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 80471926197F56610075C696;
+			productRefGroup = 80471930197F56610075C696 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8047192E197F56610075C696 /* EggConveyor */,
+				80471944197F56610075C696 /* EggConveyorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8047192D197F56610075C696 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80471940197F56610075C696 /* Images.xcassets in Resources */,
+				80471937197F56610075C696 /* GameScene.sks in Resources */,
+				8047193E197F56610075C696 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80471943197F56610075C696 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8047192B197F56610075C696 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80471939197F56610075C696 /* GameScene.swift in Sources */,
+				8047193B197F56610075C696 /* GameViewController.swift in Sources */,
+				80471935197F56610075C696 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80471941197F56610075C696 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8047194C197F56610075C696 /* EggConveyorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		80471947197F56610075C696 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8047192E197F56610075C696 /* EggConveyor */;
+			targetProxy = 80471946197F56610075C696 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8047193C197F56610075C696 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8047193D197F56610075C696 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8047194D197F56610075C696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8047194E197F56610075C696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		80471950197F56610075C696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = EggConveyor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		80471951197F56610075C696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = EggConveyor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		80471953197F56610075C696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/EggConveyor.app/EggConveyor";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EggConveyorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		80471954197F56610075C696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/EggConveyor.app/EggConveyor";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EggConveyorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8047192A197F56610075C696 /* Build configuration list for PBXProject "EggConveyor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8047194D197F56610075C696 /* Debug */,
+				8047194E197F56610075C696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8047194F197F56610075C696 /* Build configuration list for PBXNativeTarget "EggConveyor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80471950197F56610075C696 /* Debug */,
+				80471951197F56610075C696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80471952197F56610075C696 /* Build configuration list for PBXNativeTarget "EggConveyorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80471953197F56610075C696 /* Debug */,
+				80471954197F56610075C696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 80471927197F56610075C696 /* Project object */;
+}
