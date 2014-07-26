@@ -17,11 +17,34 @@ class GameScene: SKScene {
         let backGround = SKSpriteNode(imageNamed: "background")
         self.addChild(backGround)
         backGround.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        // steel
-        let steel = SKSpriteNode(imageNamed: "steel")
-        steel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 4.0)
-        steel.setScale(screenSize.width / steel.size.height) // ???
-        self.addChild(steel)
+        // tower
+        let tower = SKSpriteNode(imageNamed: "tower")
+        tower.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 4.0)
+        tower.setScale(screenSize.width / tower.size.height) // ???
+        self.addChild(tower)
+        
+        // conveyor
+        let conveyor1 = SKTexture(imageNamed: "conveyor_01")
+        //conveyor1.filteringMode = .Nearest
+        let conveyor2 = SKTexture(imageNamed: "conveyor_02")
+        //conveyor2.filteringMode = .Nearest
+        let conveyor3 = SKTexture(imageNamed: "conveyor_03")
+        //conveyor3.filteringMode = .Nearest
+        
+        let anim = SKAction.animateWithTextures([conveyor1, conveyor2, conveyor3], timePerFrame: 0.2)
+        let convey = SKAction.repeatActionForever(anim)
+        for var i:Int = 0; i < 10; i++ {
+            var conveyor = SKSpriteNode(texture: conveyor1)
+            conveyor.anchorPoint = CGPoint(x: 1.0, y:0.5)
+            if i & 0b01 == 0b00 {
+              conveyor.setScale(0.4)
+            } else {
+                conveyor.setScale(-0.4)
+            }
+            conveyor.runAction(convey)
+            conveyor.position = CGPoint(x:CGRectGetMidX(self.frame), y:self.frame.size.height * 0.15 * ((i >> 1) + 1))
+            self.addChild(conveyor)
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
