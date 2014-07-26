@@ -17,6 +17,7 @@ class GameScene: SKScene {
         let backGround = SKSpriteNode(imageNamed: "background")
         self.addChild(backGround)
         backGround.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+
         // tower
         let tower = SKSpriteNode(imageNamed: "tower")
         tower.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 4.0)
@@ -25,24 +26,20 @@ class GameScene: SKScene {
         
         // conveyor
         let conveyor1 = SKTexture(imageNamed: "conveyor_01")
-        //conveyor1.filteringMode = .Nearest
         let conveyor2 = SKTexture(imageNamed: "conveyor_02")
-        //conveyor2.filteringMode = .Nearest
         let conveyor3 = SKTexture(imageNamed: "conveyor_03")
-        //conveyor3.filteringMode = .Nearest
-        
         let anim = SKAction.animateWithTextures([conveyor1, conveyor2, conveyor3], timePerFrame: 0.2)
         let convey = SKAction.repeatActionForever(anim)
-        for var i:Int = 0; i < 10; i++ {
-            var conveyor = SKSpriteNode(texture: conveyor1)
-            conveyor.anchorPoint = CGPoint(x: 1.0, y:0.5)
-            if i & 0b01 == 0b00 {
-              conveyor.setScale(0.4)
-            } else {
-                conveyor.setScale(-0.4)
-            }
-            conveyor.runAction(convey)
-            conveyor.position = CGPoint(x:CGRectGetMidX(self.frame), y:self.frame.size.height * 0.15 * ((i >> 1) + 1))
+        var conveyor = SKSpriteNode(texture: conveyor1)
+        conveyor.xScale = 0.4
+        conveyor.yScale = -0.4
+        conveyor.runAction(convey)
+        conveyor.position = CGPoint(x:CGRectGetMaxX(self.frame) * 1.1, y:self.frame.size.height * 0.15)
+        self.addChild(conveyor)
+        for var i:Int = 0; i < 5; i++ {
+            conveyor = conveyor.copy() as SKSpriteNode
+            conveyor.xScale = conveyor.xScale * (1.0 - ((i & 0b01) << 1))
+            conveyor.position = CGPoint(x:CGRectGetMidX(self.frame), y:self.frame.size.height * 0.15 * (i + 1))
             self.addChild(conveyor)
         }
     }
