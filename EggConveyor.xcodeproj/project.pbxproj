@@ -16,6 +16,7 @@
 		8047194C197F56610075C696 /* EggConveyorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047194B197F56610075C696 /* EggConveyorTests.swift */; };
 		8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8061F8A819838FF300BCB17E /* conveyor.atlas */; };
 		80BE5D111984F47C009547BF /* truck.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D101984F47C009547BF /* truck.atlas */; };
+		80BE5D131985B826009547BF /* step.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D121985B826009547BF /* step.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		8047194B197F56610075C696 /* EggConveyorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggConveyorTests.swift; sourceTree = "<group>"; };
 		8061F8A819838FF300BCB17E /* conveyor.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = conveyor.atlas; sourceTree = "<group>"; };
 		80BE5D101984F47C009547BF /* truck.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = truck.atlas; sourceTree = "<group>"; };
+		80BE5D121985B826009547BF /* step.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = step.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				8047193A197F56610075C696 /* GameViewController.swift */,
 				8047193C197F56610075C696 /* Main.storyboard */,
 				8047193F197F56610075C696 /* Images.xcassets */,
+				80BE5D121985B826009547BF /* step.atlas */,
 				80BE5D101984F47C009547BF /* truck.atlas */,
 				8061F8A819838FF300BCB17E /* conveyor.atlas */,
 				80471932197F56610075C696 /* Supporting Files */,
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80471940197F56610075C696 /* Images.xcassets in Resources */,
+				80BE5D131985B826009547BF /* step.atlas in Resources */,
 				80471937197F56610075C696 /* GameScene.sks in Resources */,
 				80BE5D111984F47C009547BF /* truck.atlas in Resources */,
 				8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */,

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EggConveyor/GameScene.swift"
-            timestampString = "428065258.650902"
+            timestampString = "428193889.999942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "didMoveToView(_:)"
             landmarkType = "5">
          </BreakpointContent>

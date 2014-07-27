@@ -23,7 +23,33 @@ class GameScene: SKScene {
         tower.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 4.0)
         tower.setScale(screenSize.width / tower.size.height) // ???
         self.addChild(tower)
-        
+
+        // step
+        let step1 = SKSpriteNode(imageNamed: "steel_01")
+        let step2 = SKSpriteNode(imageNamed: "steel_02")
+        let step3 = SKSpriteNode(imageNamed: "steel_03")
+        let step4 = SKSpriteNode(imageNamed: "steel_04")
+        let step5 = SKSpriteNode(imageNamed: "steel_05")
+        let step7 = SKSpriteNode(imageNamed: "steel_07")
+        step1.setScale(0.2)
+        step2.setScale(0.2)
+        step3.setScale(0.2)
+        step4.setScale(0.2)
+        step5.setScale(0.2)
+        step7.setScale(0.2)
+        step1.position = CGPoint(x:CGRectGetMidX(self.frame) * 0.4, y:self.frame.size.height * 0.15)
+        step2.position = CGPoint(x:CGRectGetMidX(self.frame) * 0.4, y:self.frame.size.height * 0.45)
+        step3.position = CGPoint(x:CGRectGetMidX(self.frame) * 0.4, y:self.frame.size.height * 0.75)
+        step4.position = CGPoint(x:CGRectGetMidX(self.frame) * 1.7, y:self.frame.size.height * 0.00)
+        step5.position = CGPoint(x:CGRectGetMidX(self.frame) * 1.7, y:self.frame.size.height * 0.30)
+        step7.position = CGPoint(x:CGRectGetMidX(self.frame) * 1.7, y:self.frame.size.height * 0.60)
+        self.addChild(step1)
+        self.addChild(step2)
+        self.addChild(step3)
+        self.addChild(step4)
+        self.addChild(step5)
+        self.addChild(step7)
+
         // conveyor
         let conveyor1 = SKTexture(imageNamed: "conveyor_01")
         let conveyor2 = SKTexture(imageNamed: "conveyor_02")
