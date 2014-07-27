@@ -42,6 +42,17 @@ class GameScene: SKScene {
             conveyor.position = CGPoint(x:CGRectGetMidX(self.frame), y:self.frame.size.height * 0.15 * (i + 1))
             self.addChild(conveyor)
         }
+
+        // truck
+        let truck = SKSpriteNode(imageNamed: "truck_01")
+        truck.setScale(0.3)
+        truck.position = CGPoint(x:truck.size.width / 2.0, y:CGRectGetMidY(self.frame))
+        self.addChild(truck)
+        let gas = SKSpriteNode(imageNamed: "truck_02")
+        gas.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1.0), SKAction.fadeInWithDuration(1.0)])))
+        gas.setScale(0.3)
+        gas.position = CGPoint(x:truck.size.width + gas.size.width / 2.0, y:CGRectGetMidY(self.frame) - 16.0)
+        self.addChild(gas)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
