@@ -21,6 +21,7 @@ class GameScene: SKScene {
     var step4Y:CGFloat!
     var step5Y:CGFloat!
     var step6Y:CGFloat!
+    var message:SKLabelNode!
     
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -118,6 +119,13 @@ class GameScene: SKScene {
         flip(henL)
         self.addChild(henL)
         self.addChild(henR)
+
+        // message
+        message = SKLabelNode(fontNamed:"Chalkduster")
+        message.text = "TAP TO START!"
+        message.fontSize = 65
+        message.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        self.addChild(message)
     }
 
     func flip(node: SKSpriteNode) {
@@ -126,6 +134,7 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
+        message.removeFromParent()
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
