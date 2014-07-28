@@ -39,12 +39,12 @@ class GameScene: SKScene {
         self.addChild(tower)
 
         // step
-        let step1 = SKSpriteNode(imageNamed: "step_01")
-        let step2 = SKSpriteNode(imageNamed: "step_02")
-        let step3 = SKSpriteNode(imageNamed: "step_03")
-        let step4 = SKSpriteNode(imageNamed: "step_04")
-        let step5 = SKSpriteNode(imageNamed: "step_05")
-        let step6 = SKSpriteNode(imageNamed: "step_06")
+        let step1 = SKSpriteNode(imageNamed: "steel_01")
+        let step2 = SKSpriteNode(imageNamed: "steel_02")
+        let step3 = SKSpriteNode(imageNamed: "steel_03")
+        let step4 = SKSpriteNode(imageNamed: "steel_04")
+        let step5 = SKSpriteNode(imageNamed: "steel_05")
+        let step6 = SKSpriteNode(imageNamed: "steel_07")
         let stepScale:CGFloat = 0.2
         step1.setScale(stepScale)
         step2.setScale(stepScale)
