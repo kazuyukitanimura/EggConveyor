@@ -9,19 +9,23 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    let screenSize = UIScreen.mainScreen().bounds// * UIScreen.mainScreen().scale
-    let screenHeight = UIScreen.mainScreen().bounds.height * UIScreen.mainScreen().scale
-
+    // It seems 576 is the real height as opposed to 640 for iPhone5s
+    let screenHeight:CGFloat = 576.0
+    
     override func didMoveToView(view: SKView) {
+        let centerX = CGRectGetMidX(self.frame)
+        let centerY = CGRectGetMidY(self.frame)
+        let ground = centerY - screenHeight * 0.5
+
         // background
         let backGround = SKSpriteNode(imageNamed: "background")
         self.addChild(backGround)
-        backGround.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        backGround.position = CGPoint(x:centerX, y:centerY)
 
         // tower
         let tower = SKSpriteNode(imageNamed: "tower")
-        tower.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 4.0)
-        tower.setScale(screenSize.width / tower.size.height) // ???
+        tower.setScale(screenHeight / tower.size.height)
+        tower.position = CGPoint(x:centerX, y:centerY - 10.0)
         self.addChild(tower)
 
         // step
@@ -31,18 +35,19 @@ class GameScene: SKScene {
         let step4 = SKSpriteNode(imageNamed: "steel_04")
         let step5 = SKSpriteNode(imageNamed: "steel_05")
         let step7 = SKSpriteNode(imageNamed: "steel_07")
-        step1.setScale(0.2)
-        step2.setScale(0.2)
-        step3.setScale(0.2)
-        step4.setScale(0.2)
-        step5.setScale(0.2)
-        step7.setScale(0.2)
-        step1.position = CGPoint(x:CGRectGetMidX(self.frame) * 0.4, y:self.frame.size.height * 0.15)
-        step2.position = CGPoint(x:CGRectGetMidX(self.frame) * 0.4, y:self.frame.size.height * 0.45)
-        step3.position = CGPoint(x:CGRectGetMidX(self.frame) * 0.4, y:self.frame.size.height * 0.75)
-        step4.position = CGPoint(x:CGRectGetMidX(self.frame) * 1.7, y:self.frame.size.height * 0.00)
-        step5.position = CGPoint(x:CGRectGetMidX(self.frame) * 1.7, y:self.frame.size.height * 0.30)
-        step7.position = CGPoint(x:CGRectGetMidX(self.frame) * 1.7, y:self.frame.size.height * 0.60)
+        let stepScale:CGFloat = 0.2
+        step1.setScale(stepScale)
+        step2.setScale(stepScale)
+        step3.setScale(stepScale)
+        step4.setScale(stepScale)
+        step5.setScale(stepScale)
+        step7.setScale(stepScale)
+        step1.position = CGPoint(x:centerX * 0.4, y:self.frame.size.height * 0.15)
+        step2.position = CGPoint(x:centerX * 0.4, y:self.frame.size.height * 0.45)
+        step3.position = CGPoint(x:centerX * 0.4, y:self.frame.size.height * 0.75)
+        step4.position = CGPoint(x:centerX * 1.6, y:self.frame.size.height * 0.00)
+        step5.position = CGPoint(x:centerX * 1.6, y:self.frame.size.height * 0.30)
+        step7.position = CGPoint(x:centerX * 1.6, y:self.frame.size.height * 0.60)
         self.addChild(step1)
         self.addChild(step2)
         self.addChild(step3)
@@ -57,27 +62,29 @@ class GameScene: SKScene {
         let anim = SKAction.animateWithTextures([conveyor1, conveyor2, conveyor3], timePerFrame: 0.2)
         let convey = SKAction.repeatActionForever(anim)
         var conveyor = SKSpriteNode(texture: conveyor1)
-        conveyor.xScale = 0.4
-        conveyor.yScale = -0.4
+        let conveyorScale:CGFloat = 0.4
+        conveyor.xScale = conveyorScale
+        conveyor.yScale = -conveyorScale
         conveyor.runAction(convey)
         conveyor.position = CGPoint(x:CGRectGetMaxX(self.frame) * 1.1, y:self.frame.size.height * 0.15)
         self.addChild(conveyor)
         for var i:Int = 0; i < 5; i++ {
             conveyor = conveyor.copy() as SKSpriteNode
             conveyor.xScale = conveyor.xScale * (1.0 - ((i & 0b01) << 1))
-            conveyor.position = CGPoint(x:CGRectGetMidX(self.frame), y:self.frame.size.height * 0.15 * (i + 1))
+            conveyor.position = CGPoint(x:centerX, y:self.frame.size.height * 0.15 * (i + 1))
             self.addChild(conveyor)
         }
 
         // truck
         let truck = SKSpriteNode(imageNamed: "truck_01")
-        truck.setScale(0.3)
-        truck.position = CGPoint(x:truck.size.width / 2.0, y:CGRectGetMidY(self.frame))
+        let truckScale:CGFloat = 0.3
+        truck.setScale(truckScale)
+        truck.position = CGPoint(x:truck.size.width * 0.5, y:ground + truck.size.height * 0.5)
         self.addChild(truck)
         let gas = SKSpriteNode(imageNamed: "truck_02")
         gas.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1.0), SKAction.fadeInWithDuration(1.0)])))
-        gas.setScale(0.3)
-        gas.position = CGPoint(x:truck.size.width + gas.size.width / 2.0, y:CGRectGetMidY(self.frame) - 16.0)
+        gas.setScale(truckScale)
+        gas.position = CGPoint(x:truck.size.width + gas.size.width * 0.5, y:ground + gas.size.height * 0.5 + 2.0)
         self.addChild(gas)
     }
     
