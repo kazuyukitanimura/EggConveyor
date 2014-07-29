@@ -22,6 +22,7 @@ class GameScene: SKScene {
     var step5Y:CGFloat!
     var step6Y:CGFloat!
     var message:SKLabelNode!
+    var firstTime = true
     
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -120,6 +121,41 @@ class GameScene: SKScene {
         self.addChild(henL)
         self.addChild(henR)
 
+        // egg
+        let egg1 = SKSpriteNode(imageNamed: "egg_01")
+        let egg2 = SKSpriteNode(imageNamed: "egg_02")
+        let egg3 = SKSpriteNode(imageNamed: "egg_03")
+        let egg4 = SKSpriteNode(imageNamed: "egg_04")
+        let egg5 = SKSpriteNode(imageNamed: "egg_05")
+        let egg6 = SKSpriteNode(imageNamed: "egg_06")
+        let egg7 = SKSpriteNode(imageNamed: "egg_07")
+        let egg8 = SKSpriteNode(imageNamed: "egg_08")
+        let eggScale:CGFloat = 0.2
+        egg1.setScale(eggScale)
+        egg2.setScale(eggScale)
+        egg3.setScale(eggScale)
+        egg4.setScale(eggScale)
+        egg5.setScale(eggScale)
+        egg6.setScale(eggScale)
+        egg7.setScale(eggScale)
+        egg8.setScale(eggScale)
+        egg1.position = CGPoint(x:centerX, y:140)
+        egg2.position = CGPoint(x:centerX, y:210)
+        egg3.position = CGPoint(x:centerX, y:280)
+        egg4.position = CGPoint(x:centerX, y:350)
+        egg5.position = CGPoint(x:centerX, y:420)
+        egg6.position = CGPoint(x:centerX, y:490)
+        egg7.position = CGPoint(x:centerX, y:560)
+        egg8.position = CGPoint(x:centerX, y:630)
+        self.addChild(egg1)
+        self.addChild(egg2)
+        self.addChild(egg3)
+        self.addChild(egg4)
+        self.addChild(egg5)
+        self.addChild(egg6)
+        self.addChild(egg7)
+        self.addChild(egg8)
+
         // message
         message = SKLabelNode(fontNamed:"Chalkduster")
         message.text = "TAP TO START!"
@@ -134,7 +170,11 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        message.removeFromParent()
+        if firstTime {
+            message.removeFromParent()
+            firstTime = false
+            return
+        }
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
