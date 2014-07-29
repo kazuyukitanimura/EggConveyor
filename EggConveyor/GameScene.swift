@@ -23,6 +23,8 @@ class GameScene: SKScene {
     var step6Y:CGFloat!
     var message:SKLabelNode!
     var firstTime = true
+    var score:Int = 0
+    var lifeCount:Int = 3
     
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -122,7 +124,6 @@ class GameScene: SKScene {
         self.addChild(henR)
 
         // egg
-        let egg1 = SKSpriteNode(imageNamed: "egg_01")
         let egg2 = SKSpriteNode(imageNamed: "egg_02")
         let egg3 = SKSpriteNode(imageNamed: "egg_03")
         let egg4 = SKSpriteNode(imageNamed: "egg_04")
@@ -131,7 +132,6 @@ class GameScene: SKScene {
         let egg7 = SKSpriteNode(imageNamed: "egg_07")
         let egg8 = SKSpriteNode(imageNamed: "egg_08")
         let eggScale:CGFloat = 0.2
-        egg1.setScale(eggScale)
         egg2.setScale(eggScale)
         egg3.setScale(eggScale)
         egg4.setScale(eggScale)
@@ -139,7 +139,6 @@ class GameScene: SKScene {
         egg6.setScale(eggScale)
         egg7.setScale(eggScale)
         egg8.setScale(eggScale)
-        egg1.position = CGPoint(x:centerX, y:140)
         egg2.position = CGPoint(x:centerX, y:210)
         egg3.position = CGPoint(x:centerX, y:280)
         egg4.position = CGPoint(x:centerX, y:350)
@@ -147,7 +146,6 @@ class GameScene: SKScene {
         egg6.position = CGPoint(x:centerX, y:490)
         egg7.position = CGPoint(x:centerX, y:560)
         egg8.position = CGPoint(x:centerX, y:630)
-        self.addChild(egg1)
         self.addChild(egg2)
         self.addChild(egg3)
         self.addChild(egg4)
@@ -160,8 +158,27 @@ class GameScene: SKScene {
         message = SKLabelNode(fontNamed:"Chalkduster")
         message.text = "TAP TO START!"
         message.fontSize = 65
-        message.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        message.position = CGPoint(x:centerX, y:centerY)
         self.addChild(message)
+
+        // score
+        let scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
+        scoreLabel.text = "Score: " + String(score)
+        scoreLabel.fontSize = 30
+        scoreLabel.position = CGPoint(x:centerX * 2.0 - scoreLabel.frame.size.width, y:screenHeight + ground - scoreLabel.frame.size.height)
+        self.addChild(scoreLabel)
+
+        // life
+        let life = SKSpriteNode(imageNamed: "egg_01")
+        let lifeScale:CGFloat = 0.3
+        life.setScale(lifeScale)
+        life.position = CGPoint(x:centerX * 2.0 - life.size.width * 3.0, y:scoreLabel.position.y - scoreLabel.frame.size.height)
+        self.addChild(life)
+        for (var i:Int = 1; i < lifeCount; i++) {
+            var lifeCopy = life.copy() as SKSpriteNode
+            lifeCopy.position.x += life.size.width * CGFloat(i)
+            self.addChild(lifeCopy)
+        }
     }
 
     func flip(node: SKSpriteNode) {
