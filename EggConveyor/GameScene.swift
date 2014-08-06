@@ -24,7 +24,9 @@ class GameScene: SKScene {
     var message:SKLabelNode!
     var firstTime = true
     var score:Int = 0
+    var scoreLabel:SKLabelNode!
     var lifeCount:Int = 3
+    var lifes = [SKSpriteNode]()
     
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -86,11 +88,13 @@ class GameScene: SKScene {
         conveyor.xScale = conveyorScale
         conveyor.yScale = -conveyorScale
         conveyor.runAction(convey)
-        conveyor.position = CGPoint(x:CGRectGetMaxX(self.frame) * 1.1, y:self.frame.size.height * 0.15)
+        conveyor.position = CGPoint(x:centerX * 2.2, y:self.frame.size.height * 0.15)
         self.addChild(conveyor)
         for (var i:Int = 0; i < 5; i++) {
             conveyor = conveyor.copy() as SKSpriteNode
-            conveyor.xScale = conveyor.xScale * (1.0 - ((i & 0b01) << 1))
+            if ((i & 0b01) == 0b01) {
+                flip(conveyor)
+            }
             conveyor.position = CGPoint(x:centerX, y:self.frame.size.height * 0.15 * (i + 1))
             self.addChild(conveyor)
         }
@@ -162,7 +166,7 @@ class GameScene: SKScene {
         self.addChild(message)
 
         // score
-        let scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
+        scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
         scoreLabel.text = "Score: " + String(score)
         scoreLabel.fontSize = 30
         scoreLabel.position = CGPoint(x:centerX * 2.0 - scoreLabel.frame.size.width, y:screenHeight + ground - scoreLabel.frame.size.height)
@@ -177,8 +181,18 @@ class GameScene: SKScene {
         for (var i:Int = 1; i < lifeCount; i++) {
             var lifeCopy = life.copy() as SKSpriteNode
             lifeCopy.position.x += life.size.width * CGFloat(i)
-            self.addChild(lifeCopy)
+            lifes.append(lifeCopy)
         }
+        reset()
+    }
+
+    func reset() {
+        for life in lifes {
+            life.removeFromParent()
+            self.addChild(life)
+        }
+        score = 0
+        scoreLabel.text = "Score: " + String(score)
     }
 
     func flip(node: SKSpriteNode) {
@@ -214,6 +228,7 @@ class GameScene: SKScene {
                 }
             }
         }
+        scoreLabel.text = "Score: " + String(++score)
     }
    
     override func update(currentTime: CFTimeInterval) {
