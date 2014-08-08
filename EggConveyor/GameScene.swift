@@ -95,7 +95,7 @@ class GameScene: SKScene {
             if ((i & 0b01) == 0b01) {
                 flip(conveyor)
             }
-            conveyor.position = CGPoint(x:centerX, y:self.frame.size.height * 0.15 * (i + 1))
+            conveyor.position = CGPoint(x:centerX, y:self.frame.size.height * 0.15 * CGFloat(i + 1))
             self.addChild(conveyor)
         }
 
@@ -167,7 +167,7 @@ class GameScene: SKScene {
 
         // score
         scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
-        scoreLabel.text = "Score: " + String(score)
+        setScore(score)
         scoreLabel.fontSize = 30
         scoreLabel.position = CGPoint(x:centerX * 2.0 - scoreLabel.frame.size.width, y:screenHeight + ground - scoreLabel.frame.size.height)
         self.addChild(scoreLabel)
@@ -186,13 +186,17 @@ class GameScene: SKScene {
         reset()
     }
 
+    func setScore(_score:Int) {
+        score = _score
+        scoreLabel.text = "Score: " + String(_score)
+    }
+
     func reset() {
         for life in lifes {
             life.removeFromParent()
             self.addChild(life)
         }
-        score = 0
-        scoreLabel.text = "Score: " + String(score)
+        setScore(0)
     }
 
     func flip(node: SKSpriteNode) {
@@ -228,7 +232,7 @@ class GameScene: SKScene {
                 }
             }
         }
-        scoreLabel.text = "Score: " + String(++score)
+        setScore(++score)
     }
    
     override func update(currentTime: CFTimeInterval) {
