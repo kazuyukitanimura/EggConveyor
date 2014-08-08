@@ -32,7 +32,9 @@ class GameScene: SKScene {
     let maxLifes:Int = 3
     var lifes = [SKSpriteNode]()
     var gameState:GameState!
-    
+    var tickLengthMillis = NSTimeInterval(500)
+    var lastTick:NSDate?
+
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
         centerY = CGRectGetMidY(self.frame)
@@ -203,8 +205,9 @@ class GameScene: SKScene {
     }
 
     func gameOver() {
+        stopTicking()
         message.removeFromParent()
-        message.text = "Game Over!"
+        message.text = "GAME OVER!"
         self.addChild(message)
         gameState = .end
     }
@@ -215,6 +218,7 @@ class GameScene: SKScene {
     }
 
     func reset() {
+        stopTicking()
         for life in lifes {
             life.removeFromParent()
             self.addChild(life)
@@ -230,12 +234,17 @@ class GameScene: SKScene {
     func flip(node: SKSpriteNode) {
         node.xScale = -node.xScale
     }
+
+    func tick() {
+        setScore(++score)
+    }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         if (gameState == .first) {
             message.removeFromParent()
             gameState = .play
+            startTicking()
             return
         } else if (gameState == .end) {
             reset()
@@ -265,10 +274,25 @@ class GameScene: SKScene {
                 lostEgg()
             }
         }
-        setScore(++score)
     }
-   
+
+    func startTicking() {
+        lastTick = NSDate.date()
+    }
+
+    func stopTicking() {
+        lastTick = nil
+    }
+
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        if lastTick == nil {
+            return
+        }
+        var timePassed = lastTick!.timeIntervalSinceNow * -1000.0
+        if timePassed > tickLengthMillis {
+            lastTick = NSDate.date()
+            tick()
+        }
     }
 }
