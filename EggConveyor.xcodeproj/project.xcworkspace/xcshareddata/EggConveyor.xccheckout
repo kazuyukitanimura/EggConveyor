@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DF266DA8-3388-40AF-8D21-C0C4E248B685</string>
+	<key>IDESourceControlProjectName</key>
+	<string>EggConveyor</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5D36EC1E9DEFE025F03C584237604D6CA14D0AE5</key>
+		<string>github.com:kazuyukitanimura/EggConveyor.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>EggConveyor.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5D36EC1E9DEFE025F03C584237604D6CA14D0AE5</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:kazuyukitanimura/EggConveyor.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5D36EC1E9DEFE025F03C584237604D6CA14D0AE5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5D36EC1E9DEFE025F03C584237604D6CA14D0AE5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>EggConveyor</string>
+		</dict>
+	</array>
+</dict>
+</plist>
