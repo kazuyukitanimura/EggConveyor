@@ -8,6 +8,10 @@
 
 import SpriteKit
 
+enum GameState {
+    case first, play, end
+}
+
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
     let screenHeight:CGFloat = 576.0
@@ -22,11 +26,12 @@ class GameScene: SKScene {
     var step5Y:CGFloat!
     var step6Y:CGFloat!
     var message:SKLabelNode!
-    var firstTime = true
     var score:Int = 0
     var scoreLabel:SKLabelNode!
-    var lifeCount:Int = 3
+    var lifeCount:Int = 0
+    let maxLifes:Int = 3
     var lifes = [SKSpriteNode]()
+    var gameState:GameState!
     
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -160,10 +165,8 @@ class GameScene: SKScene {
 
         // message
         message = SKLabelNode(fontNamed:"Chalkduster")
-        message.text = "TAP TO START!"
         message.fontSize = 65
         message.position = CGPoint(x:centerX, y:centerY)
-        self.addChild(message)
 
         // score
         scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
@@ -177,13 +180,33 @@ class GameScene: SKScene {
         let lifeScale:CGFloat = 0.3
         life.setScale(lifeScale)
         life.position = CGPoint(x:centerX * 2.0 - life.size.width * 3.0, y:scoreLabel.position.y - scoreLabel.frame.size.height)
-        self.addChild(life)
-        for (var i:Int = 1; i < lifeCount; i++) {
+        lifes.append(life)
+        for (var i:Int = 1; i < maxLifes; i++) {
             var lifeCopy = life.copy() as SKSpriteNode
             lifeCopy.position.x += life.size.width * CGFloat(i)
             lifes.append(lifeCopy)
         }
         reset()
+    }
+
+    func gainEgg() {
+        if (lifeCount < lifes.count) {
+            self.addChild(lifes[lifeCount++])
+        }
+    }
+
+    func lostEgg() {
+        lifes[--lifeCount].removeFromParent()
+        if (lifeCount == 0) {
+            gameOver()
+        }
+    }
+
+    func gameOver() {
+        message.removeFromParent()
+        message.text = "Game Over!"
+        self.addChild(message)
+        gameState = .end
     }
 
     func setScore(_score:Int) {
@@ -196,7 +219,12 @@ class GameScene: SKScene {
             life.removeFromParent()
             self.addChild(life)
         }
+        lifeCount = maxLifes
         setScore(0)
+        gameState = .first
+        message.removeFromParent()
+        message.text = "TAP TO START!"
+        self.addChild(message)
     }
 
     func flip(node: SKSpriteNode) {
@@ -205,9 +233,12 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        if firstTime {
+        if (gameState == .first) {
             message.removeFromParent()
-            firstTime = false
+            gameState = .play
+            return
+        } else if (gameState == .end) {
+            reset()
             return
         }
         
@@ -222,6 +253,7 @@ class GameScene: SKScene {
                 } else {
                     henL.position.y = step1Y
                 }
+                gainEgg()
             } else { // right hen
                 if (location.y > step6Y) {
                     henR.position.y = step6Y
@@ -230,6 +262,7 @@ class GameScene: SKScene {
                 } else {
                     henR.position.y = step4Y
                 }
+                lostEgg()
             }
         }
         setScore(++score)
