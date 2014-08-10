@@ -18,20 +18,19 @@ class MyLabelNode: SKLabelNode {
         super.init(coder: coder)
     }
 
-    var _parent: GameScene!
     init(parent: GameScene) {
         super.init()
         fontName = "Chalkduster"
-        _parent = parent
+        hide()
+        parent.addChild(self)
     }
 
     func show() {
-        removeFromParent()
-        _parent.addChild(self)
+        hidden = false
     }
 
     func hide() {
-        removeFromParent()
+        hidden = true
     }
 }
 
@@ -41,21 +40,20 @@ class MySpriteNode: SKSpriteNode {
         super.init(coder: coder)
     }
 
-    var _parent: GameScene!
     init(parent: GameScene, image: String) {
         let texture = SKTexture(imageNamed: image)
         let color = UIColor()
         super.init(texture: texture, color: color, size: texture.size())
-        _parent = parent
+        hide()
+        parent.addChild(self)
     }
 
     func show() {
-        removeFromParent()
-        _parent.addChild(self)
+        hidden = false
     }
 
     func hide() {
-        removeFromParent()
+        hidden = true
     }
 
     func flip() {
