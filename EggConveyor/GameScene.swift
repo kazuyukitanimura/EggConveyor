@@ -57,6 +57,20 @@ class MySpriteNode: SKSpriteNode {
     func hide() {
         self.removeFromParent()
     }
+
+    func flip() {
+        self.xScale = -self.xScale
+    }
+}
+
+
+class Hen: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "hen_01")
+        self.setScale(0.4)
+    }
 }
 
 class Message: MyLabelNode {
@@ -121,8 +135,8 @@ class Life: MySpriteNode {
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
     let screenHeight:CGFloat = 576.0
-    var henL:SKSpriteNode!
-    var henR:SKSpriteNode!
+    var henL:Hen!
+    var henR:Hen!
     var centerX:CGFloat!
     var centerY:CGFloat!
     var step1Y:CGFloat!
@@ -226,18 +240,15 @@ class GameScene: SKScene {
         self.addChild(gas)
 
         // hen
-        henL = SKSpriteNode(imageNamed: "hen_01") // left hen
-        henR = SKSpriteNode(imageNamed: "hen_01") // right hen
-        let henScale:CGFloat = 0.4
-        henL.setScale(henScale)
-        henR.setScale(henScale)
+        henL = Hen(parent: self) // left hen
+        henR = Hen(parent: self) // right hen
         henL.anchorPoint = CGPointMake(0.5, 0.0)
         henR.anchorPoint = CGPointMake(0.5, 0.0)
         henL.position = CGPoint(x:centerX * 0.4, y:self.frame.size.height * 0.15)
         henR.position = CGPoint(x:centerX * 1.6, y:self.frame.size.height * 0.30)
-        flip(henL)
-        self.addChild(henL)
-        self.addChild(henR)
+        henL.flip()
+        henL.show()
+        henR.show()
 
         // egg
         let egg2 = SKSpriteNode(imageNamed: "egg_02")
