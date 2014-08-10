@@ -63,6 +63,23 @@ class MySpriteNode: SKSpriteNode {
     }
 }
 
+class Conveyor: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    let conveyor1 = SKTexture(imageNamed: "conveyor_01")
+    let conveyor2 = SKTexture(imageNamed: "conveyor_02")
+    let conveyor3 = SKTexture(imageNamed: "conveyor_03")
+    init(parent: GameScene) {
+        let anim = SKAction.animateWithTextures([conveyor1, conveyor2, conveyor3], timePerFrame: 0.2)
+        let convey = SKAction.repeatActionForever(anim)
+        super.init(parent: parent, image: "conveyor_01")
+        let conveyorScale:CGFloat = 0.4
+        xScale = conveyorScale
+        yScale = -conveyorScale
+        runAction(convey)
+    }
+}
+
 class Gas: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
@@ -191,6 +208,12 @@ class GameScene: SKScene {
         centerX = CGRectGetMidX(self.frame)
         centerY = CGRectGetMidY(self.frame)
         let ground = centerY - screenHeight * 0.5
+        step1Y = self.frame.size.height * 0.15
+        step2Y = self.frame.size.height * 0.45
+        step3Y = self.frame.size.height * 0.75
+        step4Y = self.frame.size.height * 0.00
+        step5Y = self.frame.size.height * 0.30
+        step6Y = self.frame.size.height * 0.60
 
         // background
         let backGround = SKSpriteNode(imageNamed: "background")
@@ -217,12 +240,6 @@ class GameScene: SKScene {
         step4.setScale(stepScale)
         step5.setScale(stepScale)
         step6.setScale(stepScale)
-        step1Y = self.frame.size.height * 0.15
-        step2Y = self.frame.size.height * 0.45
-        step3Y = self.frame.size.height * 0.75
-        step4Y = self.frame.size.height * 0.00
-        step5Y = self.frame.size.height * 0.30
-        step6Y = self.frame.size.height * 0.60
         step1.position = CGPoint(x:centerX * 0.4, y:step1Y)
         step2.position = CGPoint(x:centerX * 0.4, y:step2Y)
         step3.position = CGPoint(x:centerX * 0.4, y:step3Y)
@@ -237,25 +254,16 @@ class GameScene: SKScene {
         self.addChild(step6)
 
         // conveyor
-        let conveyor1 = SKTexture(imageNamed: "conveyor_01")
-        let conveyor2 = SKTexture(imageNamed: "conveyor_02")
-        let conveyor3 = SKTexture(imageNamed: "conveyor_03")
-        let anim = SKAction.animateWithTextures([conveyor1, conveyor2, conveyor3], timePerFrame: 0.2)
-        let convey = SKAction.repeatActionForever(anim)
-        var conveyor = SKSpriteNode(texture: conveyor1)
-        let conveyorScale:CGFloat = 0.4
-        conveyor.xScale = conveyorScale
-        conveyor.yScale = -conveyorScale
-        conveyor.runAction(convey)
+        var conveyor = Conveyor(parent: self)
         conveyor.position = CGPoint(x:centerX * 2.2, y:self.frame.size.height * 0.15)
-        self.addChild(conveyor)
+        conveyor.show()
         for (var i:Int = 0; i < 5; i++) {
-            conveyor = conveyor.copy() as SKSpriteNode
-            if ((i & 0b01) == 0b01) {
-                flip(conveyor)
+            conveyor = Conveyor(parent: self)
+            if ((i & 0x01) == 0x01) {
+                conveyor.flip()
             }
             conveyor.position = CGPoint(x:centerX, y:self.frame.size.height * 0.15 * CGFloat(i + 1))
-            self.addChild(conveyor)
+            conveyor.show()
         }
 
         // truck
@@ -353,10 +361,6 @@ class GameScene: SKScene {
         scoreLabel.set(0)
         gameState = .first
         message.show("TAP TO START!")
-    }
-
-    func flip(node: SKSpriteNode) {
-        node.xScale = -node.xScale
     }
 
     func tick() {
