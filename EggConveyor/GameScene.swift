@@ -12,6 +12,25 @@ enum GameState {
     case first, play, end
 }
 
+class Life: SKSpriteNode {
+    // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+
+    // http://stackoverflow.com/questions/25009021/skspritenode-subclassing-swift
+    override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+    }
+
+    convenience override init() {
+        let texture = SKTexture(imageNamed: "egg_01")
+        let color = UIColor()
+        self.init(texture: texture, color: color, size: texture.size())
+        self.setScale(0.3)
+    }
+}
+
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
     let screenHeight:CGFloat = 576.0
@@ -178,15 +197,10 @@ class GameScene: SKScene {
         self.addChild(scoreLabel)
 
         // life
-        let life = SKSpriteNode(imageNamed: "egg_01")
-        let lifeScale:CGFloat = 0.3
-        life.setScale(lifeScale)
-        life.position = CGPoint(x:centerX * 2.0 - life.size.width * 3.0, y:scoreLabel.position.y - scoreLabel.frame.size.height)
-        lifes.append(life)
-        for (var i:Int = 1; i < maxLifes; i++) {
-            var lifeCopy = life.copy() as SKSpriteNode
-            lifeCopy.position.x += life.size.width * CGFloat(i)
-            lifes.append(lifeCopy)
+        for (var i:Int = 0; i < maxLifes; i++) {
+            let life = Life()
+            life.position = CGPoint(x:centerX * 2.0 - life.size.width * 3.0 + life.size.width * CGFloat(i), y:scoreLabel.position.y - scoreLabel.frame.size.height)
+            lifes.append(life)
         }
         reset()
     }
