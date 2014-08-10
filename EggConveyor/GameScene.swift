@@ -59,6 +59,20 @@ class MySpriteNode: SKSpriteNode {
     }
 }
 
+class Message: MyLabelNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    override init(parent: GameScene) {
+        super.init(parent: parent)
+        fontSize = 65
+    }
+
+    func show(_text: String) {
+        text = _text
+        show()
+    }
+}
+
 class Score: MyLabelNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
@@ -117,7 +131,7 @@ class GameScene: SKScene {
     var step4Y:CGFloat!
     var step5Y:CGFloat!
     var step6Y:CGFloat!
-    var message:SKLabelNode!
+    var message:Message!
     var scoreLabel:Score!
     var lifeCount:Int = 0
     let maxLifes:Int = 3
@@ -257,19 +271,20 @@ class GameScene: SKScene {
         self.addChild(egg8)
 
         // message
-        message = SKLabelNode(fontNamed:"Chalkduster")
-        message.fontSize = 65
+        message = Message(parent: self)
         message.position = CGPoint(x:centerX, y:centerY)
 
         // score
         scoreLabel = Score(parent: self)
-        scoreLabel.position = CGPoint(x:centerX * 2.0 - scoreLabel.frame.size.width, y:screenHeight + ground - scoreLabel.frame.size.height)
+        scoreLabel.position.x = centerX * 2.0 - scoreLabel.frame.size.width
+        scoreLabel.position.y = screenHeight + ground - scoreLabel.frame.size.height
         scoreLabel.show()
 
         // life
         for (var i:Int = 0; i < maxLifes; i++) {
             let life = Life(parent: self)
-            life.position = CGPoint(x:centerX * 2.0 - life.size.width * 3.0 + life.size.width * CGFloat(i), y:scoreLabel.position.y - scoreLabel.frame.size.height)
+            life.position.x = centerX * 2.0 - life.size.width * 3.0 + life.size.width * CGFloat(i)
+            life.position.y = scoreLabel.position.y - scoreLabel.frame.size.height
             lifes.append(life)
         }
         reset()
@@ -290,9 +305,7 @@ class GameScene: SKScene {
 
     func gameOver() {
         stopTicking()
-        message.removeFromParent()
-        message.text = "GAME OVER!"
-        self.addChild(message)
+        message.show("GAME OVER!")
         gameState = .end
     }
 
@@ -304,9 +317,7 @@ class GameScene: SKScene {
         lifeCount = maxLifes
         scoreLabel.set(0)
         gameState = .first
-        message.removeFromParent()
-        message.text = "TAP TO START!"
-        self.addChild(message)
+        message.show("TAP TO START!")
     }
 
     func flip(node: SKSpriteNode) {
@@ -320,7 +331,7 @@ class GameScene: SKScene {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         if (gameState == .first) {
-            message.removeFromParent()
+            message.hide()
             gameState = .play
             startTicking()
             return
