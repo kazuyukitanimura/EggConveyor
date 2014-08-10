@@ -21,17 +21,17 @@ class MyLabelNode: SKLabelNode {
     var _parent: GameScene!
     init(parent: GameScene) {
         super.init()
-        self.fontName = "Chalkduster"
-        self._parent = parent
+        fontName = "Chalkduster"
+        _parent = parent
     }
 
     func show() {
-        self.removeFromParent()
+        removeFromParent()
         _parent.addChild(self)
     }
 
     func hide() {
-        self.removeFromParent()
+        removeFromParent()
     }
 }
 
@@ -46,30 +46,62 @@ class MySpriteNode: SKSpriteNode {
         let texture = SKTexture(imageNamed: image)
         let color = UIColor()
         super.init(texture: texture, color: color, size: texture.size())
-        self._parent = parent
+        _parent = parent
     }
 
     func show() {
-        self.removeFromParent()
+        removeFromParent()
         _parent.addChild(self)
     }
 
     func hide() {
-        self.removeFromParent()
+        removeFromParent()
     }
 
     func flip() {
-        self.xScale = -self.xScale
+        xScale = -xScale
     }
 }
 
+class Gas: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "truck_02")
+        setScale(0.3)
+        anchorPoint = CGPointMake(0.5, 0.0)
+    }
+}
+
+class Truck: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    let gas: Gas!
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "truck_01")
+        setScale(0.3)
+        anchorPoint = CGPointMake(0.5, 0.0)
+        gas = Gas(parent: parent)
+        gas.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1.0), SKAction.fadeInWithDuration(1.0)])))
+    }
+
+    func start() {
+        gas.position = CGPoint(x:size.width + gas.size.width * 0.5 - 1.0, y:position.y + 3.0)
+        gas.show()
+    }
+
+    func stop() {
+        gas.hide()
+    }
+}
 
 class Hen: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     init(parent: GameScene) {
         super.init(parent: parent, image: "hen_01")
-        self.setScale(0.4)
+        setScale(0.4)
+        anchorPoint = CGPointMake(0.5, 0.0)
     }
 }
 
@@ -137,6 +169,7 @@ class GameScene: SKScene {
     let screenHeight:CGFloat = 576.0
     var henL:Hen!
     var henR:Hen!
+    var truck:Truck!
     var centerX:CGFloat!
     var centerY:CGFloat!
     var step1Y:CGFloat!
@@ -226,24 +259,13 @@ class GameScene: SKScene {
         }
 
         // truck
-        let truck = SKSpriteNode(imageNamed: "truck_01")
-        let truckScale:CGFloat = 0.3
-        truck.setScale(truckScale)
-        truck.anchorPoint = CGPointMake(0.5, 0.0)
+        truck = Truck(parent: self)
         truck.position = CGPoint(x:truck.size.width * 0.5, y:ground)
-        self.addChild(truck)
-        let gas = SKSpriteNode(imageNamed: "truck_02")
-        gas.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1.0), SKAction.fadeInWithDuration(1.0)])))
-        gas.setScale(truckScale)
-        gas.anchorPoint = CGPointMake(0.5, 0.0)
-        gas.position = CGPoint(x:truck.size.width + gas.size.width * 0.5 - 1.0, y:ground + 2.0)
-        self.addChild(gas)
+        truck.show()
 
         // hen
         henL = Hen(parent: self) // left hen
         henR = Hen(parent: self) // right hen
-        henL.anchorPoint = CGPointMake(0.5, 0.0)
-        henR.anchorPoint = CGPointMake(0.5, 0.0)
         henL.position = CGPoint(x:centerX * 0.4, y:self.frame.size.height * 0.15)
         henR.position = CGPoint(x:centerX * 1.6, y:self.frame.size.height * 0.30)
         henL.flip()
@@ -316,12 +338,14 @@ class GameScene: SKScene {
 
     func gameOver() {
         stopTicking()
+        truck.stop()
         message.show("GAME OVER!")
         gameState = .end
     }
 
     func reset() {
         stopTicking()
+        truck.stop()
         for life in lifes {
             life.show()
         }
@@ -345,6 +369,7 @@ class GameScene: SKScene {
             message.hide()
             gameState = .play
             startTicking()
+            truck.start()
             return
         } else if (gameState == .end) {
             reset()
