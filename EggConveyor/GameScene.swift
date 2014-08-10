@@ -12,23 +12,49 @@ enum GameState {
     case first, play, end
 }
 
-class Life: SKSpriteNode {
+class MySpriteNode: SKSpriteNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
     required init(coder: NSCoder) {
-        fatalError("NSCoding not supported")
+        super.init(coder: coder)
     }
 
-    // http://stackoverflow.com/questions/25009021/skspritenode-subclassing-swift
-    override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-        super.init(texture: texture, color: color, size: size)
-    }
-
-    convenience override init() {
-        let texture = SKTexture(imageNamed: "egg_01")
+    var _parent: GameScene!
+    init(parent: GameScene, image: String) {
+        let texture = SKTexture(imageNamed: image)
         let color = UIColor()
-        self.init(texture: texture, color: color, size: texture.size())
-        self.setScale(0.3)
+        super.init(texture: texture, color: color, size: texture.size())
+        self._parent = parent
     }
+
+    func show() {
+        self.removeFromParent()
+        _parent.addChild(self)
+    }
+
+    func hide() {
+        self.removeFromParent()
+    }
+}
+
+class Life: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    // class variable is not avaialble yet...
+    //class var _lifeCount:Int = 0
+    //class var _lifes = [Life]()
+
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "egg_01")
+        self.setScale(0.3)
+        //_lifes.append(self)
+    }
+/*
+    class func showAll() {
+        for life in lifes {
+            life.show()
+        }
+    }
+*/
 }
 
 class GameScene: SKScene {
@@ -49,7 +75,7 @@ class GameScene: SKScene {
     var scoreLabel:SKLabelNode!
     var lifeCount:Int = 0
     let maxLifes:Int = 3
-    var lifes = [SKSpriteNode]()
+    var lifes = [Life]()
     var gameState:GameState!
     var tickLengthMillis = NSTimeInterval(500)
     var lastTick:NSDate?
@@ -198,21 +224,21 @@ class GameScene: SKScene {
 
         // life
         for (var i:Int = 0; i < maxLifes; i++) {
-            let life = Life()
+            let life = Life(parent: self)
             life.position = CGPoint(x:centerX * 2.0 - life.size.width * 3.0 + life.size.width * CGFloat(i), y:scoreLabel.position.y - scoreLabel.frame.size.height)
             lifes.append(life)
         }
         reset()
     }
 
-    func gainEgg() {
+    func gainLife() {
         if (lifeCount < lifes.count) {
-            self.addChild(lifes[lifeCount++])
+            lifes[lifeCount++].show()
         }
     }
 
-    func lostEgg() {
-        lifes[--lifeCount].removeFromParent()
+    func lostLife() {
+        lifes[--lifeCount].hide()
         if (lifeCount == 0) {
             gameOver()
         }
@@ -234,8 +260,7 @@ class GameScene: SKScene {
     func reset() {
         stopTicking()
         for life in lifes {
-            life.removeFromParent()
-            self.addChild(life)
+            life.show()
         }
         lifeCount = maxLifes
         setScore(0)
@@ -276,7 +301,7 @@ class GameScene: SKScene {
                 } else {
                     henL.position.y = step1Y
                 }
-                gainEgg()
+                gainLife()
             } else { // right hen
                 if (location.y > step6Y) {
                     henR.position.y = step6Y
@@ -285,7 +310,7 @@ class GameScene: SKScene {
                 } else {
                     henR.position.y = step4Y
                 }
-                lostEgg()
+                lostLife()
             }
         }
     }
