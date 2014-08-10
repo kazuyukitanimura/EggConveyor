@@ -12,6 +12,29 @@ enum GameState {
     case first, play, end
 }
 
+class MyLabelNode: SKLabelNode {
+    // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    var _parent: GameScene!
+    init(parent: GameScene) {
+        super.init()
+        self.fontName = "Chalkduster"
+        self._parent = parent
+    }
+
+    func show() {
+        self.removeFromParent()
+        _parent.addChild(self)
+    }
+
+    func hide() {
+        self.removeFromParent()
+    }
+}
+
 class MySpriteNode: SKSpriteNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
     required init(coder: NSCoder) {
@@ -33,6 +56,30 @@ class MySpriteNode: SKSpriteNode {
 
     func hide() {
         self.removeFromParent()
+    }
+}
+
+class Score: MyLabelNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    var score:Int = 0 {
+        didSet {
+            self.text = "Score: " + String(score)
+        }
+    }
+
+    override init(parent: GameScene) {
+        super.init(parent: parent)
+        fontSize = 30
+        set(score)
+    }
+
+    func set(_score:Int) {
+        score = _score
+    }
+
+    func add (n: Int) { // += oeprator cannot be declared yet...
+        score += n
     }
 }
 
@@ -71,8 +118,7 @@ class GameScene: SKScene {
     var step5Y:CGFloat!
     var step6Y:CGFloat!
     var message:SKLabelNode!
-    var score:Int = 0
-    var scoreLabel:SKLabelNode!
+    var scoreLabel:Score!
     var lifeCount:Int = 0
     let maxLifes:Int = 3
     var lifes = [Life]()
@@ -216,11 +262,9 @@ class GameScene: SKScene {
         message.position = CGPoint(x:centerX, y:centerY)
 
         // score
-        scoreLabel = SKLabelNode(fontNamed:"Chalkduster")
-        setScore(score)
-        scoreLabel.fontSize = 30
+        scoreLabel = Score(parent: self)
         scoreLabel.position = CGPoint(x:centerX * 2.0 - scoreLabel.frame.size.width, y:screenHeight + ground - scoreLabel.frame.size.height)
-        self.addChild(scoreLabel)
+        scoreLabel.show()
 
         // life
         for (var i:Int = 0; i < maxLifes; i++) {
@@ -252,18 +296,13 @@ class GameScene: SKScene {
         gameState = .end
     }
 
-    func setScore(_score:Int) {
-        score = _score
-        scoreLabel.text = "Score: " + String(_score)
-    }
-
     func reset() {
         stopTicking()
         for life in lifes {
             life.show()
         }
         lifeCount = maxLifes
-        setScore(0)
+        scoreLabel.set(0)
         gameState = .first
         message.removeFromParent()
         message.text = "TAP TO START!"
@@ -275,7 +314,7 @@ class GameScene: SKScene {
     }
 
     func tick() {
-        setScore(++score)
+        scoreLabel.add(1)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
