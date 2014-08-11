@@ -12,6 +12,18 @@ enum GameState {
     case first, play, end
 }
 
+enum EggState {
+    case none, one, two, three, pack, broken
+}
+let eggStates: [EggState: SKTexture!] = [
+    .none: SKTexture(imageNamed: "egg_02"),
+    .one: SKTexture(imageNamed: "egg_03"),
+    .two: SKTexture(imageNamed: "egg_04"),
+    .three: SKTexture(imageNamed: "egg_05"),
+    .pack: SKTexture(imageNamed: "egg_06"),
+    .broken: SKTexture(imageNamed: "egg_07"),
+]
+
 class MyLabelNode: SKLabelNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
     required init(coder: NSCoder) {
@@ -139,7 +151,7 @@ class Score: MyLabelNode {
 
     var score:Int = 0 {
         didSet {
-            self.text = "Score: " + String(score)
+            text = "Score: " + String(score)
         }
     }
 
@@ -158,6 +170,24 @@ class Score: MyLabelNode {
     }
 }
 
+class Egg: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    let scale:CGFloat = 0.2
+    var eggState:EggState = .none {
+        didSet {
+            texture = eggStates[eggState]
+            size.width = texture.size().width * scale
+            size.height = texture.size().height * scale
+        }
+    }
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "egg_02")
+        setScale(scale)
+        anchorPoint = CGPointMake(0.5, 0.0)
+    }
+}
+
 class Life: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
@@ -167,7 +197,7 @@ class Life: MySpriteNode {
 
     init(parent: GameScene) {
         super.init(parent: parent, image: "egg_01")
-        self.setScale(0.3)
+        setScale(0.3)
         //_lifes.append(self)
     }
 /*
@@ -288,35 +318,29 @@ class GameScene: SKScene {
         henR.show()
 
         // egg
-        let egg2 = SKSpriteNode(imageNamed: "egg_02")
-        let egg3 = SKSpriteNode(imageNamed: "egg_03")
-        let egg4 = SKSpriteNode(imageNamed: "egg_04")
-        let egg5 = SKSpriteNode(imageNamed: "egg_05")
-        let egg6 = SKSpriteNode(imageNamed: "egg_06")
-        let egg7 = SKSpriteNode(imageNamed: "egg_07")
-        let egg8 = SKSpriteNode(imageNamed: "egg_08")
-        let eggScale:CGFloat = 0.2
-        egg2.setScale(eggScale)
-        egg3.setScale(eggScale)
-        egg4.setScale(eggScale)
-        egg5.setScale(eggScale)
-        egg6.setScale(eggScale)
-        egg7.setScale(eggScale)
-        egg8.setScale(eggScale)
+        let egg2 = Egg(parent: self)
+        let egg3 = Egg(parent: self)
+        let egg4 = Egg(parent: self)
+        let egg5 = Egg(parent: self)
+        let egg6 = Egg(parent: self)
+        let egg7 = Egg(parent: self)
         egg2.position = CGPoint(x:centerX, y:210)
         egg3.position = CGPoint(x:centerX, y:280)
         egg4.position = CGPoint(x:centerX, y:350)
         egg5.position = CGPoint(x:centerX, y:420)
         egg6.position = CGPoint(x:centerX, y:490)
         egg7.position = CGPoint(x:centerX, y:560)
-        egg8.position = CGPoint(x:centerX, y:630)
-        self.addChild(egg2)
-        self.addChild(egg3)
-        self.addChild(egg4)
-        self.addChild(egg5)
-        self.addChild(egg6)
-        self.addChild(egg7)
-        self.addChild(egg8)
+        egg2.show()
+        egg3.eggState = .one
+        egg3.show()
+        egg4.eggState = .two
+        egg4.show()
+        egg5.eggState = .three
+        egg5.show()
+        egg6.eggState = .pack
+        egg6.show()
+        egg7.eggState = .broken
+        egg7.show()
 
         // message
         message = Message(parent: self)
