@@ -115,7 +115,7 @@ class Hen: MySpriteNode {
 
     init(parent: GameScene) {
         super.init(parent: parent, image: "hen_01")
-        setScale(0.4)
+        setScale(0.35)
         anchorPoint = CGPointMake(0.5, 0.0)
     }
 }
@@ -206,12 +206,12 @@ class GameScene: SKScene {
         centerX = CGRectGetMidX(self.frame)
         centerY = CGRectGetMidY(self.frame)
         let ground = centerY - screenHeight * 0.5
-        step1Y = self.frame.size.height * 0.15
-        step2Y = self.frame.size.height * 0.45
-        step3Y = self.frame.size.height * 0.75
-        step4Y = self.frame.size.height * 0.00
-        step5Y = self.frame.size.height * 0.30
-        step6Y = self.frame.size.height * 0.60
+        step1Y = self.frame.size.height * 0.24
+        step2Y = self.frame.size.height * 0.46
+        step3Y = self.frame.size.height * 0.68
+        step4Y = self.frame.size.height * 0.13
+        step5Y = self.frame.size.height * 0.35
+        step6Y = self.frame.size.height * 0.57
 
         // background
         let backGround = SKSpriteNode(imageNamed: "background")
@@ -253,16 +253,25 @@ class GameScene: SKScene {
 
         // conveyor
         var conveyor = Conveyor(parent: self)
-        conveyor.position = CGPoint(x:centerX * 2.2, y:self.frame.size.height * 0.15)
+        conveyor.position = CGPoint(x:centerX * 2.2, y:step1Y)
         conveyor.show()
-        for (var i:Int = 0; i < 5; i++) {
-            conveyor = Conveyor(parent: self)
-            if ((i & 0x01) == 0x01) {
-                conveyor.flip()
-            }
-            conveyor.position = CGPoint(x:centerX, y:self.frame.size.height * 0.15 * CGFloat(i + 1))
-            conveyor.show()
-        }
+        conveyor = Conveyor(parent: self)
+        conveyor.position = CGPoint(x:centerX, y:step1Y)
+        conveyor.show()
+        conveyor = Conveyor(parent: self)
+        conveyor.position = CGPoint(x:centerX, y:step5Y)
+        conveyor.flip()
+        conveyor.show()
+        conveyor = Conveyor(parent: self)
+        conveyor.position = CGPoint(x:centerX, y:step6Y)
+        conveyor.show()
+        conveyor = Conveyor(parent: self)
+        conveyor.position = CGPoint(x:centerX, y:step3Y)
+        conveyor.flip()
+        conveyor.show()
+        conveyor = Conveyor(parent: self)
+        conveyor.position = CGPoint(x:centerX, y:step2Y)
+        conveyor.show()
 
         // truck
         truck = Truck(parent: self)
@@ -272,8 +281,8 @@ class GameScene: SKScene {
         // hen
         henL = Hen(parent: self) // left hen
         henR = Hen(parent: self) // right hen
-        henL.position = CGPoint(x:centerX * 0.4, y:self.frame.size.height * 0.15)
-        henR.position = CGPoint(x:centerX * 1.6, y:self.frame.size.height * 0.30)
+        henL.position = CGPoint(x:centerX * 0.4, y:step1Y)
+        henR.position = CGPoint(x:centerX * 1.6, y:step5Y)
         henL.flip()
         henL.show()
         henR.show()
