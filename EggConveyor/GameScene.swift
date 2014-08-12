@@ -173,7 +173,7 @@ class Score: MyLabelNode {
 class Egg: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
-    let scale:CGFloat = 0.2
+    let scale:CGFloat = 0.18
     var eggState:EggState = .none {
         didSet {
             texture = eggStates[eggState]
@@ -318,18 +318,33 @@ class GameScene: SKScene {
         henR.show()
 
         // egg
+        let eggPoses:[CGPoint] = [
+            CGPoint(x:centerX * 1.60, y:step4Y), // 0
+            CGPoint(x:centerX * 0.51, y:step4Y), // 1
+            CGPoint(x:centerX * 2.00, y:step1Y + 10.0), // 2
+            CGPoint(x:centerX * 1.87, y:step1Y + 10.0), // 3
+            CGPoint(x:centerX * 1.74, y:step1Y + 10.0), // 4
+            CGPoint(x:centerX * 1.44, y:step1Y + 10.0), // 5
+            CGPoint(x:centerX * 1.31, y:step1Y + 10.0), // 6
+            CGPoint(x:centerX * 1.18, y:step1Y + 10.0), // 7
+            CGPoint(x:centerX * 1.05, y:step1Y + 10.0), // 8
+            CGPoint(x:centerX * 0.92, y:step1Y + 10.0), // 9
+            CGPoint(x:centerX * 0.79, y:step1Y + 10.0), // 10
+            CGPoint(x:centerX * 0.66, y:step1Y + 10.0), // 11
+            CGPoint(x:centerX * 0.53, y:step1Y + 10.0), // 12
+        ]
         let egg2 = Egg(parent: self)
         let egg3 = Egg(parent: self)
         let egg4 = Egg(parent: self)
         let egg5 = Egg(parent: self)
         let egg6 = Egg(parent: self)
         let egg7 = Egg(parent: self)
-        egg2.position = CGPoint(x:centerX, y:210)
-        egg3.position = CGPoint(x:centerX, y:280)
-        egg4.position = CGPoint(x:centerX, y:350)
-        egg5.position = CGPoint(x:centerX, y:420)
-        egg6.position = CGPoint(x:centerX, y:490)
-        egg7.position = CGPoint(x:centerX, y:560)
+        egg2.position = eggPoses[2]
+        egg3.position = eggPoses[3]
+        egg4.position = eggPoses[4]
+        egg5.position = eggPoses[5]
+        egg6.position = eggPoses[6]
+        egg7.position = eggPoses[0]
         egg2.show()
         egg3.eggState = .one
         egg3.show()
@@ -341,6 +356,28 @@ class GameScene: SKScene {
         egg6.show()
         egg7.eggState = .broken
         egg7.show()
+        let egg8 = Egg(parent: self)
+        egg8.position = eggPoses[7]
+        egg8.show()
+        let egg9 = Egg(parent: self)
+        egg9.position = eggPoses[8]
+        egg9.show()
+        let egg10 = Egg(parent: self)
+        egg10.position = eggPoses[9]
+        egg10.show()
+        let egg11 = Egg(parent: self)
+        egg11.position = eggPoses[10]
+        egg11.show()
+        let egg12 = Egg(parent: self)
+        egg12.position = eggPoses[11]
+        egg12.show()
+        let egg13 = Egg(parent: self)
+        egg13.position = eggPoses[12]
+        egg13.show()
+        let egg14 = Egg(parent: self)
+        egg14.position = eggPoses[1]
+        egg14.eggState = .broken
+        egg14.show()
 
         // message
         message = Message(parent: self)
