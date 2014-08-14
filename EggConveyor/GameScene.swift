@@ -84,8 +84,7 @@ class Conveyor: MySpriteNode {
         let convey = SKAction.repeatActionForever(anim)
         super.init(parent: parent, image: "conveyor_01")
         let conveyorScale:CGFloat = 0.4
-        xScale = conveyorScale
-        yScale = -conveyorScale
+        (xScale, yScale) = (conveyorScale, -conveyorScale)
         runAction(convey)
     }
 }
@@ -96,29 +95,37 @@ class Gas: MySpriteNode {
     init(parent: GameScene) {
         super.init(parent: parent, image: "truck_02")
         setScale(0.3)
-        anchorPoint = CGPointMake(0.5, 0.0)
+        anchorPoint = CGPointMake(0.0, 0.0)
     }
 }
 
 class Truck: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
+    var eggs = [Egg]()
+    var toY:CGFloat {
+        return eggs.count > 0 ? eggs.last!.frame.maxY : position.y + 24.0
+    }
     let gas: Gas!
     init(parent: GameScene) {
         super.init(parent: parent, image: "truck_01")
         setScale(0.3)
-        anchorPoint = CGPointMake(0.5, 0.0)
+        anchorPoint = CGPointMake(0.0, 0.0)
         gas = Gas(parent: parent)
         gas.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1.0), SKAction.fadeInWithDuration(1.0)])))
     }
 
     func start() {
-        gas.position = CGPoint(x:size.width + gas.size.width * 0.5 - 1.0, y:position.y + 3.0)
+        gas.position = CGPoint(x:frame.maxX - 1.0, y:position.y + 3.0)
         gas.show()
     }
 
     func stop() {
         gas.hide()
+    }
+
+    func leave() {
+        runAction(SKAction.sequence([SKAction.moveToX(-size.width, duration: 1.0), SKAction.moveToX(position.x, duration: 1.0)]))
     }
 }
 
@@ -174,17 +181,42 @@ class Egg: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     let scale:CGFloat = 0.18
+    var nextPos:Int = 2
     var eggState:EggState = .none {
         didSet {
             texture = eggStates[eggState]
-            size.width = texture.size().width * scale
-            size.height = texture.size().height * scale
+            (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
         }
     }
     init(parent: GameScene) {
         super.init(parent: parent, image: "egg_02")
         setScale(scale)
         anchorPoint = CGPointMake(0.5, 0.0)
+    }
+
+    func move(eggPoses: [CGPoint], toY: CGFloat) -> Bool {
+        if (nextPos == eggPoses.count) {
+            nextPos = 2
+            runAction(SKAction.moveToY(toY, duration: 1.0))
+            //hide()
+            return true
+        }
+        if (nextPos > 36) {
+            eggState = .pack
+        } else if (nextPos > 28) {
+            eggState = .three
+        } else if (nextPos > 20) {
+            eggState = .two
+        } else if (nextPos > 12) {
+            eggState = .one
+        } else if (nextPos > 1) {
+            eggState = .none
+        }
+        position = eggPoses[nextPos]
+        if (nextPos++ == 2) {
+            show()
+        }
+        return false
     }
 }
 
@@ -198,6 +230,7 @@ class Life: MySpriteNode {
     init(parent: GameScene) {
         super.init(parent: parent, image: "egg_01")
         setScale(0.3)
+        anchorPoint = CGPointMake(0.5, 1.0)
         //_lifes.append(self)
     }
 /*
@@ -231,6 +264,8 @@ class GameScene: SKScene {
     var gameState:GameState!
     var tickLengthMillis = NSTimeInterval(500)
     var lastTick:NSDate?
+    var eggs = [Egg]()
+    var eggPoses = [CGPoint]()
 
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -305,7 +340,7 @@ class GameScene: SKScene {
 
         // truck
         truck = Truck(parent: self)
-        truck.position = CGPoint(x:truck.size.width * 0.5, y:ground)
+        truck.position = CGPoint(x:0.0, y:ground)
         truck.show()
 
         // hen
@@ -318,66 +353,55 @@ class GameScene: SKScene {
         henR.show()
 
         // egg
-        let eggPoses:[CGPoint] = [
-            CGPoint(x:centerX * 1.60, y:step4Y), // 0
-            CGPoint(x:centerX * 0.51, y:step4Y), // 1
-            CGPoint(x:centerX * 2.00, y:step1Y + 10.0), // 2
-            CGPoint(x:centerX * 1.87, y:step1Y + 10.0), // 3
-            CGPoint(x:centerX * 1.74, y:step1Y + 10.0), // 4
-            CGPoint(x:centerX * 1.44, y:step1Y + 10.0), // 5
-            CGPoint(x:centerX * 1.31, y:step1Y + 10.0), // 6
-            CGPoint(x:centerX * 1.18, y:step1Y + 10.0), // 7
-            CGPoint(x:centerX * 1.05, y:step1Y + 10.0), // 8
-            CGPoint(x:centerX * 0.92, y:step1Y + 10.0), // 9
-            CGPoint(x:centerX * 0.79, y:step1Y + 10.0), // 10
-            CGPoint(x:centerX * 0.66, y:step1Y + 10.0), // 11
-            CGPoint(x:centerX * 0.53, y:step1Y + 10.0), // 12
+        eggPoses = [
+            CGPoint(x:centerX * 1.60, y:step4Y), // 0 broken
+            CGPoint(x:centerX * 0.51, y:step4Y), // 1 broken
+            CGPoint(x:centerX * 2.00, y:step1Y + conveyor.size.height * 0.5), // 2 - 1
+            CGPoint(x:centerX * 1.87, y:step1Y + conveyor.size.height * 0.5), // 3 - 1
+            CGPoint(x:centerX * 1.74, y:step1Y + conveyor.size.height * 0.5), // 4 - 1
+            CGPoint(x:centerX * 1.45, y:step1Y + conveyor.size.height * 0.5), // 5 - 1
+            CGPoint(x:centerX * 1.32, y:step1Y + conveyor.size.height * 0.5), // 6 - 1
+            CGPoint(x:centerX * 1.19, y:step1Y + conveyor.size.height * 0.5), // 7 - 1
+            CGPoint(x:centerX * 1.06, y:step1Y + conveyor.size.height * 0.5), // 8 - 1
+            CGPoint(x:centerX * 0.93, y:step1Y + conveyor.size.height * 0.5), // 9 - 1
+            CGPoint(x:centerX * 0.80, y:step1Y + conveyor.size.height * 0.5), // 10 - 1
+            CGPoint(x:centerX * 0.67, y:step1Y + conveyor.size.height * 0.5), // 11 - 1
+            CGPoint(x:centerX * 0.54, y:step1Y + conveyor.size.height * 0.5), // 12 - 1
+            CGPoint(x:centerX * 0.54, y:step5Y + conveyor.size.height * 0.5), // 13 - 2
+            CGPoint(x:centerX * 0.67, y:step5Y + conveyor.size.height * 0.5), // 14 - 2
+            CGPoint(x:centerX * 0.80, y:step5Y + conveyor.size.height * 0.5), // 15 - 2
+            CGPoint(x:centerX * 0.93, y:step5Y + conveyor.size.height * 0.5), // 16 - 2
+            CGPoint(x:centerX * 1.06, y:step5Y + conveyor.size.height * 0.5), // 17 - 2
+            CGPoint(x:centerX * 1.19, y:step5Y + conveyor.size.height * 0.5), // 18 - 2
+            CGPoint(x:centerX * 1.32, y:step5Y + conveyor.size.height * 0.5), // 19 - 2
+            CGPoint(x:centerX * 1.45, y:step5Y + conveyor.size.height * 0.5), // 20 - 2
+            CGPoint(x:centerX * 1.45, y:step2Y + conveyor.size.height * 0.5), // 21 - 3
+            CGPoint(x:centerX * 1.32, y:step2Y + conveyor.size.height * 0.5), // 22 - 3
+            CGPoint(x:centerX * 1.19, y:step2Y + conveyor.size.height * 0.5), // 23 - 3
+            CGPoint(x:centerX * 1.06, y:step2Y + conveyor.size.height * 0.5), // 24 - 3
+            CGPoint(x:centerX * 0.93, y:step2Y + conveyor.size.height * 0.5), // 25 - 3
+            CGPoint(x:centerX * 0.80, y:step2Y + conveyor.size.height * 0.5), // 26 - 3
+            CGPoint(x:centerX * 0.67, y:step2Y + conveyor.size.height * 0.5), // 27 - 3
+            CGPoint(x:centerX * 0.54, y:step2Y + conveyor.size.height * 0.5), // 28 - 3
+            CGPoint(x:centerX * 0.54, y:step6Y + conveyor.size.height * 0.5), // 29 - 4
+            CGPoint(x:centerX * 0.67, y:step6Y + conveyor.size.height * 0.5), // 30 - 4
+            CGPoint(x:centerX * 0.80, y:step6Y + conveyor.size.height * 0.5), // 31 - 4
+            CGPoint(x:centerX * 0.93, y:step6Y + conveyor.size.height * 0.5), // 32 - 4
+            CGPoint(x:centerX * 1.06, y:step6Y + conveyor.size.height * 0.5), // 33 - 4
+            CGPoint(x:centerX * 1.19, y:step6Y + conveyor.size.height * 0.5), // 34 - 4
+            CGPoint(x:centerX * 1.32, y:step6Y + conveyor.size.height * 0.5), // 35 - 4
+            CGPoint(x:centerX * 1.45, y:step6Y + conveyor.size.height * 0.5), // 36 - 4
+            CGPoint(x:centerX * 1.45, y:step3Y + conveyor.size.height * 0.5), // 37 - 5
+            CGPoint(x:centerX * 1.32, y:step3Y + conveyor.size.height * 0.5), // 38 - 5
+            CGPoint(x:centerX * 1.19, y:step3Y + conveyor.size.height * 0.5), // 39 - 5
+            CGPoint(x:centerX * 1.06, y:step3Y + conveyor.size.height * 0.5), // 40 - 5
+            CGPoint(x:centerX * 0.93, y:step3Y + conveyor.size.height * 0.5), // 41 - 5
+            CGPoint(x:centerX * 0.80, y:step3Y + conveyor.size.height * 0.5), // 42 - 5
+            CGPoint(x:centerX * 0.67, y:step3Y + conveyor.size.height * 0.5), // 43 - 5
+            CGPoint(x:centerX * 0.54, y:step3Y + conveyor.size.height * 0.5), // 44 - 5
+            CGPoint(x:centerX * 0.18, y:step3Y + conveyor.size.height * 0.5), // 45 - 6
         ]
-        let egg2 = Egg(parent: self)
-        let egg3 = Egg(parent: self)
-        let egg4 = Egg(parent: self)
-        let egg5 = Egg(parent: self)
-        let egg6 = Egg(parent: self)
-        let egg7 = Egg(parent: self)
-        egg2.position = eggPoses[2]
-        egg3.position = eggPoses[3]
-        egg4.position = eggPoses[4]
-        egg5.position = eggPoses[5]
-        egg6.position = eggPoses[6]
-        egg7.position = eggPoses[0]
-        egg2.show()
-        egg3.eggState = .one
-        egg3.show()
-        egg4.eggState = .two
-        egg4.show()
-        egg5.eggState = .three
-        egg5.show()
-        egg6.eggState = .pack
-        egg6.show()
-        egg7.eggState = .broken
-        egg7.show()
-        let egg8 = Egg(parent: self)
-        egg8.position = eggPoses[7]
-        egg8.show()
-        let egg9 = Egg(parent: self)
-        egg9.position = eggPoses[8]
-        egg9.show()
-        let egg10 = Egg(parent: self)
-        egg10.position = eggPoses[9]
-        egg10.show()
-        let egg11 = Egg(parent: self)
-        egg11.position = eggPoses[10]
-        egg11.show()
-        let egg12 = Egg(parent: self)
-        egg12.position = eggPoses[11]
-        egg12.show()
-        let egg13 = Egg(parent: self)
-        egg13.position = eggPoses[12]
-        egg13.show()
-        let egg14 = Egg(parent: self)
-        egg14.position = eggPoses[1]
-        egg14.eggState = .broken
-        egg14.show()
+        eggs.append(Egg(parent: self))
 
         // message
         message = Message(parent: self)
@@ -390,10 +414,10 @@ class GameScene: SKScene {
         scoreLabel.show()
 
         // life
-        for (var i:Int = 0; i < maxLifes; i++) {
+        for i in 0..<maxLifes {
             let life = Life(parent: self)
-            life.position.x = centerX * 2.0 - life.size.width * 3.0 + life.size.width * CGFloat(i)
-            life.position.y = scoreLabel.position.y - scoreLabel.frame.size.height
+            life.position.x = centerX * 2.0 - life.size.width * CGFloat(maxLifes - i)
+            life.position.y = scoreLabel.frame.minY
             lifes.append(life)
         }
         reset()
@@ -432,7 +456,22 @@ class GameScene: SKScene {
     }
 
     func tick() {
-        scoreLabel.add(1)
+        for (i, egg) in enumerate(eggs) {
+            if (egg.move(eggPoses, toY: truck.toY)) {
+                //eggs.removeAtIndex(i)
+                eggs[i] = Egg(parent: self)
+                truck.eggs.append(egg)
+                if (truck.eggs.count == 11) {
+                    truck.start()
+                } else if (truck.eggs.count == 12) {
+                    scoreLabel.add(10)
+                    truck.leave()
+                }
+            }
+            if (find([6, 14, 22, 30, 38, 46], egg.nextPos) != nil) {
+                scoreLabel.add(1)
+            }
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -441,7 +480,6 @@ class GameScene: SKScene {
             message.hide()
             gameState = .play
             startTicking()
-            truck.start()
             return
         } else if (gameState == .end) {
             reset()
