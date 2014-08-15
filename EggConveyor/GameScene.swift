@@ -125,7 +125,16 @@ class Truck: MySpriteNode {
     }
 
     func leave() {
-        runAction(SKAction.sequence([SKAction.moveToX(-size.width, duration: 1.0), SKAction.moveToX(position.x, duration: 1.0)]))
+        runAction(SKAction.moveToX(-size.width, duration: 1.0), completion: back)
+    }
+
+    func back () {
+        stop()
+        for egg in eggs {
+            egg.removeFromParent()
+        }
+        eggs.removeAll(keepCapacity: true)
+        runAction(SKAction.moveToX(0.0, duration: 1.0))
     }
 }
 
@@ -242,6 +251,38 @@ class Life: MySpriteNode {
 */
 }
 
+class Dispatcher {
+    let _size:Int!
+    let _row:Int!
+    let _col:Int!
+    var history = [Bool]()
+    var count:Int = 0
+    var last:Bool = true
+    init(row: Int, col:Int) {
+        let size = row * col
+        _size = size
+        _row = row
+        _col = col
+        for i in 0..<size {
+            history.append(false)
+        }
+    }
+
+    func dispatch() -> Bool {
+        if (count == _size) {
+            count = 0
+        }
+        if (arc4random_uniform(3) == 0 && !last) {
+            history[count++] = true
+            last = true
+            return true
+        }
+        history[count++] = false
+        last = false
+        return false
+    }
+}
+
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
     let screenHeight:CGFloat = 576.0
@@ -266,6 +307,7 @@ class GameScene: SKScene {
     var lastTick:NSDate?
     var eggs = [Egg]()
     var eggPoses = [CGPoint]()
+    let dispatcher = Dispatcher(row:3, col:8)
 
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -458,9 +500,9 @@ class GameScene: SKScene {
     func tick() {
         for (i, egg) in enumerate(eggs) {
             if (egg.move(eggPoses, toY: truck.toY)) {
-                //eggs.removeAtIndex(i)
-                eggs[i] = Egg(parent: self)
+                eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
+                //truck.addChild(egg)
                 if (truck.eggs.count == 11) {
                     truck.start()
                 } else if (truck.eggs.count == 12) {
@@ -472,8 +514,11 @@ class GameScene: SKScene {
                 scoreLabel.add(1)
             }
         }
+        if (dispatcher.dispatch()) {
+            eggs.append(Egg(parent: self))
+        }
     }
-    
+
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         if (gameState == .first) {
