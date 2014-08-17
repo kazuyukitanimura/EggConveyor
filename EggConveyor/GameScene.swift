@@ -102,6 +102,7 @@ class Gas: MySpriteNode {
 class Truck: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
+    let scale:CGFloat = 0.3
     var eggs = [Egg]()
     var toY:CGFloat {
         return eggs.count > 0 ? eggs.last!.frame.maxY : position.y + 24.0
@@ -109,7 +110,7 @@ class Truck: MySpriteNode {
     let gas: Gas!
     init(parent: GameScene) {
         super.init(parent: parent, image: "truck_01")
-        setScale(0.3)
+        setScale(scale)
         anchorPoint = CGPointMake(0.0, 0.0)
         gas = Gas(parent: parent)
         gas.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1.0), SKAction.fadeInWithDuration(1.0)])))
@@ -126,8 +127,13 @@ class Truck: MySpriteNode {
 
     func leave() {
         for egg in eggs {
+            let y = egg.position.y - position.y
             egg.removeFromParent()
             addChild(egg)
+            egg.size.width /= scale
+            egg.size.height /= scale
+            egg.position.y = y / scale
+            egg.position.x /= scale
         }
         runAction(SKAction.moveToX(-size.width, duration: 1.0), completion: back)
     }
@@ -139,6 +145,13 @@ class Truck: MySpriteNode {
         }
         eggs.removeAll(keepCapacity: true)
         runAction(SKAction.moveToX(0.0, duration: 1.0))
+    }
+
+    func reset() {
+        for egg in eggs {
+            egg.removeFromParent()
+        }
+        eggs.removeAll(keepCapacity: true)
     }
 }
 
@@ -207,11 +220,9 @@ class Egg: MySpriteNode {
         anchorPoint = CGPointMake(0.5, 0.0)
     }
 
-    func move(eggPoses: [CGPoint], toY: CGFloat) -> Bool {
+    func move(eggPoses: [CGPoint], toY: CGFloat, duration: NSTimeInterval) -> Bool {
         if (nextPos == eggPoses.count) {
-            nextPos = 2
-            runAction(SKAction.moveToY(toY, duration: 0.8))
-            //hide()
+            runAction(SKAction.moveToY(toY, duration: duration))
             return true
         }
         if (nextPos > 36) {
@@ -281,7 +292,7 @@ class Dispatcher {
                 last |= history[j * _col + colCnt] // find conflicts
             }
             last ^= history[count] // but do not count self
-            last = (arc4random_uniform(UInt32(rate)) == 0) && !last // if no conflicts, randomly assign
+            last = !last && (arc4random_uniform(UInt32(rate)) == 0) // if no conflicts, randomly assign
         }
         history[count++] = last
         if (++colCnt == _col) {
@@ -311,7 +322,7 @@ class GameScene: SKScene {
     let maxLifes:Int = 3
     var lifes = [Life]()
     var gameState:GameState!
-    var tickLengthMillis = NSTimeInterval(500)
+    var tickLength = NSTimeInterval(0.5)
     var lastTick:NSDate?
     var eggs = [Egg]()
     var eggPoses = [CGPoint]()
@@ -497,6 +508,7 @@ class GameScene: SKScene {
     func reset() {
         stopTicking()
         truck.stop()
+        truck.reset()
         for life in lifes {
             life.show()
         }
@@ -521,23 +533,14 @@ class GameScene: SKScene {
     }
 
     func tick() {
-        for (i, egg) in enumerate(eggs) {
-            if (egg.move(eggPoses, toY: truck.toY)) {
-                eggs.removeAtIndex(i)
-                truck.eggs.append(egg)
-            }
-            if (find([6, 14, 22, 30, 38, 46], egg.nextPos) != nil) {
-                scoreLabel.add(1)
-            }
-        }
         if (truck.eggs.count == 11) {
             truck.start()
         } else if (truck.eggs.count == 12) {
             stopTicking()
             scoreLabel.add(10)
-            // FIXME remove edge entries
-            for (i, egg) in enumerate(eggs) {
-                println(egg.nextPos)
+            // remove edge entries
+            for i in reverse(0..<eggs.count) {
+                var egg = eggs[i]
                 if (find([5, 13, 21, 29, 37, 45], egg.nextPos) != nil) {
                     scoreLabel.add(1)
                     egg.removeFromParent()
@@ -545,7 +548,16 @@ class GameScene: SKScene {
                 }
             }
             truck.leave()
-            levelUp()
+            //levelUp()
+        }
+        for (i, egg) in enumerate(eggs) {
+            if (egg.move(eggPoses, toY: truck.toY, duration: tickLength)) {
+                eggs.removeAtIndex(i)
+                truck.eggs.append(egg)
+            }
+            if (find([6, 14, 22, 30, 38, 46], egg.nextPos) != nil) {
+                scoreLabel.add(1)
+            }
         }
         if (dispatcher.dispatch(5)) {
             eggs.append(Egg(parent: self))
@@ -612,8 +624,7 @@ class GameScene: SKScene {
         if lastTick == nil {
             return
         }
-        var timePassed = lastTick!.timeIntervalSinceNow * -1000.0
-        if timePassed > tickLengthMillis {
+        if -lastTick!.timeIntervalSinceNow > tickLength {
             lastTick = NSDate.date()
             tick()
         }
