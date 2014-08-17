@@ -127,6 +127,7 @@ class Truck: MySpriteNode {
 
     func leave() {
         for egg in eggs {
+            egg.removeAllActions()
             let y = egg.position.y - position.y
             egg.removeFromParent()
             addChild(egg)
@@ -222,7 +223,7 @@ class Egg: MySpriteNode {
 
     func move(eggPoses: [CGPoint], toY: CGFloat, duration: NSTimeInterval) -> Bool {
         if (nextPos == eggPoses.count) {
-            runAction(SKAction.moveToY(toY, duration: duration))
+            runAction(SKAction.moveToY(toY, duration: duration - 0.1))
             return true
         }
         if (nextPos > 36) {
@@ -299,6 +300,14 @@ class Dispatcher {
             colCnt = 0
         }
         return last
+    }
+
+    func first() {
+        /* force first history true*/
+        history[0] = true
+        last = true
+        count = 1
+        colCnt = 1
     }
 }
 
@@ -567,10 +576,7 @@ class GameScene: SKScene {
     func firstEgg() {
         /* Reduce the time to the first egg */
         eggs.append(Egg(parent: self))
-        dispatcher.history[0] = true
-        dispatcher.history[16] = true
-        dispatcher.history[32] = true
-        dispatcher.last = true
+        dispatcher.first()
     }
 
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
