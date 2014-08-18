@@ -9,7 +9,7 @@
 import SpriteKit
 
 enum GameState {
-    case first, play, end, pause
+    case first, play, end
 }
 
 enum EggState {
@@ -311,6 +311,18 @@ class Life: MySpriteNode {
 */
 }
 
+class Pause: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "egg_01")
+        setScale(0.5)
+        anchorPoint = CGPointMake(1.0, 0.5)
+        name = "pause"
+        zPosition = 1.0
+    }
+}
+
 class Dispatcher {
     let _size:Int
     let _row:Int
@@ -371,6 +383,16 @@ class Timer {
 
     func stopTicking() {
         _lastTick = nil
+    }
+
+    func toggle() -> Bool{
+        if (_lastTick != nil) {
+            stopTicking()
+            return true
+        } else {
+            startTicking()
+            return false
+        }
     }
 
     func tick() {
@@ -576,6 +598,12 @@ class GameScene: SKScene {
         // Timers
         timers.append(Timer(interval: onPlayInterval, onTick: onPlay))
         timers.append(Timer(interval: offPlayInterval, onTick: offPlay))
+
+        // Pause
+        let pause = Pause(parent: self)
+        pause.position = CGPoint(x:centerX * 2.0, y:centerY)
+        pause.show()
+
         reset()
     }
 
@@ -687,9 +715,19 @@ class GameScene: SKScene {
             reset()
             return
         }
-        
+
+
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
+            let node:SKNode = nodeAtPoint(location)
+            if (node.name != nil && node.name == "pause") {
+                if (timers[0].toggle()) {
+                    message.show("PAUSED")
+                } else {
+                    message.hide()
+                }
+                break
+            }
             var hen = (location.x < centerX) ? henL : henR
             hen.move(location.y)
             gainLife()
