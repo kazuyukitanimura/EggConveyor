@@ -9,7 +9,7 @@
 import SpriteKit
 
 enum GameState {
-    case first, play, end
+    case first, play, end, pause
 }
 
 enum EggState {
