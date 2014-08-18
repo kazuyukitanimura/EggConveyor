@@ -335,11 +335,15 @@ class GameScene: SKScene {
     var lifes = [Life]()
     var gameState:GameState!
     var tickLength = NSTimeInterval(0.5)
+    var tockLength = NSTimeInterval(1.0)
     var lastTick:NSDate?
+    var lastTock:NSDate?
+    var countDown:Int = 0
     var eggs = [Egg]()
     var eggPoses = [CGPoint]()
     let dispatcher = Dispatcher(row:3, col:16)
     var level = 1
+    var messages = [String]()
 
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -535,18 +539,19 @@ class GameScene: SKScene {
     }
 
     func levelUp() {
-        message.show("LEVEL \(level++)")
-        sleep(1)
-        message.show("3")
-        sleep(1)
-        message.show("2")
-        sleep(1)
-        message.show("1")
-        sleep(1)
-        message.show("GO!")
-        sleep(1)
-        message.hide()
-        startTicking()
+        startTocking()
+        messages = ["GO!", "1", "2", "3", "LEVEL \(level++)"]
+        countDown = messages.count
+    }
+
+    func tock() {
+        if (countDown-- == 0) {
+            message.hide()
+            stopTocking()
+            startTicking()
+        } else {
+            message.show(messages[countDown])
+        }
     }
 
     func tick() {
@@ -624,6 +629,14 @@ class GameScene: SKScene {
         }
     }
 
+    func startTocking() {
+        lastTock = NSDate.date()
+    }
+
+    func stopTocking() {
+        lastTock = nil
+    }
+
     func startTicking() {
         lastTick = NSDate.date()
     }
@@ -634,11 +647,15 @@ class GameScene: SKScene {
 
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        if lastTock != nil && -lastTock!.timeIntervalSinceNow > tockLength {
+            startTocking()
+            tock()
+        }
         if lastTick == nil {
             return
         }
         if -lastTick!.timeIntervalSinceNow > tickLength {
-            lastTick = NSDate.date()
+            startTicking()
             tick()
         }
     }
