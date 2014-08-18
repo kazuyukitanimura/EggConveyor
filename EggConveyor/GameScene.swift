@@ -139,16 +139,13 @@ class Truck: MySpriteNode {
         runAction(SKAction.moveToX(-size.width, duration: 1.0), completion: back(callback))
     }
 
-    func back (callback: () -> Void) -> () -> () {
-        func back () {
-            stop()
-            for egg in eggs {
-                egg.removeFromParent()
-            }
-            eggs.removeAll(keepCapacity: true)
-            runAction(SKAction.moveToX(0.0, duration: 1.0), completion: callback)
+    func back (callback: () -> Void)() { // curried
+        stop()
+        for egg in eggs {
+            egg.removeFromParent()
         }
-        return back
+        eggs.removeAll(keepCapacity: true)
+        runAction(SKAction.moveToX(0.0, duration: 1.0), completion: callback)
     }
 
     func reset() {
@@ -314,6 +311,32 @@ class Dispatcher {
     }
 }
 
+class Timer {
+    var _interval:NSTimeInterval!
+    var _lastTick:NSDate?
+    var _onTick:(() -> Void)!
+
+    init (interval: Double, onTick: (() -> Void)!) {
+        _interval = NSTimeInterval(interval)
+        _onTick = onTick
+    }
+
+    func startTicking() {
+        _lastTick = NSDate.date()
+    }
+
+    func stopTicking() {
+        _lastTick = nil
+    }
+
+    func tick() {
+        if (_lastTick != nil && -_lastTick!.timeIntervalSinceNow > _interval) {
+            startTicking()
+            _onTick()
+        }
+    }
+}
+
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
     let screenHeight:CGFloat = 576.0
@@ -334,16 +357,15 @@ class GameScene: SKScene {
     let maxLifes:Int = 3
     var lifes = [Life]()
     var gameState:GameState!
-    var tickLength = NSTimeInterval(0.5)
-    var tockLength = NSTimeInterval(1.0)
-    var lastTick:NSDate?
-    var lastTock:NSDate?
+    var onPlayInterval:Double = 0.5 // sec
+    var offPlayInterval:Double = 1.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
     var eggPoses = [CGPoint]()
     let dispatcher = Dispatcher(row:3, col:16)
     var level = 1
     var messages = [String]()
+    var timers = [Timer]()
 
     override func didMoveToView(view: SKView) {
         centerX = CGRectGetMidX(self.frame)
@@ -498,6 +520,10 @@ class GameScene: SKScene {
             life.position.y = scoreLabel.frame.minY
             lifes.append(life)
         }
+
+        // Timers
+        timers.append(Timer(interval: onPlayInterval, onTick: onPlay))
+        timers.append(Timer(interval: offPlayInterval, onTick: offPlay))
         reset()
     }
 
@@ -515,14 +541,14 @@ class GameScene: SKScene {
     }
 
     func gameOver() {
-        stopTicking()
+        timers[0].stopTicking()
         truck.stop()
         message.show("GAME OVER!")
         gameState = .end
     }
 
     func reset() {
-        stopTicking()
+        timers[0].stopTicking()
         truck.stop()
         truck.reset()
         for life in lifes {
@@ -539,26 +565,26 @@ class GameScene: SKScene {
     }
 
     func levelUp() {
-        startTocking()
+        timers[1].startTicking()
         messages = ["GO!", "1", "2", "3", "LEVEL \(level++)"]
         countDown = messages.count
     }
 
-    func tock() {
+    func offPlay() {
         if (countDown-- == 0) {
             message.hide()
-            stopTocking()
-            startTicking()
+            timers[1].stopTicking()
+            timers[0].startTicking()
         } else {
             message.show(messages[countDown])
         }
     }
 
-    func tick() {
+    func onPlay() {
         if (truck.eggs.count == 11) {
             truck.start()
         } else if (truck.eggs.count == 12) {
-            stopTicking()
+            timers[0].stopTicking()
             scoreLabel.add(10)
             // remove edge entries
             for i in reverse(0..<eggs.count) {
@@ -572,7 +598,7 @@ class GameScene: SKScene {
             truck.leave(levelUp)
         }
         for (i, egg) in enumerate(eggs) {
-            if (egg.move(eggPoses, toY: truck.toY, duration: tickLength)) {
+            if (egg.move(eggPoses, toY: truck.toY, duration: offPlayInterval)) {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
             }
@@ -629,34 +655,10 @@ class GameScene: SKScene {
         }
     }
 
-    func startTocking() {
-        lastTock = NSDate.date()
-    }
-
-    func stopTocking() {
-        lastTock = nil
-    }
-
-    func startTicking() {
-        lastTick = NSDate.date()
-    }
-
-    func stopTicking() {
-        lastTick = nil
-    }
-
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-        if lastTock != nil && -lastTock!.timeIntervalSinceNow > tockLength {
-            startTocking()
-            tock()
-        }
-        if lastTick == nil {
-            return
-        }
-        if -lastTick!.timeIntervalSinceNow > tickLength {
-            startTicking()
-            tick()
+        for timer in timers {
+            timer.tick()
         }
     }
 }
