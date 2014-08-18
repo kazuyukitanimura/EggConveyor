@@ -125,7 +125,7 @@ class Truck: MySpriteNode {
         gas.hide()
     }
 
-    func leave() {
+    func leave(callback: () -> Void) {
         for egg in eggs {
             egg.removeAllActions()
             let y = egg.position.y - position.y
@@ -136,16 +136,19 @@ class Truck: MySpriteNode {
             egg.position.y = y / scale
             egg.position.x /= scale
         }
-        runAction(SKAction.moveToX(-size.width, duration: 1.0), completion: back)
+        runAction(SKAction.moveToX(-size.width, duration: 1.0), completion: back(callback))
     }
 
-    func back () {
-        stop()
-        for egg in eggs {
-            egg.removeFromParent()
+    func back (callback: () -> Void) -> () -> () {
+        func back () {
+            stop()
+            for egg in eggs {
+                egg.removeFromParent()
+            }
+            eggs.removeAll(keepCapacity: true)
+            runAction(SKAction.moveToX(0.0, duration: 1.0), completion: callback)
         }
-        eggs.removeAll(keepCapacity: true)
-        runAction(SKAction.moveToX(0.0, duration: 1.0))
+        return back
     }
 
     func reset() {
@@ -533,10 +536,15 @@ class GameScene: SKScene {
 
     func levelUp() {
         message.show("LEVEL \(level++)")
+        sleep(1)
         message.show("3")
+        sleep(1)
         message.show("2")
+        sleep(1)
         message.show("1")
+        sleep(1)
         message.show("GO!")
+        sleep(1)
         message.hide()
         startTicking()
     }
@@ -556,8 +564,7 @@ class GameScene: SKScene {
                     eggs.removeAtIndex(i)
                 }
             }
-            truck.leave()
-            //levelUp()
+            truck.leave(levelUp)
         }
         for (i, egg) in enumerate(eggs) {
             if (egg.move(eggPoses, toY: truck.toY, duration: tickLength)) {
