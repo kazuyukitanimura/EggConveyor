@@ -225,11 +225,28 @@ class Egg: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     let scale:CGFloat = 0.18
-    var nextPos:Int = 2
     var eggState:EggState = .none {
         didSet {
             texture = eggStates[eggState]
             (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
+        }
+    }
+    var currPos:Int = 1 {
+        didSet {
+            if (currPos > 36) {
+                eggState = .pack
+            } else if (currPos > 28) {
+                eggState = .three
+            } else if (currPos > 20) {
+                eggState = .two
+            } else if (currPos > 12) {
+                eggState = .one
+            } else if (currPos > 1) {
+                eggState = .none
+            } else {
+                eggState = .broken
+            }
+            position = _eggPoses[currPos]
         }
     }
     var _eggPoses:[CGPoint]!
@@ -241,32 +258,34 @@ class Egg: MySpriteNode {
     }
 
     func move(toY: CGFloat, duration: Double) -> Bool {
-        if (nextPos == _eggPoses.count) {
+        if (currPos == _eggPoses.count - 1) {
             runAction(SKAction.moveToY(toY, duration: NSTimeInterval(duration - 0.1)))
             return true
         }
-        if (nextPos > 36) {
-            eggState = .pack
-        } else if (nextPos > 28) {
-            eggState = .three
-        } else if (nextPos > 20) {
-            eggState = .two
-        } else if (nextPos > 12) {
-            eggState = .one
-        } else if (nextPos > 1) {
-            eggState = .none
-        }
-        position = _eggPoses[nextPos]
-        if (nextPos++ == 2) {
+        if (++currPos == 2) {
             show()
         }
         return false
     }
 
-    func fail(nextPos:Int) {
-        eggState = .broken
-        self.nextPos = nextPos
-        position = _eggPoses[nextPos]
+    func didFailL(henY: Int) -> Bool {
+        if ((henY != 0 && currPos == 12) || (henY != 1 && currPos == 28) || (henY != 2 && currPos == 44)) {
+            currPos = 1
+            return true
+        }
+        return false
+    }
+
+    func didFailR(henY: Int) -> Bool {
+        if ((henY != 0 && currPos == 4) || (henY != 1 && currPos == 20) || (henY != 2 && currPos == 36)) {
+            currPos = 0
+            return true
+        }
+        return false
+    }
+
+    func didScore() -> Bool {
+        return isOneOf(currPos, [5, 13, 21, 29, 37, 45])
     }
 }
 
@@ -593,6 +612,7 @@ class GameScene: SKScene {
         eggs.removeAll(keepCapacity: true)
         lifeCount = maxLifes
         scoreLabel.set(0)
+        level = 1
         gameState = .first
         message.show("TAP TO START!")
     }
@@ -623,7 +643,7 @@ class GameScene: SKScene {
             /*
             for i in reverse(0..<eggs.count) {
                 var egg = eggs[i]
-                if (isOneOf(egg.nextPos, [5, 13, 21, 29, 37, 45])) {
+                if (isOneOf(egg.currPos, [4, 12, 20, 28, 36, 44])) {
                     scoreLabel.add(1)
                     egg.removeFromParent()
                     eggs.removeAtIndex(i)
@@ -633,19 +653,14 @@ class GameScene: SKScene {
         }
         for i in reverse(0..<eggs.count) {
             var egg = eggs[i]
-            if ((henL.yPos != 0 && egg.nextPos == 13) || (henL.yPos != 1 && egg.nextPos == 29) || (henL.yPos != 2 && egg.nextPos == 45)) {
-                egg.fail(1)
-                eggs.removeAtIndex(i)
-                lostLife()
-            } else if ((henR.yPos != 0 && egg.nextPos == 5) || (henR.yPos != 1 && egg.nextPos == 21) || (henR.yPos != 2 && egg.nextPos == 37)) {
-                egg.fail(0)
+            if (egg.didFailL(henL.yPos) || egg.didFailR(henR.yPos)) {
                 eggs.removeAtIndex(i)
                 lostLife()
             } else if (egg.move(truck.toY, duration: onPlayInterval)) {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
             }
-            if (isOneOf(egg.nextPos, [6, 14, 22, 30, 38, 46])) {
+            if (egg.didScore()) {
                 scoreLabel.add(1)
             }
         }
