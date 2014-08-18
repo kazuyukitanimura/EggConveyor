@@ -232,14 +232,16 @@ class Egg: MySpriteNode {
             (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
         }
     }
-    init(parent: GameScene) {
+    var _eggPoses:[CGPoint]!
+    init(parent: GameScene, eggPoses: [CGPoint]) {
         super.init(parent: parent, image: "egg_02")
         setScale(scale)
         anchorPoint = CGPointMake(0.5, 0.0)
+        _eggPoses = eggPoses
     }
 
-    func move(eggPoses: [CGPoint], toY: CGFloat, duration: Double) -> Bool {
-        if (nextPos == eggPoses.count) {
+    func move(toY: CGFloat, duration: Double) -> Bool {
+        if (nextPos == _eggPoses.count) {
             runAction(SKAction.moveToY(toY, duration: NSTimeInterval(duration - 0.1)))
             return true
         }
@@ -254,17 +256,17 @@ class Egg: MySpriteNode {
         } else if (nextPos > 1) {
             eggState = .none
         }
-        position = eggPoses[nextPos]
+        position = _eggPoses[nextPos]
         if (nextPos++ == 2) {
             show()
         }
         return false
     }
 
-    func fail(eggPoses: [CGPoint], nextPos:Int) {
+    func fail(nextPos:Int) {
         eggState = .broken
         self.nextPos = nextPos
-        position = eggPoses[nextPos]
+        position = _eggPoses[nextPos]
     }
 }
 
@@ -532,7 +534,7 @@ class GameScene: SKScene {
             CGPoint(x:centerX * 0.54, y:step3Y + conveyor.size.height * 0.5), // 44 - 5
             CGPoint(x:centerX * 0.18, y:step3Y + conveyor.size.height * 0.5), // 45 - 6
         ]
-        eggs.append(Egg(parent: self))
+        eggs.append(Egg(parent: self, eggPoses: eggPoses))
 
         // message
         message = Message(parent: self)
@@ -618,6 +620,7 @@ class GameScene: SKScene {
             timers[0].stopTicking()
             scoreLabel.add(10)
             // remove edge entries
+            /*
             for i in reverse(0..<eggs.count) {
                 var egg = eggs[i]
                 if (isOneOf(egg.nextPos, [5, 13, 21, 29, 37, 45])) {
@@ -625,19 +628,20 @@ class GameScene: SKScene {
                     egg.removeFromParent()
                     eggs.removeAtIndex(i)
                 }
-            }
+            }*/
             truck.leave(levelUp)
         }
-        for (i, egg) in enumerate(eggs) {
+        for i in reverse(0..<eggs.count) {
+            var egg = eggs[i]
             if ((henL.yPos != 0 && egg.nextPos == 13) || (henL.yPos != 1 && egg.nextPos == 29) || (henL.yPos != 2 && egg.nextPos == 45)) {
-                egg.fail(eggPoses, nextPos: 1)
+                egg.fail(1)
                 eggs.removeAtIndex(i)
                 lostLife()
             } else if ((henR.yPos != 0 && egg.nextPos == 5) || (henR.yPos != 1 && egg.nextPos == 21) || (henR.yPos != 2 && egg.nextPos == 37)) {
-                egg.fail(eggPoses, nextPos: 0)
+                egg.fail(0)
                 eggs.removeAtIndex(i)
                 lostLife()
-            } else if (egg.move(eggPoses, toY: truck.toY, duration: onPlayInterval)) {
+            } else if (egg.move(truck.toY, duration: onPlayInterval)) {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
             }
@@ -646,13 +650,13 @@ class GameScene: SKScene {
             }
         }
         if (dispatcher.dispatch(5)) {
-            eggs.append(Egg(parent: self))
+            eggs.append(Egg(parent: self, eggPoses: eggPoses))
         }
     }
 
     func firstEgg() {
         /* Reduce the time to the first egg */
-        eggs.append(Egg(parent: self))
+        eggs.append(Egg(parent: self, eggPoses: eggPoses))
         dispatcher.first()
     }
 
