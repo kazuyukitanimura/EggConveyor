@@ -159,10 +159,27 @@ class Truck: MySpriteNode {
 class Hen: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
-    init(parent: GameScene) {
+    var yPoses:[CGFloat]!
+    var yPos:Int = 1 {
+        didSet {
+            position.y = yPoses[yPos]
+        }
+    }
+    init(parent: GameScene, yPoses: [CGFloat]) {
         super.init(parent: parent, image: "hen_01")
         setScale(0.35)
         anchorPoint = CGPointMake(0.5, 0.0)
+        self.yPoses = yPoses
+    }
+
+    func move(toY: CGFloat) {
+        if (toY > yPoses[2]) {
+            yPos = 2
+        } else if (toY > yPoses[1]) {
+            yPos = 1
+        } else {
+            yPos = 0
+        }
     }
 }
 
@@ -221,9 +238,9 @@ class Egg: MySpriteNode {
         anchorPoint = CGPointMake(0.5, 0.0)
     }
 
-    func move(eggPoses: [CGPoint], toY: CGFloat, duration: NSTimeInterval) -> Bool {
+    func move(eggPoses: [CGPoint], toY: CGFloat, duration: Double) -> Bool {
         if (nextPos == eggPoses.count) {
-            runAction(SKAction.moveToY(toY, duration: duration - 0.1))
+            runAction(SKAction.moveToY(toY, duration: NSTimeInterval(duration - 0.1)))
             return true
         }
         if (nextPos > 36) {
@@ -242,6 +259,12 @@ class Egg: MySpriteNode {
             show()
         }
         return false
+    }
+
+    func fail(eggPoses: [CGPoint], nextPos:Int) {
+        eggState = .broken
+        self.nextPos = nextPos
+        position = eggPoses[nextPos]
     }
 }
 
@@ -336,6 +359,12 @@ class Timer {
         }
     }
 }
+
+func isOneOf<T: Comparable>(x: T, among:[T]) -> Bool {
+    //return among.filter {$0 == x}.count > 0
+    return find(among, x) != nil
+}
+
 
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
@@ -444,10 +473,12 @@ class GameScene: SKScene {
         truck.show()
 
         // hen
-        henL = Hen(parent: self) // left hen
-        henR = Hen(parent: self) // right hen
-        henL.position = CGPoint(x:centerX * 0.4, y:step1Y)
-        henR.position = CGPoint(x:centerX * 1.6, y:step5Y)
+        henL = Hen(parent: self, yPoses: [step1Y, step2Y, step3Y]) // left hen
+        henR = Hen(parent: self, yPoses: [step4Y, step5Y, step6Y]) // right hen
+        henL.position.x = centerX * 0.4
+        henR.position.x = centerX * 1.6
+        henL.yPos = 0
+        henR.yPos = 1
         henL.flip()
         henL.show()
         henR.show()
@@ -566,7 +597,7 @@ class GameScene: SKScene {
 
     func levelUp() {
         timers[1].startTicking()
-        messages = ["GO!", "1", "2", "3", "LEVEL \(level++)"]
+        messages = ["GO!", "READY", "LEVEL \(level++)"]
         countDown = messages.count
     }
 
@@ -589,7 +620,7 @@ class GameScene: SKScene {
             // remove edge entries
             for i in reverse(0..<eggs.count) {
                 var egg = eggs[i]
-                if (find([5, 13, 21, 29, 37, 45], egg.nextPos) != nil) {
+                if (isOneOf(egg.nextPos, [5, 13, 21, 29, 37, 45])) {
                     scoreLabel.add(1)
                     egg.removeFromParent()
                     eggs.removeAtIndex(i)
@@ -598,11 +629,19 @@ class GameScene: SKScene {
             truck.leave(levelUp)
         }
         for (i, egg) in enumerate(eggs) {
-            if (egg.move(eggPoses, toY: truck.toY, duration: offPlayInterval)) {
+            if ((henL.yPos != 0 && egg.nextPos == 13) || (henL.yPos != 1 && egg.nextPos == 29) || (henL.yPos != 2 && egg.nextPos == 45)) {
+                egg.fail(eggPoses, nextPos: 1)
+                eggs.removeAtIndex(i)
+                lostLife()
+            } else if ((henR.yPos != 0 && egg.nextPos == 5) || (henR.yPos != 1 && egg.nextPos == 21) || (henR.yPos != 2 && egg.nextPos == 37)) {
+                egg.fail(eggPoses, nextPos: 0)
+                eggs.removeAtIndex(i)
+                lostLife()
+            } else if (egg.move(eggPoses, toY: truck.toY, duration: onPlayInterval)) {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
             }
-            if (find([6, 14, 22, 30, 38, 46], egg.nextPos) != nil) {
+            if (isOneOf(egg.nextPos, [6, 14, 22, 30, 38, 46])) {
                 scoreLabel.add(1)
             }
         }
@@ -632,26 +671,9 @@ class GameScene: SKScene {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            var hen = henL
-            if (location.x < centerX) { // left hen
-                if (location.y > step3Y) {
-                    henL.position.y = step3Y
-                } else if (location.y > step2Y) {
-                    henL.position.y = step2Y
-                } else {
-                    henL.position.y = step1Y
-                }
-                gainLife()
-            } else { // right hen
-                if (location.y > step6Y) {
-                    henR.position.y = step6Y
-                } else if (location.y > step5Y) {
-                    henR.position.y = step5Y
-                } else {
-                    henR.position.y = step4Y
-                }
-                lostLife()
-            }
+            var hen = (location.x < centerX) ? henL : henR
+            hen.move(location.y)
+            gainLife()
         }
     }
 
