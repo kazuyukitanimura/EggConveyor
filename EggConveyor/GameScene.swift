@@ -257,9 +257,9 @@ class Egg: MySpriteNode {
         _eggPoses = eggPoses
     }
 
-    func move(toY: CGFloat, duration: Double) -> Bool {
+    func move(toY: CGFloat, duration: NSTimeInterval) -> Bool {
         if (currPos == _eggPoses.count - 1) {
-            runAction(SKAction.moveToY(toY, duration: NSTimeInterval(duration - 0.1)))
+            runAction(SKAction.moveToY(toY, duration: duration - NSTimeInterval(0.1)))
             return true
         }
         if (++currPos == 2) {
@@ -331,14 +331,16 @@ class Dispatcher {
     var count:Int = 0
     var colCnt:Int = 0
     var last:Bool = false
-    init(row: Int, col:Int) {
+    var _rate:Int = 10
+    init(row: Int, col:Int, rate: Int) {
         _size = row * col
         _row = row
         _col = col
         history = [Bool](count:_size, repeatedValue: false)
+        _rate = rate
     }
 
-    func dispatch(rate: Int) -> Bool {
+    func dispatch() -> Bool {
         if (count == _size) {
             count = 0
         }
@@ -349,7 +351,7 @@ class Dispatcher {
                 last |= history[j * _col + colCnt] // find conflicts
             }
             last ^= history[count] // but do not count self
-            last = !last && (arc4random_uniform(UInt32(rate)) == 0) // if no conflicts, randomly assign
+            last = !last && (arc4random_uniform(UInt32(_rate)) == 0) // if no conflicts, randomly assign
         }
         history[count++] = last
         if (++colCnt == _col) {
@@ -429,12 +431,12 @@ class GameScene: SKScene {
     let maxLifes:Int = 3
     var lifes = [Life]()
     var gameState:GameState!
-    var onPlayInterval:Double = 0.5 // sec
+    var onPlayInterval:Double = 0.9 // sec
     var offPlayInterval:Double = 1.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
     var eggPoses = [CGPoint]()
-    let dispatcher = Dispatcher(row:3, col:16)
+    let dispatcher = Dispatcher(row:3, col:16, rate: 9)
     var level = 1
     var messages = [String]()
     var timers = [Timer]()
@@ -649,6 +651,8 @@ class GameScene: SKScene {
         timers[1].startTicking()
         messages = ["GO!", "READY", "LEVEL \(level++)"]
         countDown = messages.count
+        timers[0]._interval = max(NSTimeInterval(0.4), timers[0]._interval - NSTimeInterval(0.1))
+        dispatcher._rate = max(1, dispatcher._rate - 1)
     }
 
     func offPlay() {
@@ -684,7 +688,7 @@ class GameScene: SKScene {
             if (egg.didFailL(henL.yPos) || egg.didFailR(henR.yPos)) {
                 eggs.removeAtIndex(i)
                 lostLife()
-            } else if (egg.move(truck.toY, duration: onPlayInterval)) {
+            } else if (egg.move(truck.toY, duration: timers[0]._interval)) {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
             }
@@ -692,7 +696,7 @@ class GameScene: SKScene {
                 scoreLabel.add(1)
             }
         }
-        if (dispatcher.dispatch(5)) {
+        if (dispatcher.dispatch()) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
         }
     }
