@@ -433,8 +433,10 @@ class GameScene: SKScene {
     var gameState:GameState!
     var onPlayInterval:Double = 0.9 // sec
     var offPlayInterval:Double = 1.0 // sec
+    var oopsInterval:Double = 4.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
+    var lostEggs = [Egg]()
     var eggPoses = [CGPoint]()
     let dispatcher = Dispatcher(row:3, col:16, rate: 9)
     var level = 1
@@ -600,6 +602,7 @@ class GameScene: SKScene {
         // Timers
         timers.append(Timer(interval: onPlayInterval, onTick: onPlay))
         timers.append(Timer(interval: offPlayInterval, onTick: offPlay))
+        timers.append(Timer(interval: oopsInterval, onTick: oops))
 
         // Pause
         let pause = Pause(parent: self)
@@ -617,9 +620,22 @@ class GameScene: SKScene {
 
     func lostLife() {
         lifes[--lifeCount].hide()
+        message.show("OOPS! EGGS DROPPED")
+        timers[0].stopTicking()
+        timers[2].startTicking()
         if (lifeCount == 0) {
             gameOver()
         }
+    }
+
+    func oops() {
+        message.hide()
+        for egg in lostEggs {
+            egg.removeFromParent()
+        }
+        lostEggs.removeAll(keepCapacity: false)
+        timers[2].stopTicking()
+        timers[0].startTicking()
     }
 
     func gameOver() {
@@ -683,14 +699,19 @@ class GameScene: SKScene {
             }*/
             truck.leave(levelUp)
         }
+        var lost = false
         for i in reverse(0..<eggs.count) {
             var egg = eggs[i]
             if (egg.didFailL(henL.yPos) || egg.didFailR(henR.yPos)) {
                 eggs.removeAtIndex(i)
-                lostLife()
+                lostEggs.append(egg)
+                lost = true
             } else if (egg.move(truck.toY, duration: timers[0]._interval)) {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
+            }
+            if (lost) {
+                lostLife()
             }
             if (egg.didScore()) {
                 scoreLabel.add(1)
