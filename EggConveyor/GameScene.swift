@@ -205,6 +205,7 @@ class Score: MyLabelNode {
             text = "Score: " + String(score)
         }
     }
+    var lastMiss:Int = 0
 
     override init(parent: GameScene) {
         super.init(parent: parent)
@@ -216,8 +217,19 @@ class Score: MyLabelNode {
         score = _score
     }
 
-    func add (n: Int) { // += oeprator cannot be declared yet...
+    func add(n: Int, chance:() -> Bool) {
+        if (score - lastMiss >= 300) {
+            if (chance()) {
+                lastMiss = score // if there are lost lives, get a life back
+            } else {
+                score += n // if no life is lost, double the gain
+            }
+        }
         score += n
+    }
+
+    func lostLife() {
+        lastMiss = score
     }
 }
 
@@ -612,20 +624,24 @@ class GameScene: SKScene {
         reset()
     }
 
-    func gainLife() {
+    func gainLife() -> Bool {
         if (lifeCount < lifes.count) {
             lifes[lifeCount++].show()
+            return true
         }
+        return false
     }
 
     func lostLife() {
         lifes[--lifeCount].hide()
         message.show("OOPS! EGGS DROPPED")
-        timers[0].stopTicking()
-        timers[2].startTicking()
+        scoreLabel.lostLife()
         if (lifeCount == 0) {
             gameOver()
+            return
         }
+        timers[0].stopTicking()
+        timers[2].startTicking()
     }
 
     func oops() {
@@ -686,7 +702,7 @@ class GameScene: SKScene {
             truck.start()
         } else if (truck.eggs.count == 12) {
             timers[0].stopTicking()
-            scoreLabel.add(10)
+            scoreLabel.add(10, chance:gainLife)
             // remove edge entries
             /*
             for i in reverse(0..<eggs.count) {
@@ -710,12 +726,12 @@ class GameScene: SKScene {
                 eggs.removeAtIndex(i)
                 truck.eggs.append(egg)
             }
-            if (lost) {
-                lostLife()
-            }
             if (egg.didScore()) {
-                scoreLabel.add(1)
+                scoreLabel.add(1, chance:gainLife)
             }
+        }
+        if (lost) {
+            lostLife()
         }
         if (dispatcher.dispatch()) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
@@ -755,7 +771,6 @@ class GameScene: SKScene {
             }
             var hen = (location.x < centerX) ? henL : henR
             hen.move(location.y)
-            gainLife()
         }
     }
 
