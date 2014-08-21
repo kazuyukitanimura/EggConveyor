@@ -202,7 +202,7 @@ class Score: MyLabelNode {
 
     var score:Int = 0 {
         didSet {
-            text = "Score: " + String(score)
+            text = "Score " + String(score)
         }
     }
     var lastMiss:Int = 0
@@ -340,9 +340,9 @@ class Pause: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     init(parent: GameScene) {
-        super.init(parent: parent, image: "egg_01")
-        setScale(0.5)
-        anchorPoint = CGPointMake(1.0, 1.0)
+        super.init(parent: parent, image: "pausebutton")
+        setScale(0.4)
+        anchorPoint = CGPointMake(1.4, 1.4)
         name = "pause"
         zPosition = 1.0
     }
@@ -649,10 +649,6 @@ class GameScene: SKScene {
         lifes[--lifeCount].hide()
         message.show("OOPS! EGGS DROPPED")
         scoreLabel.lostLife()
-        if (lifeCount == 0) {
-            gameOver()
-            return
-        }
         timers[0].stopTicking()
         timers[2].startTicking()
     }
@@ -664,13 +660,17 @@ class GameScene: SKScene {
         }
         lostEggs.removeAll(keepCapacity: false)
         timers[2].stopTicking()
+        if (lifeCount == 0) {
+            gameOver()
+            return
+        }
         timers[0].startTicking()
     }
 
     func gameOver() {
         timers[0].stopTicking()
         truck.stop()
-        message.show("GAME OVER!\nBEST SCORE: \(scoreLabel.bestScore)")
+        message.show("GAME OVER!\nBEST SCORE \(scoreLabel.bestScore)")
         gameState = .end
     }
 
