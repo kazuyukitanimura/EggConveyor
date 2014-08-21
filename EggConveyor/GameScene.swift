@@ -206,6 +206,18 @@ class Score: MyLabelNode {
         }
     }
     var lastMiss:Int = 0
+    var bestScore:Int {
+        get {
+            let ret = NSUserDefaults.standardUserDefaults().objectForKey("bestScore") as Int?
+            return (ret == nil) ? 0 : ret!
+        }
+        set {
+            if (bestScore < score) {
+                NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "bestScore")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
 
     override init(parent: GameScene) {
         super.init(parent: parent)
@@ -230,6 +242,7 @@ class Score: MyLabelNode {
 
     func lostLife() {
         lastMiss = score
+        bestScore = score
     }
 }
 
@@ -329,7 +342,7 @@ class Pause: MySpriteNode {
     init(parent: GameScene) {
         super.init(parent: parent, image: "egg_01")
         setScale(0.5)
-        anchorPoint = CGPointMake(1.0, 0.5)
+        anchorPoint = CGPointMake(1.0, 1.0)
         name = "pause"
         zPosition = 1.0
     }
@@ -618,7 +631,7 @@ class GameScene: SKScene {
 
         // Pause
         let pause = Pause(parent: self)
-        pause.position = CGPoint(x:centerX * 2.0, y:centerY)
+        pause.position = CGPoint(x:centerX * 2.0, y:lifes[0].frame.minY)
         pause.show()
 
         reset()
@@ -657,7 +670,7 @@ class GameScene: SKScene {
     func gameOver() {
         timers[0].stopTicking()
         truck.stop()
-        message.show("GAME OVER!")
+        message.show("GAME OVER!\nBEST SCORE: \(scoreLabel.bestScore)")
         gameState = .end
     }
 
