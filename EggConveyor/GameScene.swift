@@ -340,11 +340,19 @@ class Pause: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     init(parent: GameScene) {
-        super.init(parent: parent, image: "pausebutton")
-        setScale(0.4)
-        anchorPoint = CGPointMake(1.4, 1.4)
+        super.init(parent: parent, image: "pause")
+        setScale(0.3)
+        anchorPoint = CGPointMake(1.2, 1.4)
         name = "pause"
         zPosition = 1.0
+        let pauseLetter = MyLabelNode(parent: parent)
+        pauseLetter.removeFromParent()
+        pauseLetter.fontSize = 110
+        pauseLetter.text = "| |"
+        addChild(pauseLetter)
+        pauseLetter.show()
+        pauseLetter.position = CGPoint(x:-174, y:-260)
+        pauseLetter.name = "pause"
     }
 }
 
