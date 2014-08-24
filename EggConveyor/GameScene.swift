@@ -9,7 +9,7 @@
 import SpriteKit
 
 enum GameState {
-    case first, play, end
+    case first, play, end, retry
 }
 
 enum EggState {
@@ -360,6 +360,7 @@ class ScoreBoard: MySpriteNode {
     init(parent: GameScene) {
         super.init(parent: parent, image: "scoreboard")
         setScale(0.7)
+        zPosition = 1.0
     }
 
     func show(score:Int, bestScore:Int) {
@@ -367,12 +368,12 @@ class ScoreBoard: MySpriteNode {
         let gameOver = MyLabelNode(parent: self)
         gameOver.fontSize = fontSize
         gameOver.text = "GAME OVER!"
-        gameOver.position = CGPoint(x: 0, y: 300)
+        gameOver.position = CGPoint(x: 0, y: 280)
         gameOver.show()
         let scoreLabel = MyLabelNode(parent: self)
         scoreLabel.fontSize = fontSize
         scoreLabel.text = "SCORE  \(score)"
-        scoreLabel.position = CGPoint(x: 0, y: 150)
+        scoreLabel.position = CGPoint(x: 0, y: 140)
         scoreLabel.show()
         let bestScoreLabel = MyLabelNode(parent: self)
         bestScoreLabel.fontSize = fontSize
@@ -380,6 +381,12 @@ class ScoreBoard: MySpriteNode {
         bestScoreLabel.position = CGPoint(x: 0, y: 0)
         bestScoreLabel.show()
         show()
+        runAction(SKAction.moveToX(parent.frame.midX, duration: 2.0))
+    }
+
+    override func hide() {
+        removeAllChildren()
+        super.hide()
     }
 }
 
@@ -671,7 +678,7 @@ class GameScene: SKScene {
 
         // score board
         scoreBoard = ScoreBoard(parent: self)
-        scoreBoard.position = CGPoint(x:centerX, y:centerY)
+        scoreBoard.position = CGPoint(x:centerX * 3.0, y:centerY)
 
         reset()
     }
@@ -688,6 +695,9 @@ class GameScene: SKScene {
         lifes[--lifeCount].hide()
         message.show("OOPS! EGGS DROPPED")
         scoreLabel.lostLife()
+        if (lifeCount == 0) {
+            scoreBoard.show(scoreLabel.score, bestScore: scoreLabel.bestScore)
+        }
         timers[0].stopTicking()
         timers[2].startTicking()
     }
@@ -710,12 +720,11 @@ class GameScene: SKScene {
         timers[0].stopTicking()
         truck.stop()
         pause.hide()
-        scoreBoard.show(scoreLabel.score, bestScore: scoreLabel.bestScore)
         scoreLabel.hide()
-        gameState = .end
+        gameState = .retry
     }
 
-    func reset() {
+    func retry() {
         timers[0].stopTicking()
         truck.stop()
         truck.reset()
@@ -729,10 +738,17 @@ class GameScene: SKScene {
         lifeCount = maxLifes
         scoreLabel.set(0)
         level = 1
-        gameState = .first
         pause.show()
         scoreBoard.hide()
         scoreLabel.show()
+        gameState = .play
+        timers[0]._interval = onPlayInterval
+        dispatcher._rate = 9
+    }
+
+    func reset() {
+        retry()
+        gameState = .first
         message.show("TAP TO START!")
     }
 
@@ -806,6 +822,11 @@ class GameScene: SKScene {
         if (gameState == .first) {
             message.hide()
             gameState = .play
+            firstEgg()
+            levelUp()
+            return
+        } else if (gameState == .retry) {
+            retry()
             firstEgg()
             levelUp()
             return
