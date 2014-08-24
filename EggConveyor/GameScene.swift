@@ -30,7 +30,7 @@ class MyLabelNode: SKLabelNode {
         super.init(coder: coder)
     }
 
-    init(parent: GameScene) {
+    init(parent: SKNode) {
         super.init()
         fontName = "Chalkduster"
         hide()
@@ -52,7 +52,7 @@ class MySpriteNode: SKSpriteNode {
         super.init(coder: coder)
     }
 
-    init(parent: GameScene, image: String) {
+    init(parent: SKNode, image: String) {
         let texture = SKTexture(imageNamed: image)
         let color = UIColor()
         super.init(texture: texture, color: color, size: texture.size())
@@ -186,7 +186,7 @@ class Hen: MySpriteNode {
 class Message: MyLabelNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
-    override init(parent: GameScene) {
+    override init(parent: SKNode) {
         super.init(parent: parent)
         fontSize = 65
     }
@@ -202,7 +202,7 @@ class Score: MyLabelNode {
 
     var score:Int = 0 {
         didSet {
-            text = "Score " + String(score)
+            text = "SCORE " + String(score)
         }
     }
     var lastMiss:Int = 0
@@ -219,7 +219,7 @@ class Score: MyLabelNode {
         }
     }
 
-    override init(parent: GameScene) {
+    override init(parent: SKNode) {
         super.init(parent: parent)
         fontSize = 30
         set(score)
@@ -324,7 +324,7 @@ class Life: MySpriteNode {
     init(parent: GameScene) {
         super.init(parent: parent, image: "egg_01")
         setScale(0.3)
-        anchorPoint = CGPointMake(0.5, 1.0)
+        anchorPoint = CGPointMake(0.5, 1.2)
         //_lifes.append(self)
     }
 /*
@@ -342,17 +342,44 @@ class Pause: MySpriteNode {
     init(parent: GameScene) {
         super.init(parent: parent, image: "pause")
         setScale(0.3)
-        anchorPoint = CGPointMake(1.2, 1.4)
+        anchorPoint = CGPointMake(1.2, 1.3)
         name = "pause"
         zPosition = 1.0
-        let pauseLetter = MyLabelNode(parent: parent)
-        pauseLetter.removeFromParent()
+        let pauseLetter = MyLabelNode(parent: self)
         pauseLetter.fontSize = 110
         pauseLetter.text = "| |"
-        addChild(pauseLetter)
-        pauseLetter.show()
-        pauseLetter.position = CGPoint(x:-174, y:-260)
+        pauseLetter.position = CGPoint(x:-174, y:-236)
         pauseLetter.name = "pause"
+        pauseLetter.show()
+    }
+}
+
+class ScoreBoard: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "scoreboard")
+        setScale(0.7)
+    }
+
+    func show(score:Int, bestScore:Int) {
+        let fontSize:CGFloat = 82
+        let gameOver = MyLabelNode(parent: self)
+        gameOver.fontSize = fontSize
+        gameOver.text = "GAME OVER!"
+        gameOver.position = CGPoint(x: 0, y: 300)
+        gameOver.show()
+        let scoreLabel = MyLabelNode(parent: self)
+        scoreLabel.fontSize = fontSize
+        scoreLabel.text = "SCORE  \(score)"
+        scoreLabel.position = CGPoint(x: 0, y: 150)
+        scoreLabel.show()
+        let bestScoreLabel = MyLabelNode(parent: self)
+        bestScoreLabel.fontSize = fontSize
+        bestScoreLabel.text = "BEST SCORE  \(bestScore)"
+        bestScoreLabel.position = CGPoint(x: 0, y: 0)
+        bestScoreLabel.show()
+        show()
     }
 }
 
@@ -466,7 +493,7 @@ class GameScene: SKScene {
     var gameState:GameState!
     var onPlayInterval:Double = 0.9 // sec
     var offPlayInterval:Double = 1.0 // sec
-    var oopsInterval:Double = 4.0 // sec
+    var oopsInterval:Double = 3.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
     var lostEggs = [Egg]()
@@ -475,28 +502,30 @@ class GameScene: SKScene {
     var level = 1
     var messages = [String]()
     var timers = [Timer]()
+    var pause:Pause!
+    var scoreBoard:ScoreBoard!
 
     override func didMoveToView(view: SKView) {
-        centerX = CGRectGetMidX(self.frame)
-        centerY = CGRectGetMidY(self.frame)
+        centerX = frame.midX
+        centerY = frame.midY
         let ground = centerY - screenHeight * 0.5
-        step1Y = self.frame.size.height * 0.24
-        step2Y = self.frame.size.height * 0.46
-        step3Y = self.frame.size.height * 0.68
-        step4Y = self.frame.size.height * 0.13
-        step5Y = self.frame.size.height * 0.35
-        step6Y = self.frame.size.height * 0.57
+        step1Y = frame.size.height * 0.24
+        step2Y = frame.size.height * 0.46
+        step3Y = frame.size.height * 0.68
+        step4Y = frame.size.height * 0.13
+        step5Y = frame.size.height * 0.35
+        step6Y = frame.size.height * 0.57
 
         // background
         let backGround = SKSpriteNode(imageNamed: "background")
-        self.addChild(backGround)
+        addChild(backGround)
         backGround.position = CGPoint(x:centerX, y:centerY)
 
         // tower
         let tower = SKSpriteNode(imageNamed: "tower")
         tower.setScale(screenHeight / tower.size.height)
         tower.position = CGPoint(x:centerX, y:centerY - 10.0)
-        self.addChild(tower)
+        addChild(tower)
 
         // step
         let step1 = SKSpriteNode(imageNamed: "steel_01")
@@ -518,12 +547,12 @@ class GameScene: SKScene {
         step4.position = CGPoint(x:centerX * 1.6, y:step4Y)
         step5.position = CGPoint(x:centerX * 1.6, y:step5Y)
         step6.position = CGPoint(x:centerX * 1.6, y:step6Y)
-        self.addChild(step1)
-        self.addChild(step2)
-        self.addChild(step3)
-        self.addChild(step4)
-        self.addChild(step5)
-        self.addChild(step6)
+        addChild(step1)
+        addChild(step2)
+        addChild(step3)
+        addChild(step4)
+        addChild(step5)
+        addChild(step6)
 
         // conveyor
         var conveyor = Conveyor(parent: self)
@@ -622,7 +651,6 @@ class GameScene: SKScene {
         scoreLabel = Score(parent: self)
         scoreLabel.position.x = centerX * 2.0 - scoreLabel.frame.size.width
         scoreLabel.position.y = screenHeight + ground - scoreLabel.frame.size.height
-        scoreLabel.show()
 
         // life
         for i in 0..<maxLifes {
@@ -638,9 +666,12 @@ class GameScene: SKScene {
         timers.append(Timer(interval: oopsInterval, onTick: oops))
 
         // Pause
-        let pause = Pause(parent: self)
+        pause = Pause(parent: self)
         pause.position = CGPoint(x:centerX * 2.0, y:lifes[0].frame.minY)
-        pause.show()
+
+        // score board
+        scoreBoard = ScoreBoard(parent: self)
+        scoreBoard.position = CGPoint(x:centerX, y:centerY)
 
         reset()
     }
@@ -678,7 +709,9 @@ class GameScene: SKScene {
     func gameOver() {
         timers[0].stopTicking()
         truck.stop()
-        message.show("GAME OVER!\nBEST SCORE \(scoreLabel.bestScore)")
+        pause.hide()
+        scoreBoard.show(scoreLabel.score, bestScore: scoreLabel.bestScore)
+        scoreLabel.hide()
         gameState = .end
     }
 
@@ -697,6 +730,9 @@ class GameScene: SKScene {
         scoreLabel.set(0)
         level = 1
         gameState = .first
+        pause.show()
+        scoreBoard.hide()
+        scoreLabel.show()
         message.show("TAP TO START!")
     }
 
