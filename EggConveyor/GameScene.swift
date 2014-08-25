@@ -404,6 +404,7 @@ class ScoreBoard: MySpriteNode {
         let twitter = MyLabelNode(parent: borderT)
         twitter.fontSize = 160
         twitter.text = "t"
+        twitter.fontColor = SKColor(red: 0.0/255.0, green: 172.0/255.0, blue: 237.0/255.0, alpha: 1.0)
         twitter.xScale = 2.0
         twitter.position = CGPoint(x: -60, y: 40)
         twitter.show()
@@ -415,6 +416,7 @@ class ScoreBoard: MySpriteNode {
         let facebook = MyLabelNode(parent: borderF)
         facebook.fontSize = 118
         facebook.text = "f"
+        facebook.fontColor = SKColor(red: 99.0/255.0, green: 129.0/255.0, blue: 192.0/255.0, alpha: 1.0)
         facebook.xScale = 2.0
         facebook.position = CGPoint(x: -60, y: 60)
         facebook.show()
