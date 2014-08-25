@@ -230,12 +230,10 @@ class Score: MyLabelNode {
     }
 
     func add(n: Int, chance:() -> Bool) {
-        if (score - lastMiss >= 300) {
-            if (chance()) {
-                lastMiss = score // if there are lost lives, get a life back
-            } else {
-                score += n // if no life is lost, double the gain
-            }
+        if (score % 300 == 0 && chance()) {
+            lastMiss = score // if there are lost lives, get a life back
+        } else if (score - lastMiss >= 300) {
+            score += n // if no life is lost, double the gain
         }
         score += n
     }
@@ -249,7 +247,7 @@ class Score: MyLabelNode {
 class Egg: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
-    let scale:CGFloat = 0.18
+    let scale:CGFloat = 0.22
     var eggState:EggState = .none {
         didSet {
             texture = eggStates[eggState]
@@ -813,9 +811,9 @@ class GameScene: SKScene {
     }
 
     func onPlay() {
-        if (truck.eggs.count == 11) {
+        if (truck.eggs.count == 9) {
             truck.start()
-        } else if (truck.eggs.count == 12) {
+        } else if (truck.eggs.count == 10) {
             timers[0].stopTicking()
             scoreLabel.add(10, chance:gainLife)
             // remove edge entries
