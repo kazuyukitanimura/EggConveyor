@@ -380,6 +380,21 @@ class ScoreBoard: MySpriteNode {
         bestScoreLabel.text = "BEST SCORE  \(bestScore)"
         bestScoreLabel.position = CGPoint(x: 0, y: 0)
         bestScoreLabel.show()
+        let twitter = MyLabelNode(parent: self)
+        twitter.fontSize = 110
+        twitter.text = "t"
+        twitter.position = CGPoint(x: -320, y: -320)
+        twitter.show()
+        let facebook = MyLabelNode(parent: self)
+        facebook.fontSize = 80
+        facebook.text = "f"
+        facebook.position = CGPoint(x: -120, y: -310)
+        facebook.show()
+        let retryLabel = MyLabelNode(parent: self)
+        retryLabel.fontSize = 74
+        retryLabel.text = "\u{21BB}RETRY"
+        retryLabel.position = CGPoint(x: 260, y: -310)
+        retryLabel.show()
         show()
         runAction(SKAction.moveToX(parent.frame.midX, duration: 2.0))
     }
@@ -499,7 +514,7 @@ class GameScene: SKScene {
     var lifes = [Life]()
     var gameState:GameState!
     var onPlayInterval:Double = 0.9 // sec
-    var offPlayInterval:Double = 1.0 // sec
+    var offPlayInterval:Double = 0.8 // sec
     var oopsInterval:Double = 3.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
@@ -693,7 +708,7 @@ class GameScene: SKScene {
 
     func lostLife() {
         lifes[--lifeCount].hide()
-        message.show("OOPS! EGGS DROPPED")
+        message.show("OOPS! DROPPED!")
         scoreLabel.lostLife()
         if (lifeCount == 0) {
             scoreBoard.show(scoreLabel.score, bestScore: scoreLabel.bestScore)
@@ -754,7 +769,7 @@ class GameScene: SKScene {
 
     func levelUp() {
         timers[1].startTicking()
-        messages = ["GO!", "READY", "LEVEL \(level++)"]
+        messages = ["GO!", "SET", "READY", "LEVEL \(level++)"]
         countDown = messages.count
         timers[0]._interval = max(NSTimeInterval(0.4), timers[0]._interval - NSTimeInterval(0.1))
         dispatcher._rate = max(1, dispatcher._rate - 1)
