@@ -406,7 +406,7 @@ class ScoreBoard: MySpriteNode {
         borderF.name = "facebook"
         borderF.show()
         let facebook = MyLabelNode(parent: borderF)
-        facebook.fontSize = 116
+        facebook.fontSize = 118
         facebook.text = "f"
         facebook.xScale = 2.0
         facebook.position = CGPoint(x: -60, y: 60)
@@ -420,7 +420,7 @@ class ScoreBoard: MySpriteNode {
         retryLabel.fontSize = 110
         retryLabel.text = "\u{21BB} RETRY"
         retryLabel.xScale = 0.4
-        retryLabel.position = CGPoint(x: -60, y: 70)
+        retryLabel.position = CGPoint(x: -60, y: 68)
         retryLabel.show()
         show()
         runAction(SKAction.moveToX(parent.frame.midX, duration: 1.5))
