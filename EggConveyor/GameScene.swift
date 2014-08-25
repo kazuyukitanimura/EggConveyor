@@ -372,12 +372,12 @@ class ScoreBoard: MySpriteNode {
         gameOver.show()
         let scoreLabel = MyLabelNode(parent: self)
         scoreLabel.fontSize = fontSize
-        scoreLabel.text = "SCORE  \(score)"
+        scoreLabel.text = "SCORE \(score)"
         scoreLabel.position = CGPoint(x: 0, y: 140)
         scoreLabel.show()
         let bestScoreLabel = MyLabelNode(parent: self)
         bestScoreLabel.fontSize = fontSize
-        bestScoreLabel.text = "BEST SCORE  \(bestScore)"
+        bestScoreLabel.text = "PERSONAL BEST \(bestScore)"
         bestScoreLabel.position = CGPoint(x: 0, y: 0)
         bestScoreLabel.show()
         let twitter = MyLabelNode(parent: self)
@@ -396,7 +396,7 @@ class ScoreBoard: MySpriteNode {
         retryLabel.position = CGPoint(x: 260, y: -310)
         retryLabel.show()
         show()
-        runAction(SKAction.moveToX(parent.frame.midX, duration: 2.0))
+        runAction(SKAction.moveToX(parent.frame.midX, duration: 1.5))
     }
 
     override func hide() {
