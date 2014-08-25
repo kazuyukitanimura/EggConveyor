@@ -354,13 +354,22 @@ class Pause: MySpriteNode {
     }
 }
 
+class ChalkBorder: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    init(parent: SKNode) {
+        super.init(parent: parent, image: "border")
+        setScale(0.4)
+    }
+}
+
 class ScoreBoard: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     init(parent: GameScene) {
         super.init(parent: parent, image: "scoreboard")
         setScale(0.7)
-        zPosition = 1.0
+        zPosition = 2.0
     }
 
     func show(score:Int, bestScore:Int) {
@@ -372,7 +381,7 @@ class ScoreBoard: MySpriteNode {
         gameOver.show()
         let scoreLabel = MyLabelNode(parent: self)
         scoreLabel.fontSize = fontSize
-        scoreLabel.text = "SCORE \(score)"
+        scoreLabel.text = ((score != bestScore) ? "SCORE \(score)" : "CONGRATS! NEW")
         scoreLabel.position = CGPoint(x: 0, y: 140)
         scoreLabel.show()
         let bestScoreLabel = MyLabelNode(parent: self)
@@ -395,6 +404,9 @@ class ScoreBoard: MySpriteNode {
         retryLabel.text = "\u{21BB}RETRY"
         retryLabel.position = CGPoint(x: 260, y: -310)
         retryLabel.show()
+        let border = ChalkBorder(parent: self)
+        border.position = CGPoint(x: 0, y: 0)
+        border.show()
         show()
         runAction(SKAction.moveToX(parent.frame.midX, duration: 1.5))
     }
