@@ -372,6 +372,8 @@ class ScoreBoard: MySpriteNode {
 
     func show(score:Int, bestScore:Int) {
         let fontSize:CGFloat = 82
+        let newRecordColor = SKColor(red: 216.0/255.0, green: 121.0/255.0, blue: 118.0/255.0, alpha: 1.0)
+        let isRecord = score == bestScore
         let gameOver = MyLabelNode(parent: self)
         gameOver.fontSize = fontSize
         gameOver.text = "GAME OVER!"
@@ -379,12 +381,19 @@ class ScoreBoard: MySpriteNode {
         gameOver.show()
         let scoreLabel = MyLabelNode(parent: self)
         scoreLabel.fontSize = fontSize
-        scoreLabel.text = ((score != bestScore) ? "SCORE \(score)" : "CONGRATS! NEW")
+        scoreLabel.text = "SCORE \(score)"
+        if (isRecord) {
+            scoreLabel.text = "CONGRATS! NEW"
+            scoreLabel.fontColor = newRecordColor
+        }
         scoreLabel.position = CGPoint(x: 0, y: 140)
         scoreLabel.show()
         let bestScoreLabel = MyLabelNode(parent: self)
         bestScoreLabel.fontSize = fontSize
         bestScoreLabel.text = "PERSONAL BEST \(bestScore)"
+        if (isRecord) {
+            bestScoreLabel.fontColor = newRecordColor
+        }
         bestScoreLabel.position = CGPoint(x: 0, y: 0)
         bestScoreLabel.show()
         let borderT = ChalkBorder(parent: self)
