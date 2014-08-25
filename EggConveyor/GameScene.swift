@@ -359,7 +359,7 @@ class ChalkBorder: MySpriteNode {
 
     init(parent: SKNode) {
         super.init(parent: parent, image: "border")
-        setScale(0.4)
+        setScale(0.6)
     }
 }
 
@@ -389,24 +389,39 @@ class ScoreBoard: MySpriteNode {
         bestScoreLabel.text = "PERSONAL BEST \(bestScore)"
         bestScoreLabel.position = CGPoint(x: 0, y: 0)
         bestScoreLabel.show()
-        let twitter = MyLabelNode(parent: self)
-        twitter.fontSize = 110
+        let borderT = ChalkBorder(parent: self)
+        borderT.position = CGPoint(x: -340, y: -340)
+        borderT.xScale = 0.4
+        borderT.name = "twitter"
+        borderT.show()
+        let twitter = MyLabelNode(parent: borderT)
+        twitter.fontSize = 160
         twitter.text = "t"
-        twitter.position = CGPoint(x: -320, y: -320)
+        twitter.xScale = 2.0
+        twitter.position = CGPoint(x: -60, y: 40)
         twitter.show()
-        let facebook = MyLabelNode(parent: self)
-        facebook.fontSize = 80
+        let borderF = ChalkBorder(parent: self)
+        borderF.position = CGPoint(x: -170, y: -340)
+        borderF.xScale = 0.4
+        borderF.name = "facebook"
+        borderF.show()
+        let facebook = MyLabelNode(parent: borderF)
+        facebook.fontSize = 116
         facebook.text = "f"
-        facebook.position = CGPoint(x: -120, y: -310)
+        facebook.xScale = 2.0
+        facebook.position = CGPoint(x: -60, y: 60)
         facebook.show()
-        let retryLabel = MyLabelNode(parent: self)
-        retryLabel.fontSize = 74
-        retryLabel.text = "\u{21BB}RETRY"
-        retryLabel.position = CGPoint(x: 260, y: -310)
+        let borderR = ChalkBorder(parent: self)
+        borderR.position = CGPoint(x: 310, y: -340)
+        borderR.xScale = 1.6
+        borderR.name = "retry"
+        borderR.show()
+        let retryLabel = MyLabelNode(parent: borderR)
+        retryLabel.fontSize = 110
+        retryLabel.text = "\u{21BB} RETRY"
+        retryLabel.xScale = 0.4
+        retryLabel.position = CGPoint(x: -60, y: 70)
         retryLabel.show()
-        let border = ChalkBorder(parent: self)
-        border.position = CGPoint(x: 0, y: 0)
-        border.show()
         show()
         runAction(SKAction.moveToX(parent.frame.midX, duration: 1.5))
     }
