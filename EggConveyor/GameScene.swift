@@ -254,17 +254,17 @@ class Egg: MySpriteNode {
             (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
         }
     }
-    var currPos:Int = 1 {
+    var currPos:Int = 2 {
         didSet {
-            if (currPos > 36) {
+            if (currPos > 37) {
                 eggState = .pack
-            } else if (currPos > 28) {
+            } else if (currPos > 29) {
                 eggState = .three
-            } else if (currPos > 20) {
+            } else if (currPos > 21) {
                 eggState = .two
-            } else if (currPos > 12) {
+            } else if (currPos > 13) {
                 eggState = .one
-            } else if (currPos > 1) {
+            } else if (currPos > 2) {
                 eggState = .none
             } else {
                 eggState = .broken
@@ -285,30 +285,34 @@ class Egg: MySpriteNode {
             runAction(SKAction.moveToY(toY, duration: duration - NSTimeInterval(0.1)))
             return true
         }
-        if (++currPos == 2) {
+        if (++currPos == 3) {
             show()
         }
         return false
     }
 
     func didFailL(henY: Int) -> Bool {
-        if ((henY != 0 && currPos == 12) || (henY != 1 && currPos == 28) || (henY != 2 && currPos == 44)) {
-            currPos = 1
+        if ((henY != 0 && currPos == 13) || (henY != 1 && currPos == 29) || (henY != 2 && currPos == 45)) {
+            currPos = 2
             return true
         }
         return false
     }
 
     func didFailR(henY: Int) -> Bool {
-        if ((henY != 0 && currPos == 4) || (henY != 1 && currPos == 20) || (henY != 2 && currPos == 36)) {
+        if (henY != 0 && currPos == 5) {
             currPos = 0
+            return true
+        }
+        if ((henY != 1 && currPos == 21) || (henY != 2 && currPos == 37)) {
+            currPos = 1
             return true
         }
         return false
     }
 
     func didScore() -> Bool {
-        return isOneOf(currPos, [5, 13, 21, 29, 37, 45])
+        return isOneOf(currPos, [6, 14, 22, 30, 38, 46])
     }
 }
 
@@ -652,52 +656,53 @@ class GameScene: SKScene {
 
         // egg
         eggPoses = [
-            CGPoint(x:centerX * 1.60, y:step4Y), // 0 broken
-            CGPoint(x:centerX * 0.51, y:step4Y), // 1 broken
-            CGPoint(x:centerX * 2.00, y:step1Y + conveyor.size.height * 0.5), // 2 - 0
-            CGPoint(x:centerX * 1.87, y:step1Y + conveyor.size.height * 0.5), // 3 - 0
-            CGPoint(x:centerX * 1.74, y:step1Y + conveyor.size.height * 0.5), // 4 - 0
-            CGPoint(x:centerX * 1.45, y:step1Y + conveyor.size.height * 0.5), // 5 - 1
-            CGPoint(x:centerX * 1.32, y:step1Y + conveyor.size.height * 0.5), // 6 - 1
-            CGPoint(x:centerX * 1.19, y:step1Y + conveyor.size.height * 0.5), // 7 - 1
-            CGPoint(x:centerX * 1.06, y:step1Y + conveyor.size.height * 0.5), // 8 - 1
-            CGPoint(x:centerX * 0.93, y:step1Y + conveyor.size.height * 0.5), // 9 - 1
-            CGPoint(x:centerX * 0.80, y:step1Y + conveyor.size.height * 0.5), // 10 - 1
-            CGPoint(x:centerX * 0.67, y:step1Y + conveyor.size.height * 0.5), // 11 - 1
-            CGPoint(x:centerX * 0.54, y:step1Y + conveyor.size.height * 0.5), // 12 - 1
-            CGPoint(x:centerX * 0.54, y:step5Y + conveyor.size.height * 0.5), // 13 - 2
-            CGPoint(x:centerX * 0.67, y:step5Y + conveyor.size.height * 0.5), // 14 - 2
-            CGPoint(x:centerX * 0.80, y:step5Y + conveyor.size.height * 0.5), // 15 - 2
-            CGPoint(x:centerX * 0.93, y:step5Y + conveyor.size.height * 0.5), // 16 - 2
-            CGPoint(x:centerX * 1.06, y:step5Y + conveyor.size.height * 0.5), // 17 - 2
-            CGPoint(x:centerX * 1.19, y:step5Y + conveyor.size.height * 0.5), // 18 - 2
-            CGPoint(x:centerX * 1.32, y:step5Y + conveyor.size.height * 0.5), // 19 - 2
-            CGPoint(x:centerX * 1.45, y:step5Y + conveyor.size.height * 0.5), // 20 - 2
-            CGPoint(x:centerX * 1.45, y:step2Y + conveyor.size.height * 0.5), // 21 - 3
-            CGPoint(x:centerX * 1.32, y:step2Y + conveyor.size.height * 0.5), // 22 - 3
-            CGPoint(x:centerX * 1.19, y:step2Y + conveyor.size.height * 0.5), // 23 - 3
-            CGPoint(x:centerX * 1.06, y:step2Y + conveyor.size.height * 0.5), // 24 - 3
-            CGPoint(x:centerX * 0.93, y:step2Y + conveyor.size.height * 0.5), // 25 - 3
-            CGPoint(x:centerX * 0.80, y:step2Y + conveyor.size.height * 0.5), // 26 - 3
-            CGPoint(x:centerX * 0.67, y:step2Y + conveyor.size.height * 0.5), // 27 - 3
-            CGPoint(x:centerX * 0.54, y:step2Y + conveyor.size.height * 0.5), // 28 - 3
-            CGPoint(x:centerX * 0.54, y:step6Y + conveyor.size.height * 0.5), // 29 - 4
-            CGPoint(x:centerX * 0.67, y:step6Y + conveyor.size.height * 0.5), // 30 - 4
-            CGPoint(x:centerX * 0.80, y:step6Y + conveyor.size.height * 0.5), // 31 - 4
-            CGPoint(x:centerX * 0.93, y:step6Y + conveyor.size.height * 0.5), // 32 - 4
-            CGPoint(x:centerX * 1.06, y:step6Y + conveyor.size.height * 0.5), // 33 - 4
-            CGPoint(x:centerX * 1.19, y:step6Y + conveyor.size.height * 0.5), // 34 - 4
-            CGPoint(x:centerX * 1.32, y:step6Y + conveyor.size.height * 0.5), // 35 - 4
-            CGPoint(x:centerX * 1.45, y:step6Y + conveyor.size.height * 0.5), // 36 - 4
-            CGPoint(x:centerX * 1.45, y:step3Y + conveyor.size.height * 0.5), // 37 - 5
-            CGPoint(x:centerX * 1.32, y:step3Y + conveyor.size.height * 0.5), // 38 - 5
-            CGPoint(x:centerX * 1.19, y:step3Y + conveyor.size.height * 0.5), // 39 - 5
-            CGPoint(x:centerX * 1.06, y:step3Y + conveyor.size.height * 0.5), // 40 - 5
-            CGPoint(x:centerX * 0.93, y:step3Y + conveyor.size.height * 0.5), // 41 - 5
-            CGPoint(x:centerX * 0.80, y:step3Y + conveyor.size.height * 0.5), // 42 - 5
-            CGPoint(x:centerX * 0.67, y:step3Y + conveyor.size.height * 0.5), // 43 - 5
-            CGPoint(x:centerX * 0.54, y:step3Y + conveyor.size.height * 0.5), // 44 - 5
-            CGPoint(x:centerX * 0.18, y:step3Y + conveyor.size.height * 0.5), // 45 - 6
+            CGPoint(x:centerX * 1.72, y:ground), // 0 broken
+            CGPoint(x:centerX * 1.48, y:ground), // 1 broken
+            CGPoint(x:centerX * 0.51, y:ground), // 2 broken
+            CGPoint(x:centerX * 2.00, y:step1Y + conveyor.size.height * 0.5), // 3 - 0
+            CGPoint(x:centerX * 1.87, y:step1Y + conveyor.size.height * 0.5), // 4 - 0
+            CGPoint(x:centerX * 1.74, y:step1Y + conveyor.size.height * 0.5), // 5 - 0
+            CGPoint(x:centerX * 1.45, y:step1Y + conveyor.size.height * 0.5), // 6 - 1
+            CGPoint(x:centerX * 1.32, y:step1Y + conveyor.size.height * 0.5), // 7 - 1
+            CGPoint(x:centerX * 1.19, y:step1Y + conveyor.size.height * 0.5), // 8 - 1
+            CGPoint(x:centerX * 1.06, y:step1Y + conveyor.size.height * 0.5), // 9 - 1
+            CGPoint(x:centerX * 0.93, y:step1Y + conveyor.size.height * 0.5), // 10 - 1
+            CGPoint(x:centerX * 0.80, y:step1Y + conveyor.size.height * 0.5), // 11 - 1
+            CGPoint(x:centerX * 0.67, y:step1Y + conveyor.size.height * 0.5), // 12 - 1
+            CGPoint(x:centerX * 0.54, y:step1Y + conveyor.size.height * 0.5), // 13 - 1
+            CGPoint(x:centerX * 0.54, y:step5Y + conveyor.size.height * 0.5), // 14 - 2
+            CGPoint(x:centerX * 0.67, y:step5Y + conveyor.size.height * 0.5), // 15 - 2
+            CGPoint(x:centerX * 0.80, y:step5Y + conveyor.size.height * 0.5), // 16 - 2
+            CGPoint(x:centerX * 0.93, y:step5Y + conveyor.size.height * 0.5), // 17 - 2
+            CGPoint(x:centerX * 1.06, y:step5Y + conveyor.size.height * 0.5), // 18 - 2
+            CGPoint(x:centerX * 1.19, y:step5Y + conveyor.size.height * 0.5), // 19 - 2
+            CGPoint(x:centerX * 1.32, y:step5Y + conveyor.size.height * 0.5), // 20 - 2
+            CGPoint(x:centerX * 1.45, y:step5Y + conveyor.size.height * 0.5), // 21 - 2
+            CGPoint(x:centerX * 1.45, y:step2Y + conveyor.size.height * 0.5), // 22 - 3
+            CGPoint(x:centerX * 1.32, y:step2Y + conveyor.size.height * 0.5), // 23 - 3
+            CGPoint(x:centerX * 1.19, y:step2Y + conveyor.size.height * 0.5), // 24 - 3
+            CGPoint(x:centerX * 1.06, y:step2Y + conveyor.size.height * 0.5), // 25 - 3
+            CGPoint(x:centerX * 0.93, y:step2Y + conveyor.size.height * 0.5), // 26 - 3
+            CGPoint(x:centerX * 0.80, y:step2Y + conveyor.size.height * 0.5), // 27 - 3
+            CGPoint(x:centerX * 0.67, y:step2Y + conveyor.size.height * 0.5), // 28 - 3
+            CGPoint(x:centerX * 0.54, y:step2Y + conveyor.size.height * 0.5), // 29 - 3
+            CGPoint(x:centerX * 0.54, y:step6Y + conveyor.size.height * 0.5), // 20 - 4
+            CGPoint(x:centerX * 0.67, y:step6Y + conveyor.size.height * 0.5), // 31 - 4
+            CGPoint(x:centerX * 0.80, y:step6Y + conveyor.size.height * 0.5), // 32 - 4
+            CGPoint(x:centerX * 0.93, y:step6Y + conveyor.size.height * 0.5), // 33 - 4
+            CGPoint(x:centerX * 1.06, y:step6Y + conveyor.size.height * 0.5), // 34 - 4
+            CGPoint(x:centerX * 1.19, y:step6Y + conveyor.size.height * 0.5), // 35 - 4
+            CGPoint(x:centerX * 1.32, y:step6Y + conveyor.size.height * 0.5), // 36 - 4
+            CGPoint(x:centerX * 1.45, y:step6Y + conveyor.size.height * 0.5), // 37 - 4
+            CGPoint(x:centerX * 1.45, y:step3Y + conveyor.size.height * 0.5), // 38 - 5
+            CGPoint(x:centerX * 1.32, y:step3Y + conveyor.size.height * 0.5), // 39 - 5
+            CGPoint(x:centerX * 1.19, y:step3Y + conveyor.size.height * 0.5), // 40 - 5
+            CGPoint(x:centerX * 1.06, y:step3Y + conveyor.size.height * 0.5), // 41 - 5
+            CGPoint(x:centerX * 0.93, y:step3Y + conveyor.size.height * 0.5), // 42 - 5
+            CGPoint(x:centerX * 0.80, y:step3Y + conveyor.size.height * 0.5), // 43 - 5
+            CGPoint(x:centerX * 0.67, y:step3Y + conveyor.size.height * 0.5), // 44 - 5
+            CGPoint(x:centerX * 0.54, y:step3Y + conveyor.size.height * 0.5), // 45 - 5
+            CGPoint(x:centerX * 0.18, y:step3Y + conveyor.size.height * 0.5), // 46 - 6
         ]
         eggs.append(Egg(parent: self, eggPoses: eggPoses))
 
@@ -831,7 +836,7 @@ class GameScene: SKScene {
             /*
             for i in reverse(0..<eggs.count) {
                 var egg = eggs[i]
-                if (isOneOf(egg.currPos, [4, 12, 20, 28, 36, 44])) {
+                if (isOneOf(egg.currPos, [5, 13, 21, 29, 37, 45])) {
                     scoreLabel.add(1)
                     egg.removeFromParent()
                     eggs.removeAtIndex(i)
