@@ -209,13 +209,12 @@ class Score: MyLabelNode {
     var lastMiss:Int = 0
     var bestScore:Int {
         get {
-            let ret = NSUserDefaults.standardUserDefaults().objectForKey("bestScore") as Int?
+            let ret = kvLoad("bestScore") as Int?
             return ret ?? 0
         }
         set {
             if (bestScore < score) {
-                NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "bestScore")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                kvStore("bestScore", newValue)
             }
         }
     }
@@ -583,6 +582,14 @@ func toHex<T: Comparable>(x: T) -> String {
     return NSString(format:"%2X", (x as Int)) as String
 }
 
+func kvStore(k: String, v: AnyObject) {
+    NSUserDefaults.standardUserDefaults().setObject(v, forKey: k)
+    NSUserDefaults.standardUserDefaults().synchronize()
+}
+
+func kvLoad(k: String) -> AnyObject? {
+    return NSUserDefaults.standardUserDefaults().objectForKey(k)
+}
 
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
@@ -620,15 +627,14 @@ class GameScene: SKScene {
     var taps = [Tap]()
     var UUID:String {
         get {
-            let ret = NSUserDefaults.standardUserDefaults().objectForKey("UUID") as String?
+            let ret = kvLoad("UUID") as String?
             if (ret == nil) {
                 self.UUID = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(arc4random())
             }
             return ret!
         }
         set {
-            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "UUID")
-            NSUserDefaults.standardUserDefaults().synchronize()
+            kvStore("UUID", newValue)
         }
     }
 
