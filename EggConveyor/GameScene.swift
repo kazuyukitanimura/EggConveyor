@@ -170,6 +170,7 @@ class Hen: MySpriteNode {
         setScale(0.35)
         anchorPoint = CGPointMake(0.5, 0.0)
         self.yPoses = yPoses
+        position.y = yPoses[yPos]
     }
 
     func move(toY: CGFloat) {
@@ -390,7 +391,7 @@ class ScoreBoard: MySpriteNode {
             scoreLabel.text = "CONGRATS! NEW"
             scoreLabel.fontColor = newRecordColor
         }
-        scoreLabel.position = CGPoint(x: 0, y: 140)
+        scoreLabel.position = CGPoint(x: 0, y: 150)
         scoreLabel.show()
         let bestScoreLabel = MyLabelNode(parent: self)
         bestScoreLabel.fontSize = fontSize
@@ -398,7 +399,7 @@ class ScoreBoard: MySpriteNode {
         if (isRecord) {
             bestScoreLabel.fontColor = newRecordColor
         }
-        bestScoreLabel.position = CGPoint(x: 0, y: 0)
+        bestScoreLabel.position = CGPoint(x: 0, y: 20)
         bestScoreLabel.show()
         let borderT = ChalkBorder(parent: self)
         borderT.position = CGPoint(x: -340, y: -340)
@@ -442,6 +443,27 @@ class ScoreBoard: MySpriteNode {
     override func hide() {
         removeAllChildren()
         super.hide()
+    }
+}
+
+class Tap: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    var tapLetter:MyLabelNode!
+    init(parent: GameScene) {
+        super.init(parent: parent, image: "tap")
+        setScale(1.0)
+        anchorPoint = CGPointMake(0.5, -1.0)
+        tapLetter = MyLabelNode(parent: self)
+        tapLetter.fontSize = 40
+        tapLetter.text = "TAP"
+        tapLetter.position = CGPoint(x:-7, y:70)
+        tapLetter.show()
+    }
+
+    override func flip() {
+        tapLetter.xScale = -tapLetter.xScale
+        super.flip()
     }
 }
 
@@ -566,6 +588,7 @@ class GameScene: SKScene {
     var timers = [Timer]()
     var pause:Pause!
     var scoreBoard:ScoreBoard!
+    var taps = [Tap]()
 
     override func didMoveToView(view: SKView) {
         centerX = frame.midX
@@ -648,8 +671,6 @@ class GameScene: SKScene {
         henR = Hen(parent: self, yPoses: [step4Y, step5Y, step6Y]) // right hen
         henL.position.x = centerX * 0.4
         henR.position.x = centerX * 1.6
-        henL.yPos = 0
-        henR.yPos = 1
         henL.flip()
         henL.show()
         henR.show()
@@ -736,6 +757,18 @@ class GameScene: SKScene {
         scoreBoard = ScoreBoard(parent: self)
         scoreBoard.position = CGPoint(x:centerX * 3.0, y:centerY)
 
+        // Tap
+        taps.append(Tap(parent: self))
+        taps[0].position = CGPoint(x:centerX * 0.2, y:step1Y)
+        taps.append(Tap(parent: self))
+        taps[1].position = CGPoint(x:centerX * 0.2, y:step3Y)
+        taps.append(Tap(parent: self))
+        taps[2].flip()
+        taps[2].position = CGPoint(x:centerX * 1.8, y:step4Y)
+        taps.append(Tap(parent: self))
+        taps[3].flip()
+        taps[3].position = CGPoint(x:centerX * 1.8, y:step6Y)
+
         reset()
     }
 
@@ -794,7 +827,6 @@ class GameScene: SKScene {
         lifeCount = maxLifes
         scoreLabel.set(0)
         level = 1
-        pause.show()
         scoreBoard.hide()
         scoreLabel.show()
         gameState = .play
@@ -806,9 +838,16 @@ class GameScene: SKScene {
         retry()
         gameState = .first
         message.show("TAP TO START!")
+        for tap in taps {
+            tap.show()
+        }
     }
 
     func levelUp() {
+        for tap in taps {
+            tap.hide()
+        }
+        pause.show()
         timers[1].startTicking()
         messages = ["GO!", "SET", "READY", "LEVEL \(level++)"]
         countDown = messages.count
@@ -880,7 +919,6 @@ class GameScene: SKScene {
             gameState = .play
             firstEgg()
             levelUp()
-            return
         } else if (gameState == .retry) {
             retry()
             firstEgg()
