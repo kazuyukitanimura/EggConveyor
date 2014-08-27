@@ -579,6 +579,10 @@ func isOneOf<T: Comparable>(x: T, among:[T]) -> Bool {
     return find(among, x) != nil
 }
 
+func toHex<T: Comparable>(x: T) -> String {
+    return NSString(format:"%2X", (x as Int)) as String
+}
+
 
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
@@ -614,6 +618,19 @@ class GameScene: SKScene {
     var pause:Pause!
     var scoreBoard:ScoreBoard!
     var taps = [Tap]()
+    var UUID:String {
+        get {
+            let ret = NSUserDefaults.standardUserDefaults().objectForKey("UUID") as String?
+            if (ret == nil) {
+                self.UUID = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(arc4random())
+            }
+            return ret!
+        }
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "UUID")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
 
     override func didMoveToView(view: SKView) {
         centerX = frame.midX
