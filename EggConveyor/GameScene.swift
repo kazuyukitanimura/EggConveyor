@@ -210,7 +210,7 @@ class Score: MyLabelNode {
     var bestScore:Int {
         get {
             let ret = NSUserDefaults.standardUserDefaults().objectForKey("bestScore") as Int?
-            return (ret == nil) ? 0 : ret!
+            return ret ?? 0
         }
         set {
             if (bestScore < score) {
@@ -377,6 +377,7 @@ class ScoreBoard: MySpriteNode {
 
     func show(score:Int, bestScore:Int) {
         let fontSize:CGFloat = 82
+        let fontSizeHalf:CGFloat = 41
         let newRecordColor = SKColor(red: 216.0/255.0, green: 121.0/255.0, blue: 118.0/255.0, alpha: 1.0)
         let isRecord = score == bestScore
         let gameOver = MyLabelNode(parent: self)
@@ -401,6 +402,27 @@ class ScoreBoard: MySpriteNode {
         }
         bestScoreLabel.position = CGPoint(x: 0, y: 20)
         bestScoreLabel.show()
+        let worldBest = MyLabelNode(parent: self)
+        worldBest.fontSize = fontSizeHalf
+        worldBest.text = "WORLD BEST"
+        worldBest.position = CGPoint(x: -280, y: -70)
+        worldBest.show()
+        let worldRank = MyLabelNode(parent: self)
+        worldRank.fontSize = fontSizeHalf
+        worldRank.text = "WORLD RANK"
+        worldRank.position = CGPoint(x: -280, y: -140)
+        worldRank.show()
+        let countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as String
+        let countryBest = MyLabelNode(parent: self)
+        countryBest.fontSize = fontSizeHalf
+        countryBest.text = "\(countryCode) BEST"
+        countryBest.position = CGPoint(x: 170, y: -70)
+        countryBest.show()
+        let countryRank = MyLabelNode(parent: self)
+        countryRank.fontSize = fontSizeHalf
+        countryRank.text = "\(countryCode) RANK"
+        countryRank.position = CGPoint(x: 170, y: -140)
+        countryRank.show()
         let borderT = ChalkBorder(parent: self)
         borderT.position = CGPoint(x: -340, y: -340)
         borderT.xScale = 0.4
@@ -437,7 +459,9 @@ class ScoreBoard: MySpriteNode {
         retryLabel.position = CGPoint(x: -60, y: 68)
         retryLabel.show()
         show()
-        runAction(SKAction.moveToX(parent.frame.midX, duration: 1.5))
+        var slideIn = SKAction.moveToX(parent.frame.midX, duration: 1.5)
+        slideIn.timingMode = .EaseOut
+        runAction(slideIn)
     }
 
     override func hide() {
@@ -459,6 +483,7 @@ class Tap: MySpriteNode {
         tapLetter.text = "TAP"
         tapLetter.position = CGPoint(x:-7, y:70)
         tapLetter.show()
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.moveByX(8.0, y: 0.0, duration: 1.0), SKAction.moveByX(-8.0, y: 0.0, duration: 1.0)])))
     }
 
     override func flip() {
