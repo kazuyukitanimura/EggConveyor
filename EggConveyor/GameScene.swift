@@ -209,14 +209,38 @@ class Score: MyLabelNode {
     var lastMiss:Int = 0
     var bestScore:Int {
         get {
-            let ret = kvLoad("bestScore") as Int?
-            return ret ?? 0
+            return kvLoad("bestScore") as? Int ?? 0
         }
         set {
             if (bestScore < score) {
                 kvStore("bestScore", newValue)
             }
+            SRWebClient.POST("http://validate.jsontest.com")
+                .headers(["Content-Type":"application/x-www-form-urlencoded charset=utf-8"])
+                .data(["json":"[1, 2, 3]"])
+                .send(success, failure:nil)
         }
+    }
+    /*
+    var worldBest:String {
+        get {
+             return kvLoad("worldBest") as? String ?? "... ?"
+        }
+        set {
+            kvStore("worldBest", newValue)
+        }
+    }*/
+    var worldBest = "... ?"
+    var worldRank = "... ?"
+    var countryBest = "... ?"
+    var countryRank = "... ?"
+    func success(response:AnyObject!, status:Int) {
+        //process success response
+        println(response)
+        worldBest = String(arc4random_uniform(12345))
+        worldRank = String(arc4random_uniform(12345))
+        countryBest = String(arc4random_uniform(12345))
+        countryRank = String(arc4random_uniform(12345))
     }
 
     override init(parent: SKNode) {
@@ -374,10 +398,12 @@ class ScoreBoard: MySpriteNode {
         zPosition = 2.0
     }
 
-    func show(score:Int, bestScore:Int) {
+    func show(scoreObj:Score) {
         let fontSize:CGFloat = 82
         let fontSizeHalf:CGFloat = 41
         let newRecordColor = SKColor(red: 216.0/255.0, green: 121.0/255.0, blue: 118.0/255.0, alpha: 1.0)
+        let score = scoreObj.score
+        let bestScore = scoreObj.bestScore
         let isRecord = score == bestScore
         let gameOver = MyLabelNode(parent: self)
         gameOver.fontSize = fontSize
@@ -403,23 +429,23 @@ class ScoreBoard: MySpriteNode {
         bestScoreLabel.show()
         let worldBest = MyLabelNode(parent: self)
         worldBest.fontSize = fontSizeHalf
-        worldBest.text = "WORLD BEST"
+        worldBest.text = "WORLD BEST \(scoreObj.worldBest)"
         worldBest.position = CGPoint(x: -280, y: -70)
         worldBest.show()
         let worldRank = MyLabelNode(parent: self)
         worldRank.fontSize = fontSizeHalf
-        worldRank.text = "WORLD RANK"
+        worldRank.text = "WORLD RANK \(scoreObj.worldRank)"
         worldRank.position = CGPoint(x: -280, y: -140)
         worldRank.show()
         let countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as String
         let countryBest = MyLabelNode(parent: self)
         countryBest.fontSize = fontSizeHalf
-        countryBest.text = "\(countryCode) BEST"
+        countryBest.text = "\(countryCode) BEST \(scoreObj.countryBest)"
         countryBest.position = CGPoint(x: 170, y: -70)
         countryBest.show()
         let countryRank = MyLabelNode(parent: self)
         countryRank.fontSize = fontSizeHalf
-        countryRank.text = "\(countryCode) RANK"
+        countryRank.text = "\(countryCode) RANK \(scoreObj.countryRank)"
         countryRank.position = CGPoint(x: 170, y: -140)
         countryRank.show()
         let borderT = ChalkBorder(parent: self)
@@ -627,7 +653,7 @@ class GameScene: SKScene {
     var taps = [Tap]()
     var UUID:String {
         get {
-            let ret = kvLoad("UUID") as String?
+            let ret = kvLoad("UUID") as? String
             if (ret == nil) {
                 self.UUID = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(arc4random())
             }
@@ -833,7 +859,7 @@ class GameScene: SKScene {
         message.show("OOPS! DROPPED!")
         scoreLabel.lostLife()
         if (lifeCount == 0) {
-            scoreBoard.show(scoreLabel.score, bestScore: scoreLabel.bestScore)
+            scoreBoard.show(scoreLabel)
         }
         timers[0].stopTicking()
         timers[2].startTicking()
