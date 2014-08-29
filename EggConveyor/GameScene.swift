@@ -12,18 +12,6 @@ enum GameState {
     case first, play, end, retry
 }
 
-enum EggState {
-    case none, one, two, three, pack, broken
-}
-let eggStates: [EggState: SKTexture!] = [
-    .none: SKTexture(imageNamed: "egg_02"),
-    .one: SKTexture(imageNamed: "egg_03"),
-    .two: SKTexture(imageNamed: "egg_04"),
-    .three: SKTexture(imageNamed: "egg_05"),
-    .pack: SKTexture(imageNamed: "egg_06"),
-    .broken: SKTexture(imageNamed: "egg_07"),
-]
-
 class MyLabelNode: SKLabelNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
     required init(coder: NSCoder) {
@@ -159,6 +147,21 @@ class Truck: MySpriteNode {
 class Hen: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
+    enum HenState {
+        case normal, cry
+    }
+    let henStates: [HenState: SKTexture!] = [
+        .normal: SKTexture(imageNamed: "hen_01"),
+        .cry: SKTexture(imageNamed: "hen_02"),
+    ]
+
+    let scale:CGFloat = 0.35
+    var henState:HenState = .normal {
+        didSet {
+            texture = henStates[henState]
+            (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
+        }
+    }
     var yPoses:[CGFloat]!
     var yPos:Int = 1 {
         didSet {
@@ -167,7 +170,7 @@ class Hen: MySpriteNode {
     }
     init(parent: GameScene, yPoses: [CGFloat]) {
         super.init(parent: parent, image: "hen_01")
-        setScale(0.35)
+        setScale(scale)
         anchorPoint = CGPointMake(0.5, 0.0)
         self.yPoses = yPoses
         position.y = yPoses[yPos]
@@ -181,6 +184,14 @@ class Hen: MySpriteNode {
         } else {
             yPos = 0
         }
+    }
+
+    func reset() {
+        henState = .normal
+    }
+
+    func cry() {
+        henState = .cry
     }
 }
 
@@ -270,6 +281,18 @@ class Score: MyLabelNode {
 
 class Egg: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
+
+    enum EggState {
+        case none, one, two, three, pack, broken
+    }
+    let eggStates: [EggState: SKTexture!] = [
+        .none: SKTexture(imageNamed: "egg_02"),
+        .one: SKTexture(imageNamed: "egg_03"),
+        .two: SKTexture(imageNamed: "egg_04"),
+        .three: SKTexture(imageNamed: "egg_05"),
+        .pack: SKTexture(imageNamed: "egg_06"),
+        .broken: SKTexture(imageNamed: "egg_07"),
+    ]
 
     let scale:CGFloat = 0.22
     var eggState:EggState = .none {
@@ -858,6 +881,8 @@ class GameScene: SKScene {
         lifes[--lifeCount].hide()
         message.show("OOPS! DROPPED!")
         scoreLabel.lostLife()
+        henL.cry()
+        henR.cry()
         if (lifeCount == 0) {
             scoreBoard.show(scoreLabel)
         }
@@ -876,6 +901,8 @@ class GameScene: SKScene {
             gameOver()
             return
         }
+        henL.reset()
+        henR.reset()
         timers[0].startTicking()
     }
 
