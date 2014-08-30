@@ -148,11 +148,12 @@ class Hen: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     enum HenState {
-        case normal, cry
+        case normal, cry, rest
     }
     let henStates: [HenState: SKTexture!] = [
         .normal: SKTexture(imageNamed: "hen_01"),
         .cry: SKTexture(imageNamed: "hen_02"),
+        .rest: SKTexture(imageNamed: "hen_03"),
     ]
 
     let scale:CGFloat = 0.35
@@ -192,6 +193,10 @@ class Hen: MySpriteNode {
 
     func cry() {
         henState = .cry
+    }
+
+    func rest() {
+        henState = .rest
     }
 }
 
@@ -924,6 +929,8 @@ class GameScene: SKScene {
         for egg in eggs {
             egg.removeFromParent()
         }
+        henL.reset()
+        henR.reset()
         eggs.removeAll(keepCapacity: true)
         lifeCount = maxLifes
         scoreLabel.set(0)
@@ -959,6 +966,8 @@ class GameScene: SKScene {
     func offPlay() {
         if (countDown-- == 0) {
             message.hide()
+            henL.reset()
+            henR.reset()
             timers[1].stopTicking()
             timers[0].startTicking()
         } else {
@@ -982,6 +991,8 @@ class GameScene: SKScene {
                     eggs.removeAtIndex(i)
                 }
             }*/
+            henL.rest()
+            henR.rest()
             truck.leave(levelUp)
         }
         var lost = false
