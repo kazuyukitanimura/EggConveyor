@@ -1059,7 +1059,6 @@ class GameScene: SKScene {
                     } else {
                         message.hide()
                     }
-                    break
                 //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
                 } else if (node.name == "Twitter" || node.name == "Facebook") {
                     if  SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name]) {
