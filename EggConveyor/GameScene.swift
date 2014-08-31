@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import Social
 
 enum GameState {
     case first, play, end, retry
@@ -479,7 +480,7 @@ class ScoreBoard: MySpriteNode {
         let borderT = ChalkBorder(parent: self)
         borderT.position = CGPoint(x: -340, y: -340)
         borderT.xScale = 0.4
-        borderT.name = "twitter"
+        borderT.name = "Twitter"
         borderT.show()
         let twitter = MyLabelNode(parent: borderT)
         twitter.fontSize = 160
@@ -487,11 +488,12 @@ class ScoreBoard: MySpriteNode {
         twitter.fontColor = SKColor(red: 0.0/255.0, green: 172.0/255.0, blue: 237.0/255.0, alpha: 1.0)
         twitter.xScale = 2.0
         twitter.position = CGPoint(x: -60, y: 40)
+        twitter.name = "Twitter"
         twitter.show()
         let borderF = ChalkBorder(parent: self)
         borderF.position = CGPoint(x: -170, y: -340)
         borderF.xScale = 0.4
-        borderF.name = "facebook"
+        borderF.name = "Facebook"
         borderF.show()
         let facebook = MyLabelNode(parent: borderF)
         facebook.fontSize = 118
@@ -499,6 +501,7 @@ class ScoreBoard: MySpriteNode {
         facebook.fontColor = SKColor(red: 99.0/255.0, green: 129.0/255.0, blue: 192.0/255.0, alpha: 1.0)
         facebook.xScale = 2.0
         facebook.position = CGPoint(x: -60, y: 60)
+        facebook.name = "Facebook"
         facebook.show()
         let borderR = ChalkBorder(parent: self)
         borderR.position = CGPoint(x: 310, y: -340)
@@ -994,6 +997,7 @@ class GameScene: SKScene {
             henL.rest()
             henR.rest()
             truck.leave(levelUp)
+            return
         }
         var lost = false
         for i in reverse(0..<eggs.count) {
@@ -1041,15 +1045,31 @@ class GameScene: SKScene {
             return
         }
 
-
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             let node:SKNode = nodeAtPoint(location)
-            if (node.name != nil && node.name == "pause") {
-                if (timers[0].toggle()) {
-                    message.show("PAUSED")
-                } else {
-                    message.hide()
+            if (node.name != nil) {
+                var slServiceTypes = [
+                    "Twitter": SLServiceTypeTwitter,
+                    "Facebook": SLServiceTypeFacebook
+                ]
+                if (node.name == "pause") {
+                    if (timers[0].toggle()) {
+                        message.show("PAUSED")
+                    } else {
+                        message.hide()
+                    }
+                    break
+                //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
+                } else if (node.name == "Twitter" || node.name == "Facebook") {
+                    if  SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name]) {
+                        var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[node.name])
+                        tweetSheet.setInitialText("Got \(scoreLabel.score) on TapEgg!")
+                        //self.presentViewController(tweetSheet, animated: true, completion: nil)
+                    } else {
+                        UIAlertView(title: "\(node.name) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
+                        return
+                    }
                 }
                 break
             }
