@@ -13,6 +13,12 @@ enum GameState {
     case first, play, end, retry
 }
 
+extension SKAction {
+    class func moveByY (_deltaY: CGFloat, duration: NSTimeInterval) -> SKAction! {
+        return SKAction.moveBy(CGVectorMake(0, _deltaY), duration: duration)
+    }
+}
+
 class MyLabelNode: SKLabelNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
     required init(coder: NSCoder) {
@@ -270,13 +276,15 @@ class Score: MyLabelNode {
         score = _score
     }
 
-    func add(n: Int, chance:() -> Bool) {
+    func add(n: Int, chance:() -> Bool) -> Int {
+        var plus = n
         if (score % 300 == 0 && chance()) {
             lastMiss = score // if there are lost lives, get a life back
         } else if (score - lastMiss >= 300) {
-            score += n // if no life is lost, double the gain
+            plus *= 2 // if no life is lost, double the gain
         }
-        score += n
+        score += plus
+        return plus
     }
 
     func lostLife() {
@@ -309,7 +317,9 @@ class Egg: MySpriteNode {
     }
     var currPos:Int = 2 {
         didSet {
-            if (currPos > 37) {
+            if (currPos >= _eggPoses.count) {
+                return
+            } else if (currPos > 37) {
                 eggState = .pack
             } else if (currPos > 29) {
                 eggState = .three
@@ -334,11 +344,11 @@ class Egg: MySpriteNode {
     }
 
     func move(toY: CGFloat, duration: NSTimeInterval) -> Bool {
-        if (currPos == _eggPoses.count - 1) {
+        if (++currPos == _eggPoses.count) {
             runAction(SKAction.moveToY(toY, duration: duration - NSTimeInterval(0.1)))
             return true
         }
-        if (++currPos == 3) {
+        if (currPos == 3) {
             show()
         }
         return false
@@ -545,6 +555,22 @@ class Tap: MySpriteNode {
     override func flip() {
         tapLetter.xScale = -tapLetter.xScale
         super.flip()
+    }
+}
+
+class ScoreTip: MyLabelNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    override init(parent: SKNode) {
+        super.init(parent: parent)
+        fontSize = 65
+    }
+
+    func show(score: Int) {
+        text = "+\(score)"
+        super.show()
+        runAction(SKAction.fadeOutWithDuration(1.0))
+        runAction(SKAction.moveByY(150, duration: 1.0))
     }
 }
 
@@ -983,7 +1009,10 @@ class GameScene: SKScene {
             truck.start()
         } else if (truck.eggs.count == 10) {
             timers[0].stopTicking()
-            scoreLabel.add(10, chance:gainLife)
+            let scoreTip = ScoreTip(parent: self)
+            scoreTip.position = CGPoint(x:centerX, y:centerY)
+            scoreTip.fontSize = 80
+            scoreTip.show(scoreLabel.add(10, chance:gainLife))
             // remove edge entries
             /*
             for i in reverse(0..<eggs.count) {
@@ -1011,7 +1040,9 @@ class GameScene: SKScene {
                 truck.eggs.append(egg)
             }
             if (egg.didScore()) {
-                scoreLabel.add(1, chance:gainLife)
+                let scoreTip = ScoreTip(parent: self)
+                scoreTip.position = egg.position
+                scoreTip.show(scoreLabel.add(1, chance:gainLife))
             }
         }
         if (lost) {
