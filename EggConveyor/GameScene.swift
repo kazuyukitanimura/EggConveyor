@@ -278,7 +278,7 @@ class Score: MyLabelNode {
 
     func add(n: Int, chance:() -> Bool) -> Int {
         var plus = n
-        if (score % 300 == 0 && chance()) {
+        if (score % 300 == 0 && score > 0 && chance()) {
             lastMiss = score // if there are lost lives, get a life back
         } else if (score - lastMiss >= 300) {
             plus *= 2 // if no life is lost, double the gain
@@ -317,22 +317,22 @@ class Egg: MySpriteNode {
     }
     var currPos:Int = 2 {
         didSet {
-            if (currPos >= _eggPoses.count) {
-                return
-            } else if (currPos > 37) {
-                eggState = .pack
-            } else if (currPos > 29) {
-                eggState = .three
-            } else if (currPos > 21) {
-                eggState = .two
-            } else if (currPos > 13) {
-                eggState = .one
-            } else if (currPos > 2) {
-                eggState = .none
-            } else {
-                eggState = .broken
+            if (currPos < _eggPoses.count) {
+                if (currPos > 37) {
+                    eggState = .pack
+                } else if (currPos > 29) {
+                    eggState = .three
+                } else if (currPos > 21) {
+                    eggState = .two
+                } else if (currPos > 13) {
+                    eggState = .one
+                } else if (currPos > 2) {
+                    eggState = .none
+                } else {
+                    eggState = .broken
+                }
+                position = _eggPoses[currPos]
             }
-            position = _eggPoses[currPos]
         }
     }
     var _eggPoses:[CGPoint]!
@@ -1052,7 +1052,10 @@ class GameScene: SKScene {
         }
         if (dispatcher.dispatch()) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
+        } else if (eggs.count == 0) {
+            firstEgg()
         }
+
     }
 
     func firstEgg() {
