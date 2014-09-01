@@ -661,7 +661,7 @@ func isOneOf<T: Comparable>(x: T, among:[T]) -> Bool {
     return find(among, x) != nil
 }
 
-func toHex<T: Comparable>(x: T) -> String {
+func toHex(x: AnyObject) -> String {
     return NSString(format:"%2X", (x as Int)) as String
 }
 
@@ -710,9 +710,10 @@ class GameScene: SKScene {
     var taps = [Tap]()
     var UUID:String {
         get {
-            let ret = kvLoad("UUID") as? String
+            var ret = kvLoad("UUID") as? String
             if (ret == nil) {
-                self.UUID = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(arc4random())
+                ret = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(Int(arc4random()))
+                self.UUID = ret!
             }
             return ret!
         }
@@ -900,6 +901,7 @@ class GameScene: SKScene {
         taps[3].flip()
         taps[3].position = CGPoint(x:centerX * 1.8, y:step6Y)
 
+        println(UUID)
         reset()
     }
 
