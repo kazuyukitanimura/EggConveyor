@@ -920,6 +920,7 @@ class GameScene: SKScene {
         henL.cry()
         henR.cry()
         if (lifeCount == 0) {
+            showAd()
             scoreBoard.show(scoreLabel)
         }
         timers[0].stopTicking()
@@ -966,6 +967,7 @@ class GameScene: SKScene {
         lifeCount = maxLifes
         scoreLabel.set(0)
         level = 1
+        hideAd()
         scoreBoard.hide()
         scoreLabel.show()
         gameState = .play
@@ -1118,5 +1120,13 @@ class GameScene: SKScene {
         for timer in timers {
             timer.tick()
         }
+    }
+
+    func showAd() {
+        NSNotificationCenter.defaultCenter().postNotificationName("showAd", object:nil) // Sends message to viewcontroller to show ad.
+    }
+
+    func hideAd() {
+        NSNotificationCenter.defaultCenter().postNotificationName("hideAd", object:nil) // Sends message to viewcontroller to hide ad.
     }
 }

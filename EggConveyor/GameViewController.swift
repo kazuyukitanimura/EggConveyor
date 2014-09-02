@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import iAd
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -25,6 +26,7 @@ extension SKNode {
 }
 
 class GameViewController: UIViewController {
+    let adBannerView = ADBannerView(frame: CGRect.zeroRect)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +45,23 @@ class GameViewController: UIViewController {
             
             skView.presentScene(scene)
         }
+
+        adBannerView.center = CGPoint(x: adBannerView.center.x, y: view.bounds.size.height - adBannerView.frame.size.height / 2)
+        //adBannerView.delegate = self
+        adBannerView.hidden = true
+        adBannerView.frame = CGRectOffset(adBannerView.frame, 0, 0.0)
+        self.view.addSubview(adBannerView)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"showAd:", name:"showAd", object:nil)
+    }
+
+    // Handle Notification
+    // http://stackoverflow.com/questions/21664295/hide-show-iads-in-spritekit
+    func hideAd(notification: NSNotification) {
+        adBannerView.hidden = true
+    }
+    func showAd(notification: NSNotification) {
+        adBannerView.hidden = false
     }
 
     override func shouldAutorotate() -> Bool {
