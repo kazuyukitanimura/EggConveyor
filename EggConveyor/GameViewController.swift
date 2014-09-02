@@ -46,10 +46,10 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
         }
 
-        adBannerView.center = CGPoint(x: adBannerView.center.x, y: view.bounds.size.height - adBannerView.frame.size.height / 2)
-        //adBannerView.delegate = self
+        adBannerView.center = CGPoint(x: view.bounds.size.width / 2, y: view.bounds.size.height / 2)
         adBannerView.hidden = true
         adBannerView.frame = CGRectOffset(adBannerView.frame, 0, 0.0)
+        //adBannerView.adType = ADAdType.MediumRectangle
         self.view.addSubview(adBannerView)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"showAd:", name:"showAd", object:nil)

@@ -445,7 +445,7 @@ class ScoreBoard: MySpriteNode {
         let bestScore = scoreObj.bestScore
         let isRecord = score == bestScore
         let gameOver = MyLabelNode(parent: self)
-        gameOver.fontSize = fontSize
+        gameOver.fontSize = fontSize - 20
         gameOver.text = "GAME OVER!"
         gameOver.position = CGPoint(x: 0, y: 280)
         gameOver.show()
