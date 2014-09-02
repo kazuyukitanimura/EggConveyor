@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import iAd
+import Social
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -53,6 +54,7 @@ class GameViewController: UIViewController {
         self.view.addSubview(adBannerView)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"showAd:", name:"showAd", object:nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"showTweet:", name:"showTweet", object:nil)
     }
 
     // Handle Notification
@@ -62,6 +64,11 @@ class GameViewController: UIViewController {
     }
     func showAd(notification: NSNotification) {
         adBannerView.hidden = false
+    }
+    func showTweet(notification: NSNotification) {
+        var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        tweetSheet.setInitialText("Got on TapEgg!")
+        self.presentViewController(tweetSheet, animated: true, completion: nil)
     }
 
     override func shouldAutorotate() -> Bool {

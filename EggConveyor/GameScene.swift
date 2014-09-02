@@ -1100,8 +1100,9 @@ class GameScene: SKScene {
                 //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
                 } else if (node.name == "Twitter" || node.name == "Facebook") {
                     if  SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name]) {
-                        var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[node.name])
-                        tweetSheet.setInitialText("Got \(scoreLabel.score) on TapEgg!")
+                        showTweet()
+                        //var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[node.name])
+                        //tweetSheet.setInitialText("Got \(scoreLabel.score) on TapEgg!")
                         //self.presentViewController(tweetSheet, animated: true, completion: nil)
                     } else {
                         UIAlertView(title: "\(node.name) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
@@ -1128,5 +1129,9 @@ class GameScene: SKScene {
 
     func hideAd() {
         NSNotificationCenter.defaultCenter().postNotificationName("hideAd", object:nil) // Sends message to viewcontroller to hide ad.
+    }
+
+    func showTweet() {
+        NSNotificationCenter.defaultCenter().postNotificationName("showTweet", object:nil)
     }
 }
