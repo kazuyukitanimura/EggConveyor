@@ -64,7 +64,11 @@ class MySpriteNode: SKSpriteNode {
     }
 
     func flip() {
-        xScale = -xScale
+        xScale = -(abs(xScale))
+    }
+
+    func flipBack() {
+        xScale = abs(xScale)
     }
 }
 
@@ -155,12 +159,13 @@ class Hen: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     enum HenState {
-        case normal, cry, rest
+        case normal, cry, rest, smile
     }
     let henStates: [HenState: SKTexture!] = [
         .normal: SKTexture(imageNamed: "hen_01"),
         .cry: SKTexture(imageNamed: "hen_02"),
         .rest: SKTexture(imageNamed: "hen_03"),
+        .smile: SKTexture(imageNamed: "hen_04"),
     ]
 
     let scale:CGFloat = 0.35
@@ -171,11 +176,7 @@ class Hen: MySpriteNode {
         }
     }
     var yPoses:[CGFloat]!
-    var yPos:Int = 1 {
-        didSet {
-            position.y = yPoses[yPos]
-        }
-    }
+    var yPos:Int = 1
     init(parent: GameScene, yPoses: [CGFloat]) {
         super.init(parent: parent, image: "hen_01")
         setScale(scale)
@@ -185,12 +186,19 @@ class Hen: MySpriteNode {
     }
 
     func move(toY: CGFloat) {
+        var _yPos = yPos
         if (toY > yPoses[2]) {
             yPos = 2
         } else if (toY > yPoses[1]) {
             yPos = 1
         } else {
             yPos = 0
+        }
+        if (_yPos != yPos) {
+            position.y = yPoses[yPos]
+            if (henState == .smile) {
+                reset()
+            }
         }
     }
 
@@ -204,6 +212,10 @@ class Hen: MySpriteNode {
 
     func rest() {
         henState = .rest
+    }
+
+    func smile() {
+        henState = .smile
     }
 }
 
@@ -1034,6 +1046,8 @@ class GameScene: SKScene {
             truck.leave(levelUp)
             return
         }
+        henL.reset()
+        henR.reset()
         var lost = false
         for i in reverse(0..<eggs.count) {
             var egg = eggs[i]
@@ -1049,6 +1063,8 @@ class GameScene: SKScene {
                 let scoreTip = ScoreTip(parent: self)
                 scoreTip.position = egg.position
                 scoreTip.show(scoreLabel.add(1, chance:gainLife))
+                var hen = (egg.position.x < centerX) ? henL : henR
+                hen.smile()
             }
         }
         if (lost) {
@@ -1117,6 +1133,13 @@ class GameScene: SKScene {
             }
             var hen = (location.x < centerX) ? henL : henR
             hen.move(location.y)
+            if (hen == henR) {
+                if (hen.yPos == 0) {
+                    hen.flip()
+                } else {
+                    hen.flipBack()
+                }
+            }
         }
     }
 
