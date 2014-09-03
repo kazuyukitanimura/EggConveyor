@@ -919,6 +919,7 @@ class GameScene: SKScene {
         scoreLabel.lostLife()
         henL.cry()
         henR.cry()
+        pause.hide()
         if (lifeCount == 0) {
             showAd()
             scoreBoard.show(scoreLabel)
@@ -940,6 +941,7 @@ class GameScene: SKScene {
         }
         henL.reset()
         henR.reset()
+        pause.show()
         timers[0].startTicking()
     }
 
@@ -988,7 +990,6 @@ class GameScene: SKScene {
         for tap in taps {
             tap.hide()
         }
-        pause.show()
         timers[1].startTicking()
         messages = ["GO!", "SET", "READY", "LEVEL \(level++)"]
         countDown = messages.count
@@ -1003,6 +1004,7 @@ class GameScene: SKScene {
             henR.reset()
             timers[1].stopTicking()
             timers[0].startTicking()
+            pause.show()
         } else {
             message.show(messages[countDown])
         }
@@ -1094,7 +1096,9 @@ class GameScene: SKScene {
                 if (node.name == "pause") {
                     if (timers[0].toggle()) {
                         message.show("PAUSED")
+                        paused = true
                     } else {
+                        paused = false
                         message.hide()
                     }
                 //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
