@@ -1023,6 +1023,10 @@ class GameScene: SKScene {
     }
 
     func onPlay() {
+        henL.flip()
+        if (henR.yPos == 0) {
+            henR.flip()
+        }
         if (truck.eggs.count == 9) {
             truck.start()
         } else if (truck.eggs.count == 10) {
@@ -1065,6 +1069,9 @@ class GameScene: SKScene {
                 scoreTip.show(scoreLabel.add(1, chance:gainLife))
                 var hen = (egg.position.x < centerX) ? henL : henR
                 hen.smile()
+                if ((hen == henL && hen.yPos == 2) || (hen == henR && hen.yPos == 0)) {
+                    hen.flipBack()
+                }
             }
         }
         if (lost) {
@@ -1133,12 +1140,10 @@ class GameScene: SKScene {
             }
             var hen = (location.x < centerX) ? henL : henR
             hen.move(location.y)
-            if (hen == henR) {
-                if (hen.yPos == 0) {
-                    hen.flip()
-                } else {
-                    hen.flipBack()
-                }
+            if (hen == henR && hen.yPos != 0) {
+                hen.flipBack()
+            } else {
+                hen.flip()
             }
         }
     }
