@@ -172,7 +172,7 @@ class Hen: MySpriteNode {
     var henState:HenState = .normal {
         didSet {
             texture = henStates[henState]
-            (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
+            (size.width, size.height) = (texture!.size().width * scale, texture!.size().height * scale)
         }
     }
     var yPoses:[CGFloat]!
@@ -324,7 +324,7 @@ class Egg: MySpriteNode {
     var eggState:EggState = .none {
         didSet {
             texture = eggStates[eggState]
-            (size.width, size.height) = (texture.size().width * scale, texture.size().height * scale)
+            (size.width, size.height) = (texture!.size().width * scale, texture!.size().height * scale)
         }
     }
     var currPos:Int = 2 {
@@ -537,7 +537,7 @@ class ScoreBoard: MySpriteNode {
         retryLabel.position = CGPoint(x: -60, y: 68)
         retryLabel.show()
         show()
-        var slideIn = SKAction.moveToX(parent.frame.midX, duration: 1.5)
+        var slideIn = SKAction.moveToX(parent!.frame.midX, duration: 1.5)
         slideIn.timingMode = .EaseOut
         runAction(slideIn)
     }
@@ -1119,7 +1119,7 @@ class GameScene: SKScene {
                     }
                 //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
                 } else if (node.name == "Twitter" || node.name == "Facebook") {
-                    if  SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name]) {
+                    if  SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name!]) {
                         showTweet()
                         //var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[node.name])
                         //tweetSheet.setInitialText("Got \(scoreLabel.score) on TapEgg!")

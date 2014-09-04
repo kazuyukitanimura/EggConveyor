@@ -125,7 +125,7 @@ class SRWebClient : NSObject
     */
     func data(data:RequestData?) -> SRWebClient {
         if(data != nil && data!.count > 0) {
-            switch self.urlRequest!.HTTPMethod! {
+            switch self.urlRequest!.HTTPMethod {
                 case "GET":
                     let url:String = self.urlRequest!.URL!.absoluteString!
                     self.urlRequest!.URL = NSURL(string: url + "?" + self.build(data)!)
@@ -148,7 +148,7 @@ class SRWebClient : NSObject
     *  @return self instance to support function chaining
     */
     func data(image:NSData, fieldName:String, data:RequestData?) -> SRWebClient {
-        if(image.length > 0 && self.urlRequest!.HTTPMethod! == "POST") {
+        if(image.length > 0 && self.urlRequest!.HTTPMethod == "POST") {
             
             let uniqueId = NSProcessInfo.processInfo().globallyUniqueString
             
@@ -207,7 +207,7 @@ class SRWebClient : NSObject
             var response:NSURLResponse?
             var error:NSError?
             
-            let result:NSData? = NSURLConnection.sendSynchronousRequest(self.urlRequest, returningResponse: &response, error: &error)
+            let result:NSData? = NSURLConnection.sendSynchronousRequest(self.urlRequest!, returningResponse: &response, error: &error)
             let httpResponse:NSHTTPURLResponse? = response as? NSHTTPURLResponse
             
             NSOperationQueue.mainQueue().addOperationWithBlock({() -> Void in
@@ -223,7 +223,7 @@ class SRWebClient : NSObject
                     //    success!(NSString(data: result, encoding: NSUTF8StringEncoding), httpResponse!.statusCode)
                     //}
                 } else if (response != nil && httpResponse != nil && failure != nil) {
-                    failure!(NSError(domain: self.urlRequest!.URL.path!, code: httpResponse!.statusCode, userInfo: nil))
+                    failure!(NSError(domain: self.urlRequest!.URL!.path!, code: httpResponse!.statusCode, userInfo: nil))
                 } else if (failure != nil) {
                     failure!(error)
                 }
