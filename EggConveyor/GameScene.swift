@@ -159,13 +159,14 @@ class Hen: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     enum HenState {
-        case normal, cry, rest, smile
+        case normal, cry, rest, smile, catch
     }
     let henStates: [HenState: SKTexture!] = [
         .normal: SKTexture(imageNamed: "hen_01"),
         .cry: SKTexture(imageNamed: "hen_02"),
         .rest: SKTexture(imageNamed: "hen_03"),
         .smile: SKTexture(imageNamed: "hen_04"),
+        .catch: SKTexture(imageNamed: "hen_05"),
     ]
 
     let scale:CGFloat = 0.35
@@ -216,6 +217,10 @@ class Hen: MySpriteNode {
 
     func smile() {
         henState = .smile
+    }
+
+    func catch() {
+        henState = .catch
     }
 }
 
@@ -1072,6 +1077,11 @@ class GameScene: SKScene {
                 if ((hen == henL && hen.yPos == 2) || (hen == henR && hen.yPos == 0)) {
                     hen.flipBack()
                 }
+            }
+            if (isOneOf(egg.currPos, [5, 13, 21, 29, 37, 45])) {
+                var hen = (egg.position.x < centerX) ? henL : henR
+                hen.catch()
+
             }
         }
         if (lost) {
