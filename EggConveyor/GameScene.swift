@@ -706,6 +706,7 @@ class GameScene: SKScene {
     var step4Y:CGFloat!
     var step5Y:CGFloat!
     var step6Y:CGFloat!
+    var step7Y:CGFloat!
     var message:Message!
     var scoreLabel:Score!
     var lifeCount:Int = 0
@@ -744,13 +745,14 @@ class GameScene: SKScene {
         centerX = frame.midX
         centerY = frame.midY
         let ground = centerY - screenHeight * 0.5
-        step0Y = frame.size.height * 0.16
+        step0Y = frame.size.height * 0.14
         step1Y = frame.size.height * 0.24
         step2Y = frame.size.height * 0.46
         step3Y = frame.size.height * 0.68
         step4Y = frame.size.height * 0.13
         step5Y = frame.size.height * 0.35
         step6Y = frame.size.height * 0.57
+        step7Y = frame.size.height * 0.78
 
         // background
         let backGround = SKSpriteNode(imageNamed: "background")
@@ -874,7 +876,7 @@ class GameScene: SKScene {
             CGPoint(x:centerX * 0.80, y:step3Y + conveyor.size.height * 0.5), // 43 - 5
             CGPoint(x:centerX * 0.67, y:step3Y + conveyor.size.height * 0.5), // 44 - 5
             CGPoint(x:centerX * 0.54, y:step3Y + conveyor.size.height * 0.5), // 45 - 5
-            CGPoint(x:centerX * 0.18, y:step3Y + conveyor.size.height * 0.5), // 46 - 6
+            CGPoint(x:centerX * 0.18, y:step7Y + conveyor.size.height * 0.5), // 46 - 6
         ]
         eggs.append(Egg(parent: self, eggPoses: eggPoses))
 
@@ -953,8 +955,12 @@ class GameScene: SKScene {
             gameOver()
             return
         }
-        henL.reset()
-        henR.reset()
+        if (henL.henState == .cry) {
+            henL.reset()
+        }
+        if (henR.henState == .cry) {
+            henR.reset()
+        }
         pause.show()
         timers[0].startTicking()
     }
