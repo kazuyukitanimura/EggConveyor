@@ -699,6 +699,7 @@ class GameScene: SKScene {
     var truck:Truck!
     var centerX:CGFloat!
     var centerY:CGFloat!
+    var step0Y:CGFloat!
     var step1Y:CGFloat!
     var step2Y:CGFloat!
     var step3Y:CGFloat!
@@ -743,6 +744,7 @@ class GameScene: SKScene {
         centerX = frame.midX
         centerY = frame.midY
         let ground = centerY - screenHeight * 0.5
+        step0Y = frame.size.height * 0.16
         step1Y = frame.size.height * 0.24
         step2Y = frame.size.height * 0.46
         step3Y = frame.size.height * 0.68
@@ -790,7 +792,7 @@ class GameScene: SKScene {
 
         // conveyor
         var conveyor = Conveyor(parent: self)
-        conveyor.position = CGPoint(x:centerX * 2.2, y:step1Y)
+        conveyor.position = CGPoint(x:centerX * 2.2, y:step0Y)
         conveyor.show()
         conveyor = Conveyor(parent: self)
         conveyor.position = CGPoint(x:centerX, y:step1Y)
@@ -829,9 +831,9 @@ class GameScene: SKScene {
             CGPoint(x:centerX * 1.72, y:ground), // 0 broken
             CGPoint(x:centerX * 1.48, y:ground), // 1 broken
             CGPoint(x:centerX * 0.51, y:ground), // 2 broken
-            CGPoint(x:centerX * 2.00, y:step1Y + conveyor.size.height * 0.5), // 3 - 0
-            CGPoint(x:centerX * 1.87, y:step1Y + conveyor.size.height * 0.5), // 4 - 0
-            CGPoint(x:centerX * 1.74, y:step1Y + conveyor.size.height * 0.5), // 5 - 0
+            CGPoint(x:centerX * 2.00, y:step0Y + conveyor.size.height * 0.5), // 3 - 0
+            CGPoint(x:centerX * 1.87, y:step0Y + conveyor.size.height * 0.5), // 4 - 0
+            CGPoint(x:centerX * 1.74, y:step0Y + conveyor.size.height * 0.5), // 5 - 0
             CGPoint(x:centerX * 1.45, y:step1Y + conveyor.size.height * 0.5), // 6 - 1
             CGPoint(x:centerX * 1.32, y:step1Y + conveyor.size.height * 0.5), // 7 - 1
             CGPoint(x:centerX * 1.19, y:step1Y + conveyor.size.height * 0.5), // 8 - 1
@@ -910,13 +912,8 @@ class GameScene: SKScene {
         taps.append(Tap(parent: self))
         taps[0].position = CGPoint(x:centerX * 0.2, y:step1Y)
         taps.append(Tap(parent: self))
-        taps[1].position = CGPoint(x:centerX * 0.2, y:step3Y)
-        taps.append(Tap(parent: self))
-        taps[2].flip()
-        taps[2].position = CGPoint(x:centerX * 1.8, y:step4Y)
-        taps.append(Tap(parent: self))
-        taps[3].flip()
-        taps[3].position = CGPoint(x:centerX * 1.8, y:step6Y)
+        taps[1].flip()
+        taps[1].position = CGPoint(x:centerX * 1.8, y:step4Y)
 
         println(UUID)
         reset()
@@ -1078,21 +1075,26 @@ class GameScene: SKScene {
                     hen.flipBack()
                 }
             }
-            if (isOneOf(egg.currPos, [5, 13, 21, 29, 37, 45])) {
-                var hen = (egg.position.x < centerX) ? henL : henR
-                hen.catch()
-
-            }
         }
         if (lost) {
             lostLife()
         }
+        catchEgg()
         if (dispatcher.dispatch()) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
         } else if (eggs.count == 0) {
             firstEgg()
         }
+    }
 
+    func catchEgg() {
+        for egg in eggs {
+            if ((egg.currPos == 13 && henL.yPos == 0) || (egg.currPos == 29 && henL.yPos == 1) || (egg.currPos == 45 && henL.yPos == 2)) {
+                henL.catch()
+            } else if ((egg.currPos == 5 && henR.yPos == 0) || (egg.currPos == 21 && henR.yPos == 1) || (egg.currPos == 37 && henR.yPos == 2)) {
+                henR.catch()
+            }
+        }
     }
 
     func firstEgg() {
@@ -1148,14 +1150,17 @@ class GameScene: SKScene {
                 }
                 break
             }
-            var hen = (location.x < centerX) ? henL : henR
-            hen.move(location.y)
-            if (hen == henR && hen.yPos != 0) {
-                hen.flipBack()
-            } else {
-                hen.flip()
+            if (!paused) {
+                var hen = (location.x < centerX) ? henL : henR
+                hen.move(location.y)
+                if (hen == henR && hen.yPos != 0) {
+                    hen.flipBack()
+                } else {
+                    hen.flip()
+                }
             }
         }
+        catchEgg()
     }
 
     override func update(currentTime: CFTimeInterval) {
