@@ -1120,11 +1120,6 @@ class GameScene: SKScene {
             gameState = .play
             firstEgg()
             levelUp()
-        } else if (gameState == .retry) {
-            retry()
-            firstEgg()
-            levelUp()
-            return
         } else if (gameState == .end) {
             reset()
             return
@@ -1148,7 +1143,7 @@ class GameScene: SKScene {
                     }
                 //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
                 } else if (node.name == "Twitter" || node.name == "Facebook") {
-                    if  SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name!]) {
+                    if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name!])) {
                         showTweet()
                         //var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[node.name])
                         //tweetSheet.setInitialText("Got \(scoreLabel.score) on TapEgg!")
@@ -1169,6 +1164,13 @@ class GameScene: SKScene {
                     hen.flip()
                 }
             }
+        }
+
+        if (gameState == .retry) {
+            retry()
+            firstEgg()
+            levelUp()
+            return
         }
         catchEgg()
     }
