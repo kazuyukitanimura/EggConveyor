@@ -1058,8 +1058,12 @@ class GameScene: SKScene {
             truck.leave(levelUp)
             return
         }
-        henL.reset()
-        henR.reset()
+        if (henL.henState != .catch) {
+            henL.reset()
+        }
+        if (henR.henState != .catch) {
+            henR.reset()
+        }
         var lost = false
         for i in reverse(0..<eggs.count) {
             var egg = eggs[i]
