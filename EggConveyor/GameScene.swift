@@ -18,6 +18,11 @@ extension SKAction {
         return SKAction.moveBy(CGVectorMake(0, _deltaY), duration: duration)
     }
 }
+extension Dictionary {
+    func hasKey(_key: AnyObject?) -> Bool {
+        return [_key!] != nil
+    }
+}
 
 class MyLabelNode: SKLabelNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
@@ -1065,7 +1070,7 @@ class GameScene: SKScene {
             henR.reset()
         }
         var lost = false
-        for i in reverse(0..<eggs.count) {
+        for i in reverse(0..<eggs.count) { // TODO create reverseForEach generator
             var egg = eggs[i]
             if (egg.didFailL(henL.yPos) || egg.didFailR(henR.yPos)) {
                 eggs.removeAtIndex(i)
@@ -1141,15 +1146,14 @@ class GameScene: SKScene {
                         paused = false
                         message.hide()
                     }
-                //} else if (isOneOf(node.name, Array(slServiceTypes.keys))) {
-                } else if (node.name == "Twitter" || node.name == "Facebook") {
+                } else if (slServiceTypes.hasKey(node.name)) {
                     if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name!])) {
                         showTweet()
                         //var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[node.name])
                         //tweetSheet.setInitialText("Got \(scoreLabel.score) on TapEgg!")
                         //self.presentViewController(tweetSheet, animated: true, completion: nil)
                     } else {
-                        UIAlertView(title: "\(node.name) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
+                        UIAlertView(title: "\(node.name!) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
                         return
                     }
                 }
