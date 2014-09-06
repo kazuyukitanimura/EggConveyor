@@ -212,7 +212,9 @@ class Hen: MySpriteNode {
     }
 
     func rest() {
-        henState = .rest
+        if (henState != .catch) {
+            henState = .rest
+        }
     }
 
     func smile() {
@@ -580,7 +582,7 @@ class ScoreTip: MyLabelNode {
 
     override init(parent: SKNode) {
         super.init(parent: parent)
-        fontSize = 65
+        fontSize = 60
     }
 
     func show(score: Int) {
@@ -1020,8 +1022,6 @@ class GameScene: SKScene {
     func offPlay() {
         if (countDown-- == 0) {
             message.hide()
-            henL.reset()
-            henR.reset()
             timers[1].stopTicking()
             timers[0].startTicking()
             pause.show()
