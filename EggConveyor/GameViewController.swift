@@ -66,7 +66,8 @@ class GameViewController: UIViewController {
         adBannerView.hidden = false
     }
     func showTweet(notification: NSNotification) {
-        var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[notification.name])
+        //tweetSheet.setInitialText("Got  \(notification.object) on TapEgg!")
         tweetSheet.setInitialText("Got on TapEgg!")
         self.presentViewController(tweetSheet, animated: true, completion: nil)
     }
