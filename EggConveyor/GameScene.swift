@@ -193,9 +193,10 @@ class Hen: MySpriteNode {
 
     func move(toY: CGFloat) {
         var _yPos = yPos
-        if (toY > yPoses[2]) {
+        let margin:CGFloat = 7
+        if (toY > yPoses[2] - margin) {
             yPos = 2
-        } else if (toY > yPoses[1]) {
+        } else if (toY > yPoses[1] - margin) {
             yPos = 1
         } else {
             yPos = 0
