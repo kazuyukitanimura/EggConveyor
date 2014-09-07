@@ -11,6 +11,11 @@ import SpriteKit
 import iAd
 import Social
 
+var slServiceTypes = [
+  "Twitter": SLServiceTypeTwitter,
+  "Facebook": SLServiceTypeFacebook
+]
+
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
         
@@ -54,8 +59,10 @@ class GameViewController: UIViewController {
         self.view.addSubview(adBannerView)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"showAd:", name:"showAd", object:nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:"showTweet:", name:"showTweet", object:nil)
-    }
+        for key in slServiceTypes.keys {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector:"showSocial:", name:key, object:nil)
+        }
+      }
 
     // Handle Notification
     // http://stackoverflow.com/questions/21664295/hide-show-iads-in-spritekit
@@ -65,11 +72,15 @@ class GameViewController: UIViewController {
     func showAd(notification: NSNotification) {
         adBannerView.hidden = false
     }
-    func showTweet(notification: NSNotification) {
-        var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[notification.name])
-        //tweetSheet.setInitialText("Got  \(notification.object) on TapEgg!")
-        tweetSheet.setInitialText("Got on TapEgg!")
-        self.presentViewController(tweetSheet, animated: true, completion: nil)
+    func showSocial(notification: NSNotification) {
+        if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[notification.name])) {
+          var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[notification.name])
+          //tweetSheet.setInitialText("Got  \(notification.object) on TapEgg!")
+          tweetSheet.setInitialText("Got on TapEgg!")
+          self.presentViewController(tweetSheet, animated: true, completion: nil)
+        } else {
+            UIAlertView(title: "\(notification.name) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
+        }
     }
 
     override func shouldAutorotate() -> Bool {

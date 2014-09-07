@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import Social
 
 enum GameState {
     case first, play, end, retry
@@ -23,11 +22,6 @@ extension Dictionary {
         return [_key!] != nil
     }
 }
-
-var slServiceTypes = [
-    "Twitter": SLServiceTypeTwitter,
-    "Facebook": SLServiceTypeFacebook
-]
 
 class MyLabelNode: SKLabelNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
@@ -1149,11 +1143,7 @@ class GameScene: SKScene {
                         message.hide()
                     }
                 } else if (slServiceTypes.hasKey(node.name)) {
-                    if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[node.name!])) {
-                        showTweet()
-                    } else {
-                        UIAlertView(title: "\(node.name!) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
-                    }
+                    showSocial(node.name!)
                     return
                 }
                 break
@@ -1193,8 +1183,8 @@ class GameScene: SKScene {
         NSNotificationCenter.defaultCenter().postNotificationName("hideAd", object:nil) // Sends message to viewcontroller to hide ad.
     }
 
-    func showTweet() {
-        NSNotificationCenter.defaultCenter().postNotificationName("showTweet", object:nil)
-        //NSNotificationCenter.defaultCenter().postNotificationName("showTweet", object:scoreLabel.score)
+    func showSocial(name: String) {
+        NSNotificationCenter.defaultCenter().postNotificationName(name, object:nil)
+        //NSNotificationCenter.defaultCenter().postNotificationName(name, object:scoreLabel.score)
     }
 }
