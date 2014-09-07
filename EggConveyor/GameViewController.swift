@@ -74,10 +74,10 @@ class GameViewController: UIViewController {
     }
     func showSocial(notification: NSNotification) {
         if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[notification.name])) {
-          var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[notification.name])
-          //tweetSheet.setInitialText("Got  \(notification.object) on TapEgg!")
-          tweetSheet.setInitialText("Got on TapEgg!")
-          self.presentViewController(tweetSheet, animated: true, completion: nil)
+            var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[notification.name])
+            var score: AnyObject? = notification.userInfo!["score"]
+            tweetSheet.setInitialText("Got score \(score!) on TapEgg!")
+            self.presentViewController(tweetSheet, animated: true, completion: nil)
         } else {
             UIAlertView(title: "\(notification.name) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
         }

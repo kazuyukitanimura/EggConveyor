@@ -1184,7 +1184,9 @@ class GameScene: SKScene {
     }
 
     func showSocial(name: String) {
-        NSNotificationCenter.defaultCenter().postNotificationName(name, object:nil)
-        //NSNotificationCenter.defaultCenter().postNotificationName(name, object:scoreLabel.score)
+        let userInfo = [
+            "score": scoreLabel.score
+        ]
+        NSNotificationCenter.defaultCenter().postNotificationName(name, object:nil, userInfo:userInfo)
     }
 }
