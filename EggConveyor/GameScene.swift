@@ -176,6 +176,7 @@ class Hen: MySpriteNode {
     let scale:CGFloat = 0.35
     var henState:HenState = .normal {
         didSet {
+            paused = henState != .normal
             texture = henStates[henState]
             (size.width, size.height) = (texture!.size().width * scale, texture!.size().height * scale)
         }
@@ -188,6 +189,8 @@ class Hen: MySpriteNode {
         anchorPoint = CGPointMake(0.5, 0.0)
         self.yPoses = yPoses
         position.y = yPoses[yPos]
+        let anim = SKAction.animateWithTextures([SKTexture(imageNamed: "hen_01"), SKTexture(imageNamed: "hen_06")], timePerFrame: 1.0)
+        runAction(SKAction.repeatActionForever(anim))
     }
 
     func move(toY: CGFloat) {
