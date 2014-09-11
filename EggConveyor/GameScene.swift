@@ -23,6 +23,11 @@ extension Dictionary {
     }
 }
 
+let chalkRed = SKColor(red: 216.0/255.0, green: 121.0/255.0, blue: 118.0/255.0, alpha: 1.0)
+let chalkYellow = SKColor(red: 240.0/255.0, green: 236.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+let chalkGreen = SKColor(red: 116.0/255.0, green: 240.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+let chalkWhite = SKColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+
 class MyLabelNode: SKLabelNode {
     // http://stackoverflow.com/questions/25126295/swift-class-does-not-implement-its-superclasss-required-members
     required init(coder: NSCoder) {
@@ -32,6 +37,7 @@ class MyLabelNode: SKLabelNode {
     init(parent: SKNode) {
         super.init()
         fontName = "Chalkduster"
+        fontColor = chalkWhite
         hide()
         parent.addChild(self)
     }
@@ -467,7 +473,6 @@ class ScoreBoard: MySpriteNode {
     func show(scoreObj:Score) {
         let fontSize:CGFloat = 82
         let fontSizeHalf:CGFloat = 41
-        let newRecordColor = SKColor(red: 216.0/255.0, green: 121.0/255.0, blue: 118.0/255.0, alpha: 1.0)
         let score = scoreObj.score
         let bestScore = scoreObj.bestScore
         let isRecord = score == bestScore
@@ -481,7 +486,7 @@ class ScoreBoard: MySpriteNode {
         scoreLabel.text = "SCORE \(score)"
         if (isRecord) {
             scoreLabel.text = "CONGRATS! NEW"
-            scoreLabel.fontColor = newRecordColor
+            scoreLabel.fontColor = chalkRed
         }
         scoreLabel.position = CGPoint(x: 0, y: 150)
         scoreLabel.show()
@@ -489,7 +494,7 @@ class ScoreBoard: MySpriteNode {
         bestScoreLabel.fontSize = fontSize
         bestScoreLabel.text = "PERSONAL BEST \(bestScore)"
         if (isRecord) {
-            bestScoreLabel.fontColor = newRecordColor
+            bestScoreLabel.fontColor = chalkRed
         }
         bestScoreLabel.position = CGPoint(x: 0, y: 20)
         bestScoreLabel.show()
@@ -1010,7 +1015,7 @@ class GameScene: SKScene {
     func reset() {
         retry()
         gameState = .first
-        message.show("TAP TO START!")
+        message.show("TAP TO MOVE!")
         for tap in taps {
             tap.show()
         }
@@ -1029,11 +1034,19 @@ class GameScene: SKScene {
 
     func offPlay() {
         if (countDown-- == 0) {
+            message.fontColor = chalkWhite
             message.hide()
             timers[1].stopTicking()
             timers[0].startTicking()
             pause.show()
         } else {
+            if (countDown == 2) {
+                message.fontColor = chalkRed
+            } else if (countDown == 1) {
+                message.fontColor = chalkYellow
+            } else if (countDown == 0) {
+                message.fontColor = chalkGreen
+            }
             message.show(messages[countDown])
         }
     }
