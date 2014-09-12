@@ -20,6 +20,7 @@
 		80BE5D131985B826009547BF /* step.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D121985B826009547BF /* step.atlas */; };
 		80BE5D151986265D009547BF /* hen.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D141986265D009547BF /* hen.atlas */; };
 		80C2CA1E198770C400C26571 /* egg.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80C2CA1D198770C400C26571 /* egg.atlas */; };
+		80E4F23D19C2A276000A9275 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 80E4F23C19C2A276000A9275 /* music.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		80BE5D121985B826009547BF /* step.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = step.atlas; sourceTree = "<group>"; };
 		80BE5D141986265D009547BF /* hen.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hen.atlas; sourceTree = "<group>"; };
 		80C2CA1D198770C400C26571 /* egg.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = egg.atlas; sourceTree = "<group>"; };
+		80E4F23C19C2A276000A9275 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 		80471931197F56610075C696 /* EggConveyor */ = {
 			isa = PBXGroup;
 			children = (
+				80E4F23C19C2A276000A9275 /* music.mp3 */,
 				80471934197F56610075C696 /* AppDelegate.swift */,
 				80471936197F56610075C696 /* GameScene.sks */,
 				80471938197F56610075C696 /* GameScene.swift */,
@@ -215,6 +218,7 @@
 			files = (
 				80471940197F56610075C696 /* Images.xcassets in Resources */,
 				80BE5D131985B826009547BF /* step.atlas in Resources */,
+				80E4F23D19C2A276000A9275 /* music.mp3 in Resources */,
 				80471937197F56610075C696 /* GameScene.sks in Resources */,
 				80BE5D111984F47C009547BF /* truck.atlas in Resources */,
 				80BE5D151986265D009547BF /* hen.atlas in Resources */,

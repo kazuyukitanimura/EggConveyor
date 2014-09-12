@@ -773,6 +773,7 @@ class GameScene: SKScene {
         let backGround = SKSpriteNode(imageNamed: "background")
         addChild(backGround)
         backGround.position = CGPoint(x:centerX, y:centerY)
+        backGround.runAction(SKAction.repeatActionForever(SKAction.playSoundFileNamed("music.mp3", waitForCompletion: true)))
 
         // tower
         let tower = SKSpriteNode(imageNamed: "tower")
