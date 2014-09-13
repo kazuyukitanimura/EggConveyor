@@ -58,7 +58,7 @@ class GameViewController: UIViewController {
         adBannerCenter = CGPoint(x: adBannerView.frame.midX, y: adBannerView.frame.midY)
 
         adBannerView.center = adBannerCenter
-        adBannerView.hidden = false
+        adBannerView.hidden = UIDevice.currentDevice().userInterfaceIdiom != .Pad
         adBannerView.frame = CGRectOffset(adBannerView.frame, 0, 0.0)
         //adBannerView.adType = ADAdType.MediumRectangle
         self.view.addSubview(adBannerView)
@@ -73,11 +73,11 @@ class GameViewController: UIViewController {
     // http://stackoverflow.com/questions/21664295/hide-show-iads-in-spritekit
     func hideAd(notification: NSNotification) {
         adBannerView.center = adBannerCenter
-        //adBannerView.hidden = true
+        adBannerView.hidden = UIDevice.currentDevice().userInterfaceIdiom != .Pad
     }
     func showAd(notification: NSNotification) {
         adBannerView.center = viewCenter
-        //adBannerView.hidden = false
+        adBannerView.hidden = false
     }
     func showSocial(notification: NSNotification) {
         if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[notification.name])) {
