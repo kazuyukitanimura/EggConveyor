@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1"
+, "private": true
+, "scripts": {
+    "start": "node app"
+  }
+, "dependencies": {
+    "body-parser": "*"
+  , "compression": "*"
+  , "consolidate": "*"
+  , "express": "*"
+  , "hiredis": "*"
+  , "hogan.js": "*"
+  , "method-override": "*"
+  , "morgan": "*"
+  , "node.extend": "*"
+  , "redis": "*"
+  , "rsvp": "*"
+  , "toobusy": "*"
+  }
+, "engine": "node >= 0.10.30"
+, "author": {
+    "name": "kazuyukitanimura",
+    "email": "kazuyukitanimura@gmail.com"
+  }
+}
