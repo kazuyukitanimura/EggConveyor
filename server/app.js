@@ -8,8 +8,22 @@ var engines = require('consolidate');
 var methodOverride = require('method-override');
 var app = express();
 var url = require('./url');
+var toobusy = require('toobusy');
+var Ranking = require('ranking');
 
 var port = 80;
+app.use(function(req, res, next) {
+  if (app.get('gracefulExit')) {
+    // Node does not allow any new connections after closing its server.
+    // However, we need to force to close the keep-alive connections
+    req.connection.setTimeout(1);
+    res.send(502, 'Server is in the process of restarting.');
+  } else if (toobusy()) { // middleware which blocks requests when we're too busy
+    res.send(503, 'Server is too busy right now, sorry.');
+  } else {
+    next();
+  }
+});
 app.use(logger());
 app.use(compress());
 app.use(methodOverride());
@@ -22,8 +36,15 @@ app.all('*(php|http|admin)*', function(req, res) {
   // Do not do anything here, let the attackers hang until it times out :P
 });
 
-app.all('score', function(req, res) {
-  
+app.post('/score', function(req, res) {
+  new Ranking().rank(req.data, function(err, data) {
+    if (err) {
+      console.error(err);
+      res.send(500);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 app.all('*', function(req, res) {
@@ -62,3 +83,16 @@ var server = http.createServer(app).listen(port, function() {
   }
   log('Webpage server listening to port ' + port);
 });
+
+var gracefulExit = function() {
+  app.set('gracefulExit', true);
+  server.close(function() {
+    Ranking.shutdown(); // close redis
+    process.exit();
+  });
+  // calling .shutdown allows your process to exit normally
+  toobusy.shutdown();
+};
+
+process.on('SIGINT', gracefulExit);
+process.on('SIGTERM', gracefulExit);

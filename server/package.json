@@ -18,7 +18,7 @@
   , "rsvp": "*"
   , "toobusy": "*"
   }
-, "engine": "node >= 0.10.30"
+, "engine": "node >= 0.10.31"
 , "author": {
     "name": "kazuyukitanimura",
     "email": "kazuyukitanimura@gmail.com"
