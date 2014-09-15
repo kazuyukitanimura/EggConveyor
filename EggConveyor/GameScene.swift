@@ -287,7 +287,7 @@ class Score: MyLabelNode {
             }
             SRWebClient.POST("https://limily.com/score")
                 .headers(["Content-Type":"application/json; charset=utf-8"])
-                .jsonData("{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(bestScore)\", \"\(countryCode)\"}")
+                .jsonData("{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(bestScore)\", \"countryCode\": \"\(countryCode)\"}")
                 .send(success, failure:nil)
         }
     }
@@ -297,11 +297,20 @@ class Score: MyLabelNode {
     var countryRank = "... ?"
     func success(response:AnyObject!, status:Int) {
         //process success response
-        println(response)
-        worldBest = String(arc4random_uniform(12345))
-        worldRank = String(arc4random_uniform(12345))
-        countryBest = String(arc4random_uniform(12345))
-        countryRank = String(arc4random_uniform(12345))
+        if let result = response as? [String: AnyObject] {
+            if (result.hasKey("worldBest")) {
+                worldBest = String((result["worldBest"] as NSArray)[1] as NSString)
+            }
+            if (result.hasKey("worldRank")) {
+                worldRank = String(Int(result["worldRank"] as NSNumber) + 1)
+            }
+            if (result.hasKey("countryBest")) {
+                countryBest = String((result["countryBest"] as NSArray)[1] as NSString)
+            }
+            if (result.hasKey("countryRank")) {
+                countryRank = String(Int(result["countryRank"] as NSNumber) + 1)
+            }
+        }
     }
 
     override init(parent: SKNode) {
