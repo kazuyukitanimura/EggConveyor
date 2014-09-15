@@ -286,20 +286,11 @@ class Score: MyLabelNode {
                 kvStore("bestScore", newValue)
             }
             SRWebClient.POST("https://limily.com/score")
-                .headers(["Content-Type":"application/json charset=utf-8"])
-                .data(["json":"{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(newValue)\", \"\(countryCode)\"}"])
+                .headers(["Content-Type":"application/json; charset=utf-8"])
+                .jsonData("{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(bestScore)\", \"\(countryCode)\"}")
                 .send(success, failure:nil)
         }
     }
-    /*
-    var worldBest:String {
-        get {
-             return kvLoad("worldBest") as? String ?? "... ?"
-        }
-        set {
-            kvStore("worldBest", newValue)
-        }
-    }*/
     var worldBest = "... ?"
     var worldRank = "... ?"
     var countryBest = "... ?"

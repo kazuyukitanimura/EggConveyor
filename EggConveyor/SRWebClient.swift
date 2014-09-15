@@ -137,7 +137,14 @@ class SRWebClient : NSObject
         }
         return self
     }
-    
+
+    func jsonData(data:String?) -> SRWebClient {
+        if(data != nil) {
+            self.urlRequest!.HTTPBody = (data! as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        }
+        return self
+    }
+
     /**
     *  Function to upload image & data using POST request
     *
