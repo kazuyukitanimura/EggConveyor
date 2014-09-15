@@ -36,30 +36,53 @@ Ranking.prototype.rank = function(data, callback) {
 
   var scoreMembers = [data.bestScore, data.UUID];
 
-  var promises = {
+  var writes = {
     world: new RSVP.Promise(function(resolve, reject) {
-      redis.zadd.apply(redis, ['world'].concat(scoreMembers), function(err, res) {
+      redis.zadd(['world'].concat(scoreMembers), function(err, res) {
         if (err) {
           reject(err);
         } else {
           resolve(res);
         }
-        console.log(res);
       });
     }.bind(this)),
     country: new RSVP.Promise(function(resolve, reject) {
-      redis.zadd.apply(redis, [data.countryCode].concat(scoreMembers), function(err, res) {
+      redis.zadd([data.countryCode].concat(scoreMembers), function(err, res) {
         if (err) {
           reject(err);
         } else {
           resolve(res);
         }
-        console.log(res);
       });
     }.bind(this))
   };
-  rsvpHash(promises).then(function(results) {
-    callback(null, results);
+  var reads = {
+    world: new RSVP.Promise(function(resolve, reject) {
+      redis.zrevrank('world', data.UUID, function(err, res) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    }.bind(this)),
+    country: new RSVP.Promise(function(resolve, reject) {
+      redis.zrevrank(data.countryCode, data.UUID, function(err, res) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    }.bind(this))
+  };
+  rsvpHash(writes).then(function(results) {
+    rsvpHash(reads).then(function(results) {
+      callback(null, results);
+    }).
+    catch(function(errors) {
+      callback(errors, {});
+    });
   }).
   catch(function(errors) {
     callback(errors, {});

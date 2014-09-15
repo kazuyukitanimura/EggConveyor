@@ -37,7 +37,7 @@ app.all('*(php|http|admin)*', function(req, res) {
 });
 
 app.post('/score', function(req, res) {
-  new Ranking().rank(req.data, function(err, data) {
+  new Ranking().rank(req.body, function(err, data) {
     if (err) {
       console.error(err);
       res.send(500);
