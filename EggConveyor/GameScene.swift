@@ -18,8 +18,8 @@ extension SKAction {
     }
 }
 extension Dictionary {
-    func hasKey(_key: AnyObject?) -> Bool {
-        return [_key!] != nil
+    func hasKey(_key: Key) -> Bool {
+        return indexForKey(_key) != nil
     }
 }
 
@@ -533,7 +533,7 @@ class ScoreBoard: MySpriteNode {
         countryRank.position = CGPoint(x: 170, y: -140)
         countryRank.show()
         let borderT = ChalkBorder(parent: self)
-        borderT.position = CGPoint(x: -340, y: -340)
+        borderT.position = CGPoint(x: -380, y: -260)
         borderT.xScale = 0.4
         borderT.name = "Twitter"
         borderT.show()
@@ -542,11 +542,11 @@ class ScoreBoard: MySpriteNode {
         twitter.text = "t"
         twitter.fontColor = SKColor(red: 0.0/255.0, green: 172.0/255.0, blue: 237.0/255.0, alpha: 1.0)
         twitter.xScale = 2.0
-        twitter.position = CGPoint(x: -60, y: 40)
+        twitter.position = CGPoint(x: 0, y: -60)
         twitter.name = "Twitter"
         twitter.show()
         let borderF = ChalkBorder(parent: self)
-        borderF.position = CGPoint(x: -170, y: -340)
+        borderF.position = CGPoint(x: -210, y: -260)
         borderF.xScale = 0.4
         borderF.name = "Facebook"
         borderF.show()
@@ -555,11 +555,11 @@ class ScoreBoard: MySpriteNode {
         facebook.text = "f"
         facebook.fontColor = SKColor(red: 99.0/255.0, green: 129.0/255.0, blue: 192.0/255.0, alpha: 1.0)
         facebook.xScale = 2.0
-        facebook.position = CGPoint(x: -60, y: 60)
+        facebook.position = CGPoint(x: 0, y: -38)
         facebook.name = "Facebook"
         facebook.show()
         let borderR = ChalkBorder(parent: self)
-        borderR.position = CGPoint(x: 310, y: -340)
+        borderR.position = CGPoint(x: 230, y: -260)
         borderR.xScale = 1.6
         borderR.name = "retry"
         borderR.show()
@@ -567,7 +567,8 @@ class ScoreBoard: MySpriteNode {
         retryLabel.fontSize = 110
         retryLabel.text = "\u{21BB} RETRY"
         retryLabel.xScale = 0.4
-        retryLabel.position = CGPoint(x: -60, y: 68)
+        retryLabel.position = CGPoint(x: 0, y: -36)
+        retryLabel.name = "retry"
         retryLabel.show()
         show()
         var slideIn = SKAction.moveToX(parent!.frame.midX, duration: 1.5)
@@ -1158,11 +1159,13 @@ class GameScene: SKScene {
                         paused = false
                         message.hide()
                     }
-                } else if (slServiceTypes.hasKey(node.name)) {
+                } else if (slServiceTypes.hasKey(node.name!)) {
                     showSocial(node.name!)
                     return
                 }
                 break
+            } else if (gameState == .retry) {
+                return
             }
             if (!paused) {
                 var hen = (location.x < centerX) ? henL : henR
