@@ -257,6 +257,20 @@ class Message: MyLabelNode {
 class Score: MyLabelNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
+    var UUID:String {
+        get {
+            var ret = kvLoad("UUID") as? String
+            if (ret == nil) {
+                ret = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(Int(arc4random()))
+                self.UUID = ret!
+            }
+            return ret!
+        }
+        set {
+            kvStore("UUID", newValue)
+        }
+    }
+    let countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as String
     var score:Int = 0 {
         didSet {
             text = "SCORE " + String(score)
@@ -271,9 +285,9 @@ class Score: MyLabelNode {
             if (bestScore < score) {
                 kvStore("bestScore", newValue)
             }
-            SRWebClient.POST("http://validate.jsontest.com")
-                .headers(["Content-Type":"application/x-www-form-urlencoded charset=utf-8"])
-                .data(["json":"[1, 2, 3]"])
+            SRWebClient.POST("https://limily.com/score")
+                .headers(["Content-Type":"application/json charset=utf-8"])
+                .data(["json":"{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(newValue)\", \"\(countryCode)\"}"])
                 .send(success, failure:nil)
         }
     }
@@ -508,15 +522,14 @@ class ScoreBoard: MySpriteNode {
         worldRank.text = "WORLD RANK \(scoreObj.worldRank)"
         worldRank.position = CGPoint(x: -280, y: -140)
         worldRank.show()
-        let countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as String
         let countryBest = MyLabelNode(parent: self)
         countryBest.fontSize = fontSizeHalf
-        countryBest.text = "\(countryCode) BEST \(scoreObj.countryBest)"
+        countryBest.text = "\(scoreObj.countryCode) BEST \(scoreObj.countryBest)"
         countryBest.position = CGPoint(x: 170, y: -70)
         countryBest.show()
         let countryRank = MyLabelNode(parent: self)
         countryRank.fontSize = fontSizeHalf
-        countryRank.text = "\(countryCode) RANK \(scoreObj.countryRank)"
+        countryRank.text = "\(scoreObj.countryCode) RANK \(scoreObj.countryRank)"
         countryRank.position = CGPoint(x: 170, y: -140)
         countryRank.show()
         let borderT = ChalkBorder(parent: self)
@@ -742,19 +755,6 @@ class GameScene: SKScene {
     var pause:Pause!
     var scoreBoard:ScoreBoard!
     var taps = [Tap]()
-    var UUID:String {
-        get {
-            var ret = kvLoad("UUID") as? String
-            if (ret == nil) {
-                ret = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(Int(arc4random()))
-                self.UUID = ret!
-            }
-            return ret!
-        }
-        set {
-            kvStore("UUID", newValue)
-        }
-    }
 
     override func didMoveToView(view: SKView) {
         centerX = frame.midX
@@ -933,7 +933,6 @@ class GameScene: SKScene {
         taps[1].flip()
         taps[1].position = CGPoint(x:centerX * 1.8, y:step4Y)
 
-        println(UUID)
         reset()
     }
 
