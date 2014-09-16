@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8047192E197F56610075C696"
-               BuildableName = "EggConveyor.app"
-               BlueprintName = "EggConveyor"
-               ReferencedContainer = "container:EggConveyor.xcodeproj">
+               BuildableName = "OperationEggs.app"
+               BlueprintName = "OperationEggs"
+               ReferencedContainer = "container:OperationEggs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80471944197F56610075C696"
-               BuildableName = "EggConveyorTests.xctest"
-               BlueprintName = "EggConveyorTests"
-               ReferencedContainer = "container:EggConveyor.xcodeproj">
+               BuildableName = "OperationEggsTests.xctest"
+               BlueprintName = "OperationEggsTests"
+               ReferencedContainer = "container:OperationEggs.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
-            BuildableName = "EggConveyor.app"
-            BlueprintName = "EggConveyor"
-            ReferencedContainer = "container:EggConveyor.xcodeproj">
+            BuildableName = "OperationEggs.app"
+            BlueprintName = "OperationEggs"
+            ReferencedContainer = "container:OperationEggs.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
-            BuildableName = "EggConveyor.app"
-            BlueprintName = "EggConveyor"
-            ReferencedContainer = "container:EggConveyor.xcodeproj">
+            BuildableName = "OperationEggs.app"
+            BlueprintName = "OperationEggs"
+            ReferencedContainer = "container:OperationEggs.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
-            BuildableName = "EggConveyor.app"
-            BlueprintName = "EggConveyor"
-            ReferencedContainer = "container:EggConveyor.xcodeproj">
+            BuildableName = "OperationEggs.app"
+            BlueprintName = "OperationEggs"
+            ReferencedContainer = "container:OperationEggs.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
