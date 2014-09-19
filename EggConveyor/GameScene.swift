@@ -597,19 +597,21 @@ class Tap: MySpriteNode {
     var tapLetter:MyLabelNode!
     init(parent: GameScene) {
         super.init(parent: parent, image: "tap")
-        setScale(1.0)
-        anchorPoint = CGPointMake(0.5, -1.0)
+        setScale(1.6)
+        anchorPoint = CGPointMake(0.5, -0.4)
         tapLetter = MyLabelNode(parent: self)
-        tapLetter.fontSize = 40
+        tapLetter.fontSize = 22
         tapLetter.text = "TAP"
-        tapLetter.position = CGPoint(x:-7, y:70)
+        tapLetter.position = CGPoint(x:0, y:28)
         tapLetter.show()
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.moveByX(8.0, y: 0.0, duration: 1.0), SKAction.moveByX(-8.0, y: 0.0, duration: 1.0)])))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.moveByX(0.0, y: 8.0, duration: 1.0), SKAction.moveByX(0.0, y: -8.0, duration: 1.0)])))
     }
 
     override func flip() {
-        tapLetter.xScale = -tapLetter.xScale
-        super.flip()
+        anchorPoint = CGPointMake(0.5, 1.5)
+        tapLetter.position = CGPoint(x:0, y:-48)
+        tapLetter.yScale = -tapLetter.yScale
+        yScale = -yScale
     }
 }
 
@@ -938,10 +940,15 @@ class GameScene: SKScene {
 
         // Tap
         taps.append(Tap(parent: self))
-        taps[0].position = CGPoint(x:centerX * 0.2, y:step1Y)
+        taps[0].flip()
+        taps[0].position = CGPoint(x:centerX * 0.4, y:step1Y)
         taps.append(Tap(parent: self))
         taps[1].flip()
-        taps[1].position = CGPoint(x:centerX * 1.8, y:step4Y)
+        taps[1].position = CGPoint(x:centerX * 1.6, y:step4Y)
+        taps.append(Tap(parent: self))
+        taps[2].position = CGPoint(x:centerX * 0.4, y:step3Y)
+        taps.append(Tap(parent: self))
+        taps[3].position = CGPoint(x:centerX * 1.6, y:step6Y)
 
         reset()
     }
@@ -1025,7 +1032,7 @@ class GameScene: SKScene {
     func reset() {
         retry()
         gameState = .first
-        message.show("TAP TO MOVE!")
+        message.show("TAP TO MOVE UP/DOWN!")
         for tap in taps {
             tap.show()
         }
