@@ -257,6 +257,7 @@ class Message: MyLabelNode {
 class Score: MyLabelNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
+    var _scoreBoard: ScoreBoard!
     var UUID:String {
         get {
             var ret = kvLoad("UUID") as? String
@@ -288,7 +289,7 @@ class Score: MyLabelNode {
             SRWebClient.POST("https://limily.com/score")
                 .headers(["Content-Type":"application/json; charset=utf-8"])
                 .jsonData("{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(bestScore)\", \"countryCode\": \"\(countryCode)\"}")
-                .send(success, failure:nil)
+                .send(success, failure:failure)
         }
     }
     var worldBest = "... ?"
@@ -311,11 +312,16 @@ class Score: MyLabelNode {
                 countryRank = String(Int(result["countryRank"] as NSNumber) + 1)
             }
         }
+        _scoreBoard.show(self)
+    }
+    func failure(error: NSError!) {
+        _scoreBoard.show(self)
     }
 
-    override init(parent: SKNode) {
+    init(parent: SKNode, scoreBoard:ScoreBoard) {
         super.init(parent: parent)
         fontSize = 30
+        _scoreBoard = scoreBoard
         set(score)
     }
 
@@ -336,6 +342,9 @@ class Score: MyLabelNode {
 
     func lostLife() {
         lastMiss = score
+    }
+
+    func updateBest() {
         bestScore = score
     }
 }
@@ -901,8 +910,12 @@ class GameScene: SKScene {
         message = Message(parent: self)
         message.position = CGPoint(x:centerX, y:centerY)
 
+        // score board
+        scoreBoard = ScoreBoard(parent: self)
+        scoreBoard.position = CGPoint(x:centerX * 3.0, y:centerY)
+
         // score
-        scoreLabel = Score(parent: self)
+        scoreLabel = Score(parent: self, scoreBoard:scoreBoard)
         scoreLabel.position.x = centerX * 2.0 - scoreLabel.frame.size.width
         scoreLabel.position.y = screenHeight + ground - scoreLabel.frame.size.height
 
@@ -922,10 +935,6 @@ class GameScene: SKScene {
         // Pause
         pause = Pause(parent: self)
         pause.position = CGPoint(x:centerX * 2.0, y:lifes[0].frame.minY)
-
-        // score board
-        scoreBoard = ScoreBoard(parent: self)
-        scoreBoard.position = CGPoint(x:centerX * 3.0, y:centerY)
 
         // Tap
         taps.append(Tap(parent: self))
@@ -953,8 +962,8 @@ class GameScene: SKScene {
         henR.cry()
         pause.hide()
         if (lifeCount == 0) {
+            scoreLabel.updateBest()
             showAd()
-            scoreBoard.show(scoreLabel)
         }
         timers[0].stopTicking()
         timers[2].startTicking()
