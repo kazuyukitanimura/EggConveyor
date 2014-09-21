@@ -23,7 +23,7 @@
 		80E4800719CEC19400575391 /* come.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800319CEC19400575391 /* come.wav */; };
 		80E4800819CEC19400575391 /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800419CEC19400575391 /* drop.wav */; };
 		80E4800919CEC19400575391 /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800519CEC19400575391 /* move.wav */; };
-		80E4800A19CEC19400575391 /* point.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800619CEC19400575391 /* point.wav */; };
+		80E4800C19CF597500575391 /* lift.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800B19CF597500575391 /* lift.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,7 @@
 		80E4800319CEC19400575391 /* come.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = come.wav; sourceTree = "<group>"; };
 		80E4800419CEC19400575391 /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
 		80E4800519CEC19400575391 /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
-		80E4800619CEC19400575391 /* point.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = point.wav; sourceTree = "<group>"; };
+		80E4800B19CF597500575391 /* lift.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lift.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,8 +147,8 @@
 			children = (
 				80E4800319CEC19400575391 /* come.wav */,
 				80E4800419CEC19400575391 /* drop.wav */,
+				80E4800B19CF597500575391 /* lift.wav */,
 				80E4800519CEC19400575391 /* move.wav */,
-				80E4800619CEC19400575391 /* point.wav */,
 			);
 			path = sound;
 			sourceTree = "<group>";
@@ -238,6 +238,7 @@
 				80471940197F56610075C696 /* Images.xcassets in Resources */,
 				80BE5D131985B826009547BF /* step.atlas in Resources */,
 				80471937197F56610075C696 /* GameScene.sks in Resources */,
+				80E4800C19CF597500575391 /* lift.wav in Resources */,
 				80BE5D111984F47C009547BF /* truck.atlas in Resources */,
 				80BE5D151986265D009547BF /* hen.atlas in Resources */,
 				80E4800819CEC19400575391 /* drop.wav in Resources */,
@@ -245,7 +246,6 @@
 				80E4800719CEC19400575391 /* come.wav in Resources */,
 				8047193E197F56610075C696 /* Main.storyboard in Resources */,
 				80C2CA1E198770C400C26571 /* egg.atlas in Resources */,
-				80E4800A19CEC19400575391 /* point.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

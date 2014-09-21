@@ -346,7 +346,7 @@ class Score: MyLabelNode {
             plus *= 2 // if no life is lost, double the gain
         }
         score += plus
-        sound("point")
+        sound("lift")
         return plus
     }
 
@@ -417,6 +417,7 @@ class Egg: MySpriteNode {
         }
         if (currPos == 3) {
             show()
+            sound("come")
         }
         return false
     }
@@ -1141,10 +1142,8 @@ class GameScene: SKScene {
         catchEgg()
         if (dispatcher.dispatch()) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
-            scoreLabel.sound("come")
         } else if (eggs.count == 0) {
             firstEgg()
-            scoreLabel.sound("come")
         }
     }
 
