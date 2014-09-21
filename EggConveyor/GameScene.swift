@@ -1059,6 +1059,7 @@ class GameScene: SKScene {
         countDown = messages.count
         timers[0]._interval = max(NSTimeInterval(0.4), timers[0]._interval - NSTimeInterval(0.1))
         dispatcher._rate = max(1, dispatcher._rate - 1)
+        message.sound("levelup")
     }
 
     func offPlay() {
