@@ -49,6 +49,10 @@ class MyLabelNode: SKLabelNode {
     func hide() {
         hidden = true
     }
+    
+    func sound(fileName: String) {
+        runAction(SKAction.playSoundFileNamed("\(fileName).wav", waitForCompletion: false))
+    }
 }
 
 class MySpriteNode: SKSpriteNode {
@@ -73,6 +77,10 @@ class MySpriteNode: SKSpriteNode {
         hidden = true
     }
 
+    func sound(fileName: String) {
+        runAction(SKAction.playSoundFileNamed("\(fileName).wav", waitForCompletion: false))
+    }
+    
     func flip() {
         xScale = -(abs(xScale))
     }
@@ -214,6 +222,7 @@ class Hen: MySpriteNode {
             if (henState == .smile) {
                 reset()
             }
+            sound("move")
         }
     }
 
@@ -337,11 +346,13 @@ class Score: MyLabelNode {
             plus *= 2 // if no life is lost, double the gain
         }
         score += plus
+        sound("point")
         return plus
     }
 
     func lostLife() {
         lastMiss = score
+        sound("drop")
     }
 
     func updateBest() {
@@ -1130,8 +1141,10 @@ class GameScene: SKScene {
         catchEgg()
         if (dispatcher.dispatch()) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
+            scoreLabel.sound("come")
         } else if (eggs.count == 0) {
             firstEgg()
+            scoreLabel.sound("come")
         }
     }
 
