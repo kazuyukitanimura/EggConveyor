@@ -222,7 +222,7 @@ class Hen: MySpriteNode {
             if (henState == .smile) {
                 reset()
             }
-            sound("move")
+            //sound("move")
         }
     }
 
