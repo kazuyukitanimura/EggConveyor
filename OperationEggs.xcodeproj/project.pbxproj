@@ -25,6 +25,8 @@
 		80E4800919CEC19400575391 /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800519CEC19400575391 /* move.wav */; };
 		80E4800C19CF597500575391 /* lift.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800B19CF597500575391 /* lift.wav */; };
 		80E4800E19CF8EE500575391 /* levelup.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800D19CF8EE500575391 /* levelup.wav */; };
+		80FDEFE419CFF54C003A71B8 /* count2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80FDEFE219CFF54C003A71B8 /* count2.wav */; };
+		80FDEFE519CFF54C003A71B8 /* count.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80FDEFE319CFF54C003A71B8 /* count.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		80E4800519CEC19400575391 /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
 		80E4800B19CF597500575391 /* lift.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lift.wav; sourceTree = "<group>"; };
 		80E4800D19CF8EE500575391 /* levelup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelup.wav; sourceTree = "<group>"; };
+		80FDEFE219CFF54C003A71B8 /* count2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count2.wav; sourceTree = "<group>"; };
+		80FDEFE319CFF54C003A71B8 /* count.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +153,8 @@
 			children = (
 				80E4800D19CF8EE500575391 /* levelup.wav */,
 				80E4800319CEC19400575391 /* come.wav */,
+				80FDEFE219CFF54C003A71B8 /* count2.wav */,
+				80FDEFE319CFF54C003A71B8 /* count.wav */,
 				80E4800419CEC19400575391 /* drop.wav */,
 				80E4800B19CF597500575391 /* lift.wav */,
 				80E4800519CEC19400575391 /* move.wav */,
@@ -246,6 +252,8 @@
 				80BE5D111984F47C009547BF /* truck.atlas in Resources */,
 				80BE5D151986265D009547BF /* hen.atlas in Resources */,
 				80E4800819CEC19400575391 /* drop.wav in Resources */,
+				80FDEFE519CFF54C003A71B8 /* count.wav in Resources */,
+				80FDEFE419CFF54C003A71B8 /* count2.wav in Resources */,
 				8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */,
 				80E4800719CEC19400575391 /* come.wav in Resources */,
 				8047193E197F56610075C696 /* Main.storyboard in Resources */,

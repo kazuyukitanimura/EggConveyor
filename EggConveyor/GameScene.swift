@@ -153,6 +153,7 @@ class Truck: MySpriteNode {
             egg.position.y = y / scale
             egg.position.x /= scale
         }
+        sound("levelup")
         runAction(SKAction.moveToX(-size.width, duration: 1.0), completion: back(callback))
     }
 
@@ -654,12 +655,24 @@ class Dispatcher {
     var colCnt:Int = 0
     var last:Bool = false
     var _rate:Int = 10
+    var orgRate:Int = 10
+    var _distance:Int = 0
     init(row: Int, col:Int, rate: Int) {
         _size = row * col
         _row = row
         _col = col
         history = [Bool](count:_size, repeatedValue: false)
         _rate = rate
+        orgRate = rate
+    }
+
+    func reset() {
+        _rate = orgRate
+        _distance = 0
+    }
+
+    func levelUp() {
+        _rate = max(1, _rate - 3)
     }
 
     func dispatch() -> Bool {
@@ -673,12 +686,13 @@ class Dispatcher {
                 last |= history[j * _col + colCnt] // find conflicts
             }
             last ^= history[count] // but do not count self
-            last = !last && (arc4random_uniform(UInt32(_rate)) == 0) // if no conflicts, randomly assign
+            last = !last && (arc4random_uniform(UInt32(_rate - _distance)) == 0) // if no conflicts, randomly assign
         }
         history[count++] = last
         if (++colCnt == _col) {
             colCnt = 0
         }
+        _distance = last ? 0 : _distance + 1
         return last
     }
 
@@ -774,7 +788,7 @@ class GameScene: SKScene {
     var eggs = [Egg]()
     var lostEggs = [Egg]()
     var eggPoses = [CGPoint]()
-    let dispatcher = Dispatcher(row:3, col:16, rate: 9)
+    let dispatcher = Dispatcher(row:3, col:16, rate: 22)
     var level = 1
     var messages = [String]()
     var timers = [Timer]()
@@ -1040,7 +1054,7 @@ class GameScene: SKScene {
         scoreLabel.show()
         gameState = .play
         timers[0]._interval = onPlayInterval
-        dispatcher._rate = 9
+        dispatcher.reset()
     }
 
     func reset() {
@@ -1060,8 +1074,7 @@ class GameScene: SKScene {
         messages = ["GO!", "SET", "READY", "LEVEL \(level++)"]
         countDown = messages.count
         timers[0]._interval = max(NSTimeInterval(0.4), timers[0]._interval - NSTimeInterval(0.1))
-        dispatcher._rate = max(1, dispatcher._rate - 1)
-        message.sound("levelup")
+        dispatcher.levelUp()
     }
 
     func offPlay() {
@@ -1078,6 +1091,11 @@ class GameScene: SKScene {
                 message.fontColor = chalkYellow
             } else if (countDown == 0) {
                 message.fontColor = chalkGreen
+            }
+            if (countDown == 0) {
+                message.sound("count2")
+            } else {
+                message.sound("count")
             }
             message.show(messages[countDown])
         }
