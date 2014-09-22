@@ -522,6 +522,8 @@ class ScoreBoard: MySpriteNode {
         if (isRecord) {
             scoreLabel.text = "CONGRATS! NEW"
             scoreLabel.fontColor = chalkRed
+        } else {
+            scoreLabel.fontSize += 10
         }
         scoreLabel.position = CGPoint(x: 0, y: 150)
         scoreLabel.show()
