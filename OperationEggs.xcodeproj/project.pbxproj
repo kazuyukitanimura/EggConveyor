@@ -16,17 +16,17 @@
 		8047194C197F56610075C696 /* EggConveyorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047194B197F56610075C696 /* EggConveyorTests.swift */; };
 		8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8061F8A819838FF300BCB17E /* conveyor.atlas */; };
 		80940EBA19AF0A2C0069B607 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80940EB919AF0A2C0069B607 /* SRWebClient.swift */; };
+		809A84F019D7CC510026AB6B /* come.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84E819D7CC510026AB6B /* come.wav */; };
+		809A84F119D7CC510026AB6B /* count.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84E919D7CC510026AB6B /* count.wav */; };
+		809A84F219D7CC510026AB6B /* count2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84EA19D7CC510026AB6B /* count2.wav */; };
+		809A84F319D7CC510026AB6B /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84EB19D7CC510026AB6B /* drop.wav */; };
+		809A84F419D7CC510026AB6B /* levelup.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84EC19D7CC510026AB6B /* levelup.wav */; };
+		809A84F519D7CC510026AB6B /* lift.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84ED19D7CC510026AB6B /* lift.wav */; };
+		809A84F719D7CC510026AB6B /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84EF19D7CC510026AB6B /* move.wav */; };
 		80BE5D111984F47C009547BF /* truck.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D101984F47C009547BF /* truck.atlas */; };
 		80BE5D131985B826009547BF /* step.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D121985B826009547BF /* step.atlas */; };
 		80BE5D151986265D009547BF /* hen.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D141986265D009547BF /* hen.atlas */; };
 		80C2CA1E198770C400C26571 /* egg.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80C2CA1D198770C400C26571 /* egg.atlas */; };
-		80E4800719CEC19400575391 /* come.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800319CEC19400575391 /* come.wav */; };
-		80E4800819CEC19400575391 /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800419CEC19400575391 /* drop.wav */; };
-		80E4800919CEC19400575391 /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800519CEC19400575391 /* move.wav */; };
-		80E4800C19CF597500575391 /* lift.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800B19CF597500575391 /* lift.wav */; };
-		80E4800E19CF8EE500575391 /* levelup.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80E4800D19CF8EE500575391 /* levelup.wav */; };
-		80FDEFE419CFF54C003A71B8 /* count2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80FDEFE219CFF54C003A71B8 /* count2.wav */; };
-		80FDEFE519CFF54C003A71B8 /* count.wav in Resources */ = {isa = PBXBuildFile; fileRef = 80FDEFE319CFF54C003A71B8 /* count.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,17 +53,17 @@
 		8047194B197F56610075C696 /* EggConveyorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggConveyorTests.swift; sourceTree = "<group>"; };
 		8061F8A819838FF300BCB17E /* conveyor.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = conveyor.atlas; sourceTree = "<group>"; };
 		80940EB919AF0A2C0069B607 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
+		809A84E819D7CC510026AB6B /* come.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = come.wav; sourceTree = "<group>"; };
+		809A84E919D7CC510026AB6B /* count.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count.wav; sourceTree = "<group>"; };
+		809A84EA19D7CC510026AB6B /* count2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count2.wav; sourceTree = "<group>"; };
+		809A84EB19D7CC510026AB6B /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
+		809A84EC19D7CC510026AB6B /* levelup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelup.wav; sourceTree = "<group>"; };
+		809A84ED19D7CC510026AB6B /* lift.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lift.wav; sourceTree = "<group>"; };
+		809A84EF19D7CC510026AB6B /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
 		80BE5D101984F47C009547BF /* truck.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = truck.atlas; sourceTree = "<group>"; };
 		80BE5D121985B826009547BF /* step.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = step.atlas; sourceTree = "<group>"; };
 		80BE5D141986265D009547BF /* hen.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hen.atlas; sourceTree = "<group>"; };
 		80C2CA1D198770C400C26571 /* egg.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = egg.atlas; sourceTree = "<group>"; };
-		80E4800319CEC19400575391 /* come.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = come.wav; sourceTree = "<group>"; };
-		80E4800419CEC19400575391 /* drop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drop.wav; sourceTree = "<group>"; };
-		80E4800519CEC19400575391 /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
-		80E4800B19CF597500575391 /* lift.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lift.wav; sourceTree = "<group>"; };
-		80E4800D19CF8EE500575391 /* levelup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelup.wav; sourceTree = "<group>"; };
-		80FDEFE219CFF54C003A71B8 /* count2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count2.wav; sourceTree = "<group>"; };
-		80FDEFE319CFF54C003A71B8 /* count.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +105,7 @@
 		80471931197F56610075C696 /* EggConveyor */ = {
 			isa = PBXGroup;
 			children = (
-				80E4800219CEC19400575391 /* sound */,
+				809A84E719D7CC510026AB6B /* sound */,
 				80471934197F56610075C696 /* AppDelegate.swift */,
 				80471936197F56610075C696 /* GameScene.sks */,
 				80471938197F56610075C696 /* GameScene.swift */,
@@ -148,16 +148,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		80E4800219CEC19400575391 /* sound */ = {
+		809A84E719D7CC510026AB6B /* sound */ = {
 			isa = PBXGroup;
 			children = (
-				80E4800D19CF8EE500575391 /* levelup.wav */,
-				80E4800319CEC19400575391 /* come.wav */,
-				80FDEFE219CFF54C003A71B8 /* count2.wav */,
-				80FDEFE319CFF54C003A71B8 /* count.wav */,
-				80E4800419CEC19400575391 /* drop.wav */,
-				80E4800B19CF597500575391 /* lift.wav */,
-				80E4800519CEC19400575391 /* move.wav */,
+				809A84E819D7CC510026AB6B /* come.wav */,
+				809A84E919D7CC510026AB6B /* count.wav */,
+				809A84EA19D7CC510026AB6B /* count2.wav */,
+				809A84EB19D7CC510026AB6B /* drop.wav */,
+				809A84EC19D7CC510026AB6B /* levelup.wav */,
+				809A84ED19D7CC510026AB6B /* lift.wav */,
+				809A84EF19D7CC510026AB6B /* move.wav */,
 			);
 			path = sound;
 			sourceTree = "<group>";
@@ -243,19 +243,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80E4800919CEC19400575391 /* move.wav in Resources */,
+				809A84F519D7CC510026AB6B /* lift.wav in Resources */,
+				809A84F019D7CC510026AB6B /* come.wav in Resources */,
+				809A84F219D7CC510026AB6B /* count2.wav in Resources */,
 				80471940197F56610075C696 /* Images.xcassets in Resources */,
+				809A84F119D7CC510026AB6B /* count.wav in Resources */,
 				80BE5D131985B826009547BF /* step.atlas in Resources */,
-				80E4800E19CF8EE500575391 /* levelup.wav in Resources */,
 				80471937197F56610075C696 /* GameScene.sks in Resources */,
-				80E4800C19CF597500575391 /* lift.wav in Resources */,
 				80BE5D111984F47C009547BF /* truck.atlas in Resources */,
+				809A84F319D7CC510026AB6B /* drop.wav in Resources */,
 				80BE5D151986265D009547BF /* hen.atlas in Resources */,
-				80E4800819CEC19400575391 /* drop.wav in Resources */,
-				80FDEFE519CFF54C003A71B8 /* count.wav in Resources */,
-				80FDEFE419CFF54C003A71B8 /* count2.wav in Resources */,
+				809A84F719D7CC510026AB6B /* move.wav in Resources */,
+				809A84F419D7CC510026AB6B /* levelup.wav in Resources */,
 				8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */,
-				80E4800719CEC19400575391 /* come.wav in Resources */,
 				8047193E197F56610075C696 /* Main.storyboard in Resources */,
 				80C2CA1E198770C400C26571 /* egg.atlas in Resources */,
 			);

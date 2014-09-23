@@ -1096,7 +1096,7 @@ class GameScene: SKScene {
         lifeCount = maxLifes
         scoreLabel.set(0)
         level = 1
-        hideAd()
+        //hideAd()
         scoreBoard.hide()
         scoreLabel.show()
         gameState = .play
@@ -1307,9 +1307,9 @@ class GameScene: SKScene {
         NSNotificationCenter.defaultCenter().postNotificationName("showAd", object:nil) // Sends message to viewcontroller to show ad.
     }
 
-    func hideAd() {
-        NSNotificationCenter.defaultCenter().postNotificationName("hideAd", object:nil) // Sends message to viewcontroller to hide ad.
-    }
+    //func hideAd() {
+    //    NSNotificationCenter.defaultCenter().postNotificationName("hideAd", object:nil) // Sends message to viewcontroller to hide ad.
+    //}
 
     func showSocial(name: String) {
         let userInfo = [

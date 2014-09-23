@@ -32,9 +32,10 @@ extension SKNode {
 }
 
 class GameViewController: UIViewController {
-    let adBannerView = ADBannerView(frame: CGRect.zeroRect)
-    var adBannerCenter: CGPoint!
-    var viewCenter: CGPoint!
+    let adBannerView = ADBannerView(adType: .Banner)
+    var adInterstitial:ADInterstitialAd!
+    var _adView = UIView()
+    var _button = UIButton(frame: CGRect(x: 10, y:  10, width: 40, height: 40))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,30 +55,43 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
         }
 
-        viewCenter = CGPoint(x: view.bounds.size.width / 2, y: view.bounds.size.height / 2)
-        adBannerCenter = CGPoint(x: adBannerView.frame.midX, y: adBannerView.frame.midY)
-
-        adBannerView.center = adBannerCenter
+        adBannerView.center = CGPoint(x: adBannerView.frame.midX, y: adBannerView.frame.midY)
         adBannerView.hidden = UIDevice.currentDevice().userInterfaceIdiom != .Pad
         adBannerView.frame = CGRectOffset(adBannerView.frame, 0, 0.0)
         //adBannerView.adType = ADAdType.MediumRectangle
         self.view.addSubview(adBannerView)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"showAd:", name:"showAd", object:nil)
         for key in slServiceTypes.keys {
             NSNotificationCenter.defaultCenter().addObserver(self, selector:"showSocial:", name:key, object:nil)
         }
+
+        adInterstitial = ADInterstitialAd()
+        _adView.frame = self.view.bounds
+        _adView.hidden = true
+        self.view.addSubview(_adView)
+        _button.setBackgroundImage(UIImage(named: "close"), forState: UIControlState.Normal)
+        _button.addTarget(self, action: Selector("close"), forControlEvents: UIControlEvents.TouchDown)
+        _button.hidden = true
+        self.view.addSubview(_button)
       }
 
     // Handle Notification
     // http://stackoverflow.com/questions/21664295/hide-show-iads-in-spritekit
-    func hideAd(notification: NSNotification) {
-        //adBannerView.center = adBannerCenter
-        //adBannerView.hidden = UIDevice.currentDevice().userInterfaceIdiom != .Pad
-    }
+    //func hideAd(notification: NSNotification) {
+    //}
     func showAd(notification: NSNotification) {
-        //adBannerView.center = viewCenter
-        //adBannerView.hidden = false
+        if (adInterstitial.loaded) {
+            // http://stackoverflow.com/questions/25285344/interstitialad-ios-8-beta-5-does-not-provide-x-close-button-in-simulator
+            _adView.hidden = false
+            _button.hidden = false
+            adInterstitial.presentInView(_adView)
+        }
+    }
+    func close() {
+        _adView.hidden = true
+        _button.hidden = true
+        adInterstitial = ADInterstitialAd()
     }
     func showSocial(notification: NSNotification) {
         if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[notification.name])) {

@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import iAd
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ADBannerViewDelegate {
                             
     var window: UIWindow?
 
