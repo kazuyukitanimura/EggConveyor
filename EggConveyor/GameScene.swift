@@ -682,11 +682,14 @@ class Dispatcher {
         if (last) {
             last = false
         } else {
+            var maybe = false
             for j in 0..<_row {
+                var pos = j * _col + colCnt
                 last |= history[j * _col + colCnt] // find conflicts
+                maybe |= history[(pos + 1) % _size] | history[(pos + _size - 1) % _size]
             }
             last ^= history[count] // but do not count self
-            last = !last && (arc4random_uniform(UInt32(_rate - _distance)) == 0) // if no conflicts, randomly assign
+            last = !last && (arc4random_uniform(UInt32((_rate - _distance) * (maybe ? 2 : 1))) == 0) // if no conflicts, randomly assign
         }
         history[count++] = last
         if (++colCnt == _col) {
