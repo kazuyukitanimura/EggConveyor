@@ -647,61 +647,83 @@ class ScoreTip: MyLabelNode {
 }
 
 class Dispatcher {
-    let _size:Int
     let _row:Int
     let _col:Int
-    var history:[Bool]
-    var count:Int = 0
-    var colCnt:Int = 0
-    var last:Bool = false
-    var _rate:Int = 10
-    var orgRate:Int = 10
-    var _distance:Int = 0
-    init(row: Int, col:Int, rate: Int) {
-        _size = row * col
+    var history = [Int:Int?]()
+    var x:Int = 0
+    var y:Int = 0
+    var lastY:Int?
+    var _max:Int = 0
+    var _orgMax:Int = 0
+    init(row: Int, col:Int, maxN: Int) {
         _row = row
         _col = col
-        history = [Bool](count:_size, repeatedValue: false)
-        _rate = rate
-        orgRate = rate
+        _orgMax = min(col, maxN)
+        reset()
     }
 
     func reset() {
-        _rate = orgRate
-        _distance = 0
+        _max = _orgMax
+        lastY = nil
+        x = 0
+        y = 0
+        _format()
+    }
+
+    func _format() {
+        for i in 0..<_max {
+            history[i] = 0
+        }
+        for i in _max..<_col {
+            history[i] = nil
+        }
     }
 
     func levelUp() {
-        _rate = max(1, _rate - 3)
+        _max = min(_col, _max + 1)
+        for i in 0..<_col {
+            if (history[i] == nil) {
+                history[i] = 0
+                break
+            }
+        }
     }
 
     func dispatch() -> Bool {
-        if (count == _size) {
-            count = 0
+        if (x == _col) {
+            x = 0
+            y++
         }
-        if (last) {
-            last = false
-        } else {
-            for j in 0..<_row {
-                last |= history[j * _col + colCnt] // find conflicts
+        if (y == _row) {
+            y = 0
+        }
+        if (y == 0) {
+            var r = irand(_col - x) + x
+            (history[x], history[r]) = (history[r], history[x])
+            if (history[x] != nil) {
+                if (lastY == nil) {
+                   lastY = irand(_row)
+                } else {
+                   lastY = (lastY! + 1 + irand(_row - 1)) % _row
+                }
+                history[x] = lastY
+            } else {
+                lastY = nil
             }
-            last ^= history[count] // but do not count self
-            last = !last && (arc4random_uniform(UInt32(_rate - _distance)) == 0) // if no conflicts, randomly assign
         }
-        history[count++] = last
-        if (++colCnt == _col) {
-            colCnt = 0
-        }
-        _distance = last ? 0 : _distance + 1
-        return last
+        println(x)
+        println(y)
+        println(history)
+        println(history[x]? == y)
+        return history[x++]? == y
     }
 
     func first() {
         /* force first history true*/
-        history[0] = true
-        last = true
-        count = 1
-        colCnt = 1
+        _format()
+        lastY = 0
+        x = 1
+        y = 0
     }
 }
 
@@ -759,6 +781,10 @@ func kvLoad(k: String) -> AnyObject? {
     return NSUserDefaults.standardUserDefaults().objectForKey(k)
 }
 
+func irand(_max: Int) -> Int {
+    return Int(arc4random_uniform(UInt32(_max)))
+}
+
 class GameScene: SKScene {
     // It seems 576 is the real height as opposed to 640 for iPhone5s
     let screenHeight:CGFloat = 576.0
@@ -788,7 +814,7 @@ class GameScene: SKScene {
     var eggs = [Egg]()
     var lostEggs = [Egg]()
     var eggPoses = [CGPoint]()
-    let dispatcher = Dispatcher(row:3, col:16, rate: 22)
+    let dispatcher = Dispatcher(row:3, col:16, maxN: 3)
     var level = 1
     var messages = [String]()
     var timers = [Timer]()
