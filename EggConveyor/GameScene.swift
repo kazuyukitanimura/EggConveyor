@@ -686,7 +686,7 @@ class Dispatcher {
                 last |= history[j * _col + colCnt] // find conflicts
             }
             last ^= history[count] // but do not count self
-            last = !last && (arc4random_uniform(UInt32(_rate - _distance)) == 0) // if no conflicts, randomly assign
+            last = !last && (arc4random_uniform(UInt32(max(_rate - _distance, 0))) == 0) // if no conflicts, randomly assign
         }
         history[count++] = last
         if (++colCnt == _col) {
