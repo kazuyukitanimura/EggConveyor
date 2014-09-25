@@ -819,6 +819,7 @@ class GameScene: SKScene {
         let tower = SKSpriteNode(imageNamed: "tower")
         tower.setScale(screenHeight / tower.size.height)
         tower.position = CGPoint(x:centerX, y:centerY - 10.0)
+        tower.colorBlendFactor = 0.1
         addChild(tower)
 
         // step
