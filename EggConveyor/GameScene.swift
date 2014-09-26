@@ -411,6 +411,7 @@ class Egg: MySpriteNode {
         _eggPoses = eggPoses
     }
 
+    var arrow:Arrow!
     func move(toY: CGFloat, duration: NSTimeInterval) -> Bool {
         if (++currPos == _eggPoses.count) {
             runAction(SKAction.moveToY(toY, duration: duration - NSTimeInterval(0.1)))
@@ -419,6 +420,12 @@ class Egg: MySpriteNode {
         if (currPos == 3) {
             show()
             sound("come")
+
+            arrow = Arrow(parent: self)
+            arrow.position = CGPoint(x:-350, y:1000)
+            arrow.show()
+        } else {
+            arrow.hide()
         }
         return false
     }
@@ -627,6 +634,17 @@ class Tap: MySpriteNode {
         tapLetter.position = CGPoint(x:0, y:-48)
         tapLetter.yScale = -tapLetter.yScale
         yScale = -yScale
+    }
+}
+
+class Arrow: MySpriteNode {
+    required init(coder: NSCoder) {super.init(coder: coder)}
+
+    init(parent: SKNode) {
+        super.init(parent: parent, image: "arrow")
+        setScale(3.8)
+        anchorPoint = CGPointMake(0.5, 0.5)
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeInWithDuration(0.2), SKAction.fadeOutWithDuration(0.2)])))
     }
 }
 
