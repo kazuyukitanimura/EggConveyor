@@ -1273,7 +1273,7 @@ class GameScene: SKScene {
                         tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
                         tooBusy.fontSize = 40
                         tooBusy.fontColor = chalkYellow
-                        tooBusy.show("TOO EARLY -1")
+                        tooBusy.show("-1 TOO EARLY")
                         scoreLabel.sub(1)
                     }
                     return
