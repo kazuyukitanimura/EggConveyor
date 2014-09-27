@@ -351,6 +351,10 @@ class Score: MyLabelNode {
         return plus
     }
 
+    func sub(n: Int) {
+        score -= n
+    }
+
     func lostLife() {
         lastMiss = score
         sound("drop")
@@ -662,6 +666,13 @@ class ScoreTip: MyLabelNode {
         runAction(SKAction.fadeOutWithDuration(1.0))
         runAction(SKAction.moveByY(150, duration: 1.0))
     }
+
+    func show(message: String) {
+        text = message
+        super.show()
+        runAction(SKAction.fadeOutWithDuration(1.0))
+        runAction(SKAction.moveByY(150, duration: 1.0))
+    }
 }
 
 class Dispatcher {
@@ -690,7 +701,7 @@ class Dispatcher {
     }
 
     func levelUp() {
-        _rate = max(1, _rate - 3)
+        _rate = max(1, _rate - 2)
     }
 
     func dispatch() -> Bool {
@@ -725,11 +736,13 @@ class Dispatcher {
 
 class Timer {
     var _interval:NSTimeInterval!
+    var orgInterval:NSTimeInterval!
     var _lastTick:NSDate?
     var _onTick:(() -> Void)!
 
     init (interval: Double, onTick: (() -> Void)!) {
         _interval = NSTimeInterval(interval)
+        orgInterval = _interval
         _onTick = onTick
     }
 
@@ -741,8 +754,12 @@ class Timer {
         _lastTick = nil
     }
 
+    func isTicking() -> Bool {
+        return _lastTick != nil
+    }
+
     func toggle() -> Bool{
-        if (_lastTick != nil) {
+        if (isTicking()) {
             stopTicking()
             return true
         } else {
@@ -756,6 +773,14 @@ class Timer {
             startTicking()
             _onTick()
         }
+    }
+
+    func levelUP() {
+        _interval = max(NSTimeInterval(0.1), _interval - NSTimeInterval(0.1))
+    }
+
+    func reset() {
+        _interval = orgInterval
     }
 }
 
@@ -800,7 +825,7 @@ class GameScene: SKScene {
     var lifes = [Life]()
     var gameState:GameState!
     var onPlayInterval:Double = 0.9 // sec
-    var offPlayInterval:Double = 0.8 // sec
+    var offPlayInterval:Double = 0.9 // sec
     var oopsInterval:Double = 3.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
@@ -1072,7 +1097,8 @@ class GameScene: SKScene {
         scoreBoard.hide()
         scoreLabel.show()
         gameState = .play
-        timers[0]._interval = onPlayInterval
+        timers[0].reset()
+        timers[1].reset()
         dispatcher.reset()
     }
 
@@ -1092,7 +1118,8 @@ class GameScene: SKScene {
         timers[1].startTicking()
         messages = ["GO!", "SET", "READY", "LEVEL \(level++)"]
         countDown = messages.count
-        timers[0]._interval = max(NSTimeInterval(0.4), timers[0]._interval - NSTimeInterval(0.1))
+        timers[0].levelUP()
+        timers[1].levelUP()
         dispatcher.levelUp()
     }
 
@@ -1237,6 +1264,19 @@ class GameScene: SKScene {
             }
             if (!paused) {
                 var hen = (location.x < centerX) ? henL : henR
+                if (hen.henState == .catch) {
+                    let tooBusy = ScoreTip(parent: self)
+                    tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
+                    tooBusy.fontSize = 40
+                    tooBusy.fontColor = chalkYellow
+                    if (timers[0].isTicking()) {
+                        tooBusy.show("TOO EARLY -1")
+                        scoreLabel.sub(1)
+                    } else {
+                        tooBusy.show("HOLD A SEC")
+                    }
+                    return
+                }
                 hen.move(location.y)
                 if (hen == henR && hen.yPos != 0) {
                     hen.flipBack()
