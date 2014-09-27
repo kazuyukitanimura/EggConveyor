@@ -776,7 +776,7 @@ class Timer {
     }
 
     func levelUP() {
-        _interval = max(NSTimeInterval(0.1), _interval - NSTimeInterval(0.1))
+        _interval = max(NSTimeInterval(0.40), _interval - NSTimeInterval(0.07))
     }
 
     func reset() {
@@ -824,8 +824,8 @@ class GameScene: SKScene {
     let maxLifes:Int = 3
     var lifes = [Life]()
     var gameState:GameState!
-    var onPlayInterval:Double = 0.9 // sec
-    var offPlayInterval:Double = 0.9 // sec
+    var onPlayInterval:Double = 0.8 // sec
+    var offPlayInterval:Double = 0.8 // sec
     var oopsInterval:Double = 3.0 // sec
     var countDown:Int = 0
     var eggs = [Egg]()
