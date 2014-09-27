@@ -1108,7 +1108,7 @@ class GameScene: SKScene {
     func reset() {
         retry()
         gameState = .first
-        message.show("TAP TO MOVE UP/DOWN!")
+        message.show("TAP TO CATCH EGG BOXES!")
         for tap in taps {
             tap.show()
         }
@@ -1268,15 +1268,13 @@ class GameScene: SKScene {
             if (!paused) {
                 var hen = (location.x < centerX) ? henL : henR
                 if (hen.henState == .catch) {
-                    let tooBusy = ScoreTip(parent: self)
-                    tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
-                    tooBusy.fontSize = 40
-                    tooBusy.fontColor = chalkYellow
                     if (timers[0].isTicking()) {
+                        let tooBusy = ScoreTip(parent: self)
+                        tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
+                        tooBusy.fontSize = 40
+                        tooBusy.fontColor = chalkYellow
                         tooBusy.show("TOO EARLY -1")
                         scoreLabel.sub(1)
-                    } else {
-                        tooBusy.show("HOLD ON")
                     }
                     return
                 }
