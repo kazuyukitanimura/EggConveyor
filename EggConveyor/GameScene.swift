@@ -357,7 +357,6 @@ class Score: MyLabelNode {
 
     func lostLife() {
         lastMiss = score
-        sound("drop")
     }
 
     func updateBest() {
@@ -402,17 +401,21 @@ class Egg: MySpriteNode {
                     eggState = .none
                 } else {
                     eggState = .broken
+                    sound("drop")
                 }
                 position = _eggPoses[currPos]
             }
         }
     }
     var _eggPoses:[CGPoint]!
+    var eggDrop:SKAction!
     init(parent: GameScene, eggPoses: [CGPoint]) {
         super.init(parent: parent, image: "egg_02")
         setScale(scale)
         anchorPoint = CGPointMake(0.5, 0.0)
         _eggPoses = eggPoses
+        eggDrop = SKAction.moveToY(_eggPoses[0].y, duration: NSTimeInterval(0.16))
+        eggDrop.timingMode = .EaseIn
     }
 
     var arrow:Arrow!
@@ -436,7 +439,7 @@ class Egg: MySpriteNode {
 
     func didFailL(henY: Int) -> Bool {
         if ((henY != 0 && currPos == 13) || (henY != 1 && currPos == 29) || (henY != 2 && currPos == 45)) {
-            currPos = 2
+            runAction(eggDrop, completion: {self.currPos = 2})
             return true
         }
         return false
@@ -444,11 +447,11 @@ class Egg: MySpriteNode {
 
     func didFailR(henY: Int) -> Bool {
         if (henY != 0 && currPos == 5) {
-            currPos = 0
+            runAction(eggDrop, completion: {self.currPos = 0})
             return true
         }
         if ((henY != 1 && currPos == 21) || (henY != 2 && currPos == 37)) {
-            currPos = 1
+            runAction(eggDrop, completion: {self.currPos = 1})
             return true
         }
         return false
@@ -1273,7 +1276,7 @@ class GameScene: SKScene {
                         tooBusy.show("TOO EARLY -1")
                         scoreLabel.sub(1)
                     } else {
-                        tooBusy.show("HOLD A SEC")
+                        tooBusy.show("HOLD ON")
                     }
                     return
                 }
