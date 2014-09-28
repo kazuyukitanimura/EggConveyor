@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8047192E197F56610075C696"
-               BuildableName = "SFChicken.app"
+               BuildableName = "SFChickens.app"
                BlueprintName = "SFChickens"
                ReferencedContainer = "container:SFChickens.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80471944197F56610075C696"
-               BuildableName = "SFChickenTests.xctest"
+               BuildableName = "SFChickensTests.xctest"
                BlueprintName = "SFChickensTests"
                ReferencedContainer = "container:SFChickens.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
-            BuildableName = "SFChicken.app"
+            BuildableName = "SFChickens.app"
             BlueprintName = "SFChickens"
             ReferencedContainer = "container:SFChickens.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
-            BuildableName = "SFChicken.app"
+            BuildableName = "SFChickens.app"
             BlueprintName = "SFChickens"
             ReferencedContainer = "container:SFChickens.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
-            BuildableName = "SFChicken.app"
+            BuildableName = "SFChickens.app"
             BlueprintName = "SFChickens"
             ReferencedContainer = "container:SFChickens.xcodeproj">
          </BuildableReference>
