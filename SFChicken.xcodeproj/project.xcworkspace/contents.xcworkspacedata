@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:OperationEggs.xcodeproj">
+      location = "self:SFChicken.xcodeproj">
    </FileRef>
 </Workspace>

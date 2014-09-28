@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8047192E197F56610075C696"
                BuildableName = "OperationEggs.app"
-               BlueprintName = "OperationEggs"
-               ReferencedContainer = "container:OperationEggs.xcodeproj">
+               BlueprintName = "SFChicken"
+               ReferencedContainer = "container:SFChicken.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80471944197F56610075C696"
                BuildableName = "OperationEggsTests.xctest"
-               BlueprintName = "OperationEggsTests"
-               ReferencedContainer = "container:OperationEggs.xcodeproj">
+               BlueprintName = "SFChickenTests"
+               ReferencedContainer = "container:SFChicken.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
             BuildableName = "OperationEggs.app"
-            BlueprintName = "OperationEggs"
-            ReferencedContainer = "container:OperationEggs.xcodeproj">
+            BlueprintName = "SFChicken"
+            ReferencedContainer = "container:SFChicken.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
             BuildableName = "OperationEggs.app"
-            BlueprintName = "OperationEggs"
-            ReferencedContainer = "container:OperationEggs.xcodeproj">
+            BlueprintName = "SFChicken"
+            ReferencedContainer = "container:SFChicken.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8047192E197F56610075C696"
             BuildableName = "OperationEggs.app"
-            BlueprintName = "OperationEggs"
-            ReferencedContainer = "container:OperationEggs.xcodeproj">
+            BlueprintName = "SFChicken"
+            ReferencedContainer = "container:SFChicken.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

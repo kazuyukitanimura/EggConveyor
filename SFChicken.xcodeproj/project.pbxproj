@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8047192F197F56610075C696 /* OperationEggs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OperationEggs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8047192F197F56610075C696 /* SFChicken.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFChicken.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80471933197F56610075C696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80471934197F56610075C696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80471936197F56610075C696 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 		8047193A197F56610075C696 /* GameViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		8047193D197F56610075C696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8047193F197F56610075C696 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		80471945197F56610075C696 /* OperationEggsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OperationEggsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80471945197F56610075C696 /* SFChickenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SFChickenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8047194A197F56610075C696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8047194B197F56610075C696 /* EggConveyorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggConveyorTests.swift; sourceTree = "<group>"; };
 		8061F8A819838FF300BCB17E /* conveyor.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = conveyor.atlas; sourceTree = "<group>"; };
@@ -96,8 +96,8 @@
 		80471930197F56610075C696 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8047192F197F56610075C696 /* OperationEggs.app */,
-				80471945197F56610075C696 /* OperationEggsTests.xctest */,
+				8047192F197F56610075C696 /* SFChicken.app */,
+				80471945197F56610075C696 /* SFChickenTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,9 +165,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8047192E197F56610075C696 /* OperationEggs */ = {
+		8047192E197F56610075C696 /* SFChicken */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8047194F197F56610075C696 /* Build configuration list for PBXNativeTarget "OperationEggs" */;
+			buildConfigurationList = 8047194F197F56610075C696 /* Build configuration list for PBXNativeTarget "SFChicken" */;
 			buildPhases = (
 				8047192B197F56610075C696 /* Sources */,
 				8047192C197F56610075C696 /* Frameworks */,
@@ -177,14 +177,14 @@
 			);
 			dependencies = (
 			);
-			name = OperationEggs;
+			name = SFChicken;
 			productName = EggConveyor;
-			productReference = 8047192F197F56610075C696 /* OperationEggs.app */;
+			productReference = 8047192F197F56610075C696 /* SFChicken.app */;
 			productType = "com.apple.product-type.application";
 		};
-		80471944197F56610075C696 /* OperationEggsTests */ = {
+		80471944197F56610075C696 /* SFChickenTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80471952197F56610075C696 /* Build configuration list for PBXNativeTarget "OperationEggsTests" */;
+			buildConfigurationList = 80471952197F56610075C696 /* Build configuration list for PBXNativeTarget "SFChickenTests" */;
 			buildPhases = (
 				80471941197F56610075C696 /* Sources */,
 				80471942197F56610075C696 /* Frameworks */,
@@ -195,9 +195,9 @@
 			dependencies = (
 				80471947197F56610075C696 /* PBXTargetDependency */,
 			);
-			name = OperationEggsTests;
+			name = SFChickenTests;
 			productName = EggConveyorTests;
-			productReference = 80471945197F56610075C696 /* OperationEggsTests.xctest */;
+			productReference = 80471945197F56610075C696 /* SFChickenTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -219,7 +219,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8047192A197F56610075C696 /* Build configuration list for PBXProject "OperationEggs" */;
+			buildConfigurationList = 8047192A197F56610075C696 /* Build configuration list for PBXProject "SFChicken" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -232,8 +232,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8047192E197F56610075C696 /* OperationEggs */,
-				80471944197F56610075C696 /* OperationEggsTests */,
+				8047192E197F56610075C696 /* SFChicken */,
+				80471944197F56610075C696 /* SFChickenTests */,
 			);
 		};
 /* End PBXProject section */
@@ -295,7 +295,7 @@
 /* Begin PBXTargetDependency section */
 		80471947197F56610075C696 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8047192E197F56610075C696 /* OperationEggs */;
+			target = 8047192E197F56610075C696 /* SFChicken */;
 			targetProxy = 80471946197F56610075C696 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -401,7 +401,7 @@
 				INFOPLIST_FILE = EggConveyor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = OperationEggs;
+				PRODUCT_NAME = SFChicken;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -416,7 +416,7 @@
 				INFOPLIST_FILE = EggConveyor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = OperationEggs;
+				PRODUCT_NAME = SFChicken;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -435,7 +435,7 @@
 				);
 				INFOPLIST_FILE = EggConveyorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = OperationEggsTests;
+				PRODUCT_NAME = SFChickenTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -450,7 +450,7 @@
 				);
 				INFOPLIST_FILE = EggConveyorTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = OperationEggsTests;
+				PRODUCT_NAME = SFChickenTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
@@ -458,7 +458,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8047192A197F56610075C696 /* Build configuration list for PBXProject "OperationEggs" */ = {
+		8047192A197F56610075C696 /* Build configuration list for PBXProject "SFChicken" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8047194D197F56610075C696 /* Debug */,
@@ -467,7 +467,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8047194F197F56610075C696 /* Build configuration list for PBXNativeTarget "OperationEggs" */ = {
+		8047194F197F56610075C696 /* Build configuration list for PBXNativeTarget "SFChicken" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80471950197F56610075C696 /* Debug */,
@@ -476,7 +476,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		80471952197F56610075C696 /* Build configuration list for PBXNativeTarget "OperationEggsTests" */ = {
+		80471952197F56610075C696 /* Build configuration list for PBXNativeTarget "SFChickenTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80471953197F56610075C696 /* Debug */,
