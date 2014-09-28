@@ -1,6 +1,6 @@
 //
-//  EggConveyorTests.swift
-//  EggConveyorTests
+//  SFChickensTests.swift
+//  SFChickensTests
 //
 //  Created by Kazuyuki Tanimura on 7/22/14.
 //  Copyright (c) 2014 Kazuyuki Tanimura. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import XCTest
 
-class EggConveyorTests: XCTestCase {
+class SFChickensTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

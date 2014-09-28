@@ -13,7 +13,7 @@
 		8047193B197F56610075C696 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047193A197F56610075C696 /* GameViewController.swift */; };
 		8047193E197F56610075C696 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8047193C197F56610075C696 /* Main.storyboard */; };
 		80471940197F56610075C696 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8047193F197F56610075C696 /* Images.xcassets */; };
-		8047194C197F56610075C696 /* EggConveyorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047194B197F56610075C696 /* EggConveyorTests.swift */; };
+		8047194C197F56610075C696 /* SFChickensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047194B197F56610075C696 /* SFChickensTests.swift */; };
 		8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8061F8A819838FF300BCB17E /* conveyor.atlas */; };
 		80940EBA19AF0A2C0069B607 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80940EB919AF0A2C0069B607 /* SRWebClient.swift */; };
 		809A84F019D7CC510026AB6B /* come.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84E819D7CC510026AB6B /* come.wav */; };
@@ -50,7 +50,7 @@
 		8047193F197F56610075C696 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		80471945197F56610075C696 /* SFChickensTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SFChickensTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8047194A197F56610075C696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8047194B197F56610075C696 /* EggConveyorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EggConveyorTests.swift; sourceTree = "<group>"; };
+		8047194B197F56610075C696 /* SFChickensTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFChickensTests.swift; sourceTree = "<group>"; };
 		8061F8A819838FF300BCB17E /* conveyor.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = conveyor.atlas; sourceTree = "<group>"; };
 		80940EB919AF0A2C0069B607 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
 		809A84E819D7CC510026AB6B /* come.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = come.wav; sourceTree = "<group>"; };
@@ -87,8 +87,8 @@
 		80471926197F56610075C696 = {
 			isa = PBXGroup;
 			children = (
-				80471931197F56610075C696 /* EggConveyor */,
-				80471948197F56610075C696 /* EggConveyorTests */,
+				80471931197F56610075C696 /* SFChickens */,
+				80471948197F56610075C696 /* SFChickensTests */,
 				80471930197F56610075C696 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,7 +102,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		80471931197F56610075C696 /* EggConveyor */ = {
+		80471931197F56610075C696 /* SFChickens */ = {
 			isa = PBXGroup;
 			children = (
 				809A84E719D7CC510026AB6B /* sound */,
@@ -120,6 +120,7 @@
 				80471932197F56610075C696 /* Supporting Files */,
 				80940EB919AF0A2C0069B607 /* SRWebClient.swift */,
 			);
+			name = SFChickens;
 			path = EggConveyor;
 			sourceTree = "<group>";
 		};
@@ -131,12 +132,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		80471948197F56610075C696 /* EggConveyorTests */ = {
+		80471948197F56610075C696 /* SFChickensTests */ = {
 			isa = PBXGroup;
 			children = (
-				8047194B197F56610075C696 /* EggConveyorTests.swift */,
+				8047194B197F56610075C696 /* SFChickensTests.swift */,
 				80471949197F56610075C696 /* Supporting Files */,
 			);
+			name = SFChickensTests;
 			path = EggConveyorTests;
 			sourceTree = "<group>";
 		};
@@ -286,7 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8047194C197F56610075C696 /* EggConveyorTests.swift in Sources */,
+				8047194C197F56610075C696 /* SFChickensTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
