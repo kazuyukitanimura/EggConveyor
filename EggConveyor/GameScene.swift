@@ -208,16 +208,19 @@ class Hen: MySpriteNode {
         runAction(SKAction.repeatActionForever(anim))
     }
 
-    func move(toY: CGFloat) {
-        var _yPos = yPos
+    func newYPos (toY: CGFloat) -> Int {
         let margin:CGFloat = 7
         if (toY > yPoses[2] - margin) {
-            yPos = 2
+            return 2
         } else if (toY > yPoses[1] - margin) {
-            yPos = 1
+            return 1
         } else {
-            yPos = 0
+            return 0
         }
+    }
+    func move(toY: CGFloat) {
+        let _yPos = yPos
+        yPos = newYPos(toY)
         if (_yPos != yPos) {
             position.y = yPoses[yPos]
             if (henState == .smile) {
@@ -1268,7 +1271,7 @@ class GameScene: SKScene {
             if (!paused) {
                 var hen = (location.x < centerX) ? henL : henR
                 if (hen.henState == .catch) {
-                    if (timers[0].isTicking()) {
+                    if (timers[0].isTicking() && hen.newYPos(location.y) != hen.yPos) {
                         let tooBusy = ScoreTip(parent: self)
                         tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
                         tooBusy.fontSize = 40
