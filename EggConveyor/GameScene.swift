@@ -796,7 +796,7 @@ func isOneOf<T: Comparable>(x: T, among:[T]) -> Bool {
 }
 
 func toHex(x: Int) -> String {
-    return NSString(format:"%2X", x) as String
+    return String(NSString(format:"%2X", x))
 }
 
 func kvStore(k: String, v: AnyObject) {
