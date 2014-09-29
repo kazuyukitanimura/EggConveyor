@@ -352,7 +352,7 @@ class Score: MyLabelNode {
     }
 
     func sub(n: Int) {
-        score = max(0, score - n)
+        score -= n
     }
 
     func lostLife() {
