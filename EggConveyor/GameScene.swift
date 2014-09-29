@@ -272,7 +272,7 @@ class Score: MyLabelNode {
         get {
             var ret = kvLoad("UUID") as? String
             if (ret == nil) {
-                ret = toHex(NSDate().timeIntervalSince1970) + "-" + toHex(Int(arc4random()))
+                ret = toHex(Int(NSDate().timeIntervalSince1970)) + "-" + toHex(Int(arc4random()))
                 self.UUID = ret!
             }
             return ret!
@@ -296,10 +296,6 @@ class Score: MyLabelNode {
             if (bestScore < score) {
                 kvStore("bestScore", newValue)
             }
-            SRWebClient.POST("https://limily.com/score")
-                .headers(["Content-Type":"application/json; charset=utf-8"])
-                .jsonData("{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(bestScore)\", \"countryCode\": \"\(countryCode)\"}")
-                .send(success, failure:failure)
         }
     }
     var worldBest = "... ?"
@@ -361,6 +357,10 @@ class Score: MyLabelNode {
 
     func updateBest() {
         bestScore = score
+        SRWebClient.POST("https://limily.com/score")
+            .headers(["Content-Type":"application/json; charset=utf-8"])
+            .jsonData("{\"UUID\": \"\(UUID)\", \"bestScore\": \"\(bestScore)\", \"countryCode\": \"\(countryCode)\"}")
+            .send(success, failure:failure)
     }
 }
 
@@ -792,8 +792,8 @@ func isOneOf<T: Comparable>(x: T, among:[T]) -> Bool {
     return find(among, x) != nil
 }
 
-func toHex(x: AnyObject) -> String {
-    return NSString(format:"%2X", (x as Int)) as String
+func toHex(x: Int) -> String {
+    return NSString(format:"%2X", x) as String
 }
 
 func kvStore(k: String, v: AnyObject) {
