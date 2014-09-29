@@ -208,7 +208,7 @@ class Hen: MySpriteNode {
         runAction(SKAction.repeatActionForever(anim))
     }
 
-    func move(toY: CGFloat) -> Bool {
+    func move(toY: CGFloat) {
         var _yPos = yPos
         let margin:CGFloat = 7
         if (toY > yPoses[2] - margin) {
@@ -224,9 +224,7 @@ class Hen: MySpriteNode {
                 reset()
             }
             //sound("move")
-            return false
         }
-        return true
     }
 
     func reset() {
@@ -1269,7 +1267,7 @@ class GameScene: SKScene {
             }
             if (!paused) {
                 var hen = (location.x < centerX) ? henL : henR
-                if (hen.henState == .catch && hen.move(location.y)) {
+                if (hen.henState == .catch) {
                     if (timers[0].isTicking()) {
                         let tooBusy = ScoreTip(parent: self)
                         tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
@@ -1280,6 +1278,7 @@ class GameScene: SKScene {
                     }
                     return
                 }
+                hen.move(location.y)
                 if (hen == henR && hen.yPos != 0) {
                     hen.flipBack()
                 } else {
