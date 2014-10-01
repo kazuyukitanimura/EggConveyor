@@ -703,7 +703,6 @@ class Dispatcher {
     func reset() {
         _rate = orgRate
         _distance = 0
-        println(_rate)
     }
 
     func levelUp() {
