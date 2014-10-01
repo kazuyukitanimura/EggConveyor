@@ -432,7 +432,7 @@ class Egg: MySpriteNode {
             sound("come")
 
             arrow = Arrow(parent: self)
-            arrow.position = CGPoint(x:-350, y:1000)
+            arrow.position = CGPoint(x:-350, y:900)
             arrow.show()
         } else {
             arrow.hide()
@@ -651,10 +651,9 @@ class Arrow: MySpriteNode {
     required init(coder: NSCoder) {super.init(coder: coder)}
 
     init(parent: SKNode) {
-        super.init(parent: parent, image: "arrow")
-        setScale(3.8)
+        super.init(parent: parent, image: "newarrow")
+        setScale(3.4)
         anchorPoint = CGPointMake(0.5, 0.5)
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeInWithDuration(0.2), SKAction.fadeOutWithDuration(0.2)])))
     }
 }
 
@@ -704,6 +703,7 @@ class Dispatcher {
     func reset() {
         _rate = orgRate
         _distance = 0
+        println(_rate)
     }
 
     func levelUp() {
