@@ -86,6 +86,8 @@ class GameViewController: UIViewController {
             _adView.hidden = false
             _button.hidden = false
             adInterstitial.presentInView(_adView)
+        } else {
+            adInterstitial = ADInterstitialAd()
         }
     }
     func close() {
