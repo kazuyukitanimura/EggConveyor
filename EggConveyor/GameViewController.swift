@@ -99,7 +99,7 @@ class GameViewController: UIViewController {
         if (SLComposeViewController.isAvailableForServiceType(slServiceTypes[notification.name])) {
             var tweetSheet:SLComposeViewController = SLComposeViewController(forServiceType: slServiceTypes[notification.name])
             var score: AnyObject? = notification.userInfo!["score"]
-            tweetSheet.setInitialText("Got score \(score!) on SFChickens! http://appstore.com/SFChickens")
+            tweetSheet.setInitialText("Got score \(score!) on SFChickens! https://itunes.apple.com/us/app/sfchickens/id923871223")
             self.presentViewController(tweetSheet, animated: true, completion: nil)
         } else {
             UIAlertView(title: "\(notification.name) Is Disabled >_<", message: "Please login from the iOS settings", delegate: nil, cancelButtonTitle: "OK").show()
