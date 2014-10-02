@@ -675,8 +675,9 @@ class ScoreTip: MyLabelNode {
     func show(message: String) {
         text = message
         super.show()
-        runAction(SKAction.fadeOutWithDuration(1.0))
-        runAction(SKAction.moveByY(150, duration: 1.0))
+        let fade = SKAction.fadeOutWithDuration(4.0)
+        fade.timingMode = .EaseIn
+        runAction(fade)
     }
 }
 
@@ -1264,10 +1265,11 @@ class GameScene: SKScene {
                 if (hen.henState == .catch) {
                     if (timers[0].isTicking() && hen.newYPos(location.y) != hen.yPos) {
                         let tooBusy = ScoreTip(parent: self)
-                        tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 140)
-                        tooBusy.fontSize = 40
-                        tooBusy.fontColor = chalkYellow
+                        tooBusy.position = CGPoint(x:hen.position.x, y:hen.position.y + 32)
+                        tooBusy.fontSize = 26
+                        tooBusy.fontColor = chalkRed
                         tooBusy.show("-1 TOO EARLY")
+                        tooBusy.sound("beep")
                         scoreLabel.sub(1)
                     }
                     return

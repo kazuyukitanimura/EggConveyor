@@ -23,6 +23,7 @@
 		809A84F419D7CC510026AB6B /* levelup.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84EC19D7CC510026AB6B /* levelup.wav */; };
 		809A84F519D7CC510026AB6B /* lift.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84ED19D7CC510026AB6B /* lift.wav */; };
 		809A84F719D7CC510026AB6B /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84EF19D7CC510026AB6B /* move.wav */; };
+		809FC62E19DD0E8C00AF9039 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809FC62D19DD0E8C00AF9039 /* beep.wav */; };
 		80BE5D111984F47C009547BF /* truck.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D101984F47C009547BF /* truck.atlas */; };
 		80BE5D131985B826009547BF /* step.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D121985B826009547BF /* step.atlas */; };
 		80BE5D151986265D009547BF /* hen.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 80BE5D141986265D009547BF /* hen.atlas */; };
@@ -60,6 +61,7 @@
 		809A84EC19D7CC510026AB6B /* levelup.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelup.wav; sourceTree = "<group>"; };
 		809A84ED19D7CC510026AB6B /* lift.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lift.wav; sourceTree = "<group>"; };
 		809A84EF19D7CC510026AB6B /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
+		809FC62D19DD0E8C00AF9039 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		80BE5D101984F47C009547BF /* truck.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = truck.atlas; sourceTree = "<group>"; };
 		80BE5D121985B826009547BF /* step.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = step.atlas; sourceTree = "<group>"; };
 		80BE5D141986265D009547BF /* hen.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = hen.atlas; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			children = (
 				809A84E819D7CC510026AB6B /* come.wav */,
 				809A84E919D7CC510026AB6B /* count.wav */,
+				809FC62D19DD0E8C00AF9039 /* beep.wav */,
 				809A84EA19D7CC510026AB6B /* count2.wav */,
 				809A84EB19D7CC510026AB6B /* drop.wav */,
 				809A84EC19D7CC510026AB6B /* levelup.wav */,
@@ -245,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				809FC62E19DD0E8C00AF9039 /* beep.wav in Resources */,
 				809A84F519D7CC510026AB6B /* lift.wav in Resources */,
 				809A84F019D7CC510026AB6B /* come.wav in Resources */,
 				809A84F219D7CC510026AB6B /* count2.wav in Resources */,
