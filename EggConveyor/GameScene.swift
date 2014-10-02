@@ -691,30 +691,38 @@ class Dispatcher {
     var _rate:Int = 10
     var orgRate:Int = 10
     var _distance:Int = 0
-    init(row: Int, col:Int, rate: Int) {
+    var _limit:Int = 0
+    var orgLimit:Int = 0
+    init(row: Int, col: Int, rate: Int, limit: Int) {
         _size = row * col
         _row = row
         _col = col
         history = [Bool](count:_size, repeatedValue: false)
         _rate = rate
         orgRate = rate
+        _limit = limit
+        orgLimit = limit
     }
 
     func reset() {
         _rate = orgRate
+        _limit = orgLimit
         _distance = 0
     }
 
     func levelUp() {
         _rate = max(1, _rate - 2)
+        _limit += 1
     }
 
-    func dispatch() -> Bool {
+    func dispatch(eggCount: Int) -> Bool {
         if (count == _size) {
             count = 0
         }
-        if (last) {
+        if (last || eggCount >= _limit) {
             last = false
+        } else if (eggCount == 0) {
+            last = true
         } else {
             for j in 0..<_row {
                 last |= history[j * _col + colCnt] // find conflicts
@@ -728,14 +736,6 @@ class Dispatcher {
         }
         _distance = last ? 0 : _distance + 1
         return last
-    }
-
-    func first() {
-        /* force first history true*/
-        history[0] = true
-        last = true
-        count = 1
-        colCnt = 1
     }
 }
 
@@ -780,7 +780,7 @@ class Timer {
         }
     }
 
-    func levelUP() {
+    func levelUp() {
         _interval = max(NSTimeInterval(0.40), _interval - NSTimeInterval(0.07))
     }
 
@@ -836,7 +836,7 @@ class GameScene: SKScene {
     var eggs = [Egg]()
     var lostEggs = [Egg]()
     var eggPoses = [CGPoint]()
-    let dispatcher = Dispatcher(row:3, col:16, rate: 22)
+    let dispatcher = Dispatcher(row:3, col:16, rate:22, limit:3)
     var level = 1
     var messages = [String]()
     var timers = [Timer]()
@@ -1123,8 +1123,8 @@ class GameScene: SKScene {
         timers[1].startTicking()
         messages = ["GO!", "SET", "READY", "LEVEL \(level++)"]
         countDown = messages.count
-        timers[0].levelUP()
-        timers[1].levelUP()
+        timers[0].levelUp()
+        timers[1].levelUp()
         dispatcher.levelUp()
     }
 
@@ -1177,6 +1177,7 @@ class GameScene: SKScene {
             }*/
             henL.rest()
             henR.rest()
+            pause.hide()
             truck.leave(levelUp)
             return
         }
@@ -1212,10 +1213,8 @@ class GameScene: SKScene {
             lostLife()
         }
         catchEgg()
-        if (dispatcher.dispatch()) {
+        if (dispatcher.dispatch(eggs.count)) {
             eggs.append(Egg(parent: self, eggPoses: eggPoses))
-        } else if (eggs.count == 0) {
-            firstEgg()
         }
     }
 
@@ -1229,18 +1228,11 @@ class GameScene: SKScene {
         }
     }
 
-    func firstEgg() {
-        /* Reduce the time to the first egg */
-        eggs.append(Egg(parent: self, eggPoses: eggPoses))
-        dispatcher.first()
-    }
-
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         if (gameState == .first) {
             message.hide()
             gameState = .play
-            firstEgg()
             levelUp()
         } else if (gameState == .end) {
             reset()
@@ -1291,7 +1283,6 @@ class GameScene: SKScene {
 
         if (gameState == .retry) {
             retry()
-            firstEgg()
             levelUp()
             return
         }
