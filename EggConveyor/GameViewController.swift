@@ -31,7 +31,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, ADBannerViewDelegate {
     let adBannerView = ADBannerView(adType: .Banner)
     var adInterstitial:ADInterstitialAd!
     var _adView = UIView()
@@ -55,11 +55,11 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
         }
 
+        adBannerView.hidden = true
+        adBannerView.frame = CGRectMake(0, 0, view.bounds.size.width, adBannerView.frame.height)
         adBannerView.center = CGPoint(x: adBannerView.frame.midX, y: adBannerView.frame.midY)
-        adBannerView.hidden = UIDevice.currentDevice().userInterfaceIdiom != .Pad
-        adBannerView.frame = CGRectOffset(adBannerView.frame, 0, 0.0)
-        //adBannerView.adType = ADAdType.MediumRectangle
-        self.view.addSubview(adBannerView)
+        adBannerView.delegate = self
+        view.addSubview(adBannerView)
         //NSNotificationCenter.defaultCenter().addObserver(self, selector:"hideAd:", name:"hideAd", object:nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"showAd:", name:"showAd", object:nil)
         for key in slServiceTypes.keys {
@@ -74,7 +74,32 @@ class GameViewController: UIViewController {
         _button.addTarget(self, action: Selector("close"), forControlEvents: UIControlEvents.TouchDown)
         _button.hidden = true
         self.view.addSubview(_button)
-      }
+    }
+
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        adBannerView.hidden = UIDevice.currentDevice().userInterfaceIdiom != .Pad
+    }
+
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        adBannerView.hidden = true
+    }
+
+    func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
+        /* pause when ad is clicked */
+        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+            let skView = self.view as SKView
+            skView.paused = true
+        }
+        return true
+    }
+
+    func bannerViewActionDidFinish(banner: ADBannerView!) {
+        /* un-pause when ad is closed */
+        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
+            let skView = self.view as SKView
+            skView.paused = false
+        }
+    }
 
     // Handle Notification
     // http://stackoverflow.com/questions/21664295/hide-show-iads-in-spritekit
