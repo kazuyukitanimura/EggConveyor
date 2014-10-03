@@ -574,7 +574,7 @@ class ScoreBoard: MySpriteNode {
         countryRank.position = CGPoint(x: 170, y: -140)
         countryRank.show()
         let borderT = ChalkBorder(parent: self)
-        borderT.position = CGPoint(x: -380, y: -260)
+        borderT.position = CGPoint(x: -400, y: -260)
         borderT.xScale = 0.4
         borderT.name = "Twitter"
         borderT.show()
@@ -587,7 +587,7 @@ class ScoreBoard: MySpriteNode {
         twitter.name = "Twitter"
         twitter.show()
         let borderF = ChalkBorder(parent: self)
-        borderF.position = CGPoint(x: -210, y: -260)
+        borderF.position = CGPoint(x: -250, y: -260)
         borderF.xScale = 0.4
         borderF.name = "Facebook"
         borderF.show()
@@ -611,6 +611,19 @@ class ScoreBoard: MySpriteNode {
         retryLabel.position = CGPoint(x: 0, y: -36)
         retryLabel.name = "retry"
         retryLabel.show()
+        let borderS = ChalkBorder(parent: self)
+        borderS.position = CGPoint(x: -100, y: -260)
+        borderS.xScale = 0.4
+        borderS.name = "rate"
+        borderS.show()
+        let rate = MyLabelNode(parent: borderS)
+        rate.fontSize = 118
+        rate.text = "\u{2606}"
+        rate.fontColor = chalkYellow
+        rate.xScale = 2.0
+        rate.position = CGPoint(x: 0, y: -38)
+        rate.name = "rate"
+        rate.show()
         show()
         var slideIn = SKAction.moveToX(parent!.frame.midX, duration: 1.5)
         slideIn.timingMode = .EaseOut
@@ -1255,6 +1268,8 @@ class GameScene: SKScene {
                 } else if (slServiceTypes.hasKey(node.name!)) {
                     showSocial(node.name!)
                     return
+                } else if (node.name == "rate") {
+                    UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/sfchickens/id923871223"))
                 }
                 break
             } else if (gameState == .retry) {
