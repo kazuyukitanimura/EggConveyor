@@ -36,6 +36,8 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
     var adInterstitial:ADInterstitialAd!
     var _adView = UIView()
     var _button = UIButton(frame: CGRect(x: 10, y:  10, width: 40, height: 40))
+    var gadInterstitial:GADInterstitial = GADInterstitial()
+    var gadRequest:GADRequest = GADRequest()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +76,9 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
         _button.addTarget(self, action: Selector("close"), forControlEvents: UIControlEvents.TouchDown)
         _button.hidden = true
         self.view.addSubview(_button)
+        gadInterstitial.adUnitID = ""
+        gadRequest.testDevices = [GAD_SIMULATOR_ID]
+        gadInterstitial.loadRequest(gadRequest)
     }
 
     func bannerViewDidLoadAd(banner: ADBannerView!) {
@@ -113,6 +118,9 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
             adInterstitial.presentInView(_adView)
         } else {
             adInterstitial = ADInterstitialAd()
+            if (gadInterstitial.isReady) {
+                gadInterstitial.presentFromRootViewController(self)
+            }
         }
     }
     func close() {

@@ -15,6 +15,8 @@
 		80471940197F56610075C696 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8047193F197F56610075C696 /* Images.xcassets */; };
 		8047194C197F56610075C696 /* SFChickensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8047194B197F56610075C696 /* SFChickensTests.swift */; };
 		8061F8A919838FF300BCB17E /* conveyor.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8061F8A819838FF300BCB17E /* conveyor.atlas */; };
+		809188A619E2072900D5EDF2 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 809188A419E2072900D5EDF2 /* libGoogleAdMobAds.a */; };
+		809188A719E2072900D5EDF2 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 809188A519E2072900D5EDF2 /* README.txt */; };
 		80940EBA19AF0A2C0069B607 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80940EB919AF0A2C0069B607 /* SRWebClient.swift */; };
 		809A84F019D7CC510026AB6B /* come.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84E819D7CC510026AB6B /* come.wav */; };
 		809A84F119D7CC510026AB6B /* count.wav in Resources */ = {isa = PBXBuildFile; fileRef = 809A84E919D7CC510026AB6B /* count.wav */; };
@@ -53,6 +55,36 @@
 		8047194A197F56610075C696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8047194B197F56610075C696 /* SFChickensTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFChickensTests.swift; sourceTree = "<group>"; };
 		8061F8A819838FF300BCB17E /* conveyor.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = conveyor.atlas; sourceTree = "<group>"; };
+		8091888719E2072900D5EDF2 /* DFPBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPBannerView.h; sourceTree = "<group>"; };
+		8091888819E2072900D5EDF2 /* DFPExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPExtras.h; sourceTree = "<group>"; };
+		8091888919E2072900D5EDF2 /* DFPInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPInterstitial.h; sourceTree = "<group>"; };
+		8091888A19E2072900D5EDF2 /* DFPSwipeableBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPSwipeableBannerView.h; sourceTree = "<group>"; };
+		8091888B19E2072900D5EDF2 /* GADAdSizeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSizeDelegate.h; sourceTree = "<group>"; };
+		8091888C19E2072900D5EDF2 /* GADAppEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAppEventDelegate.h; sourceTree = "<group>"; };
+		8091888D19E2072900D5EDF2 /* GADSwipeableBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADSwipeableBannerViewDelegate.h; sourceTree = "<group>"; };
+		8091888F19E2072900D5EDF2 /* GADCustomEventBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventBanner.h; sourceTree = "<group>"; };
+		8091889019E2072900D5EDF2 /* GADCustomEventBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventBannerDelegate.h; sourceTree = "<group>"; };
+		8091889119E2072900D5EDF2 /* GADCustomEventExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventExtras.h; sourceTree = "<group>"; };
+		8091889219E2072900D5EDF2 /* GADCustomEventInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventInterstitial.h; sourceTree = "<group>"; };
+		8091889319E2072900D5EDF2 /* GADCustomEventInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventInterstitialDelegate.h; sourceTree = "<group>"; };
+		8091889419E2072900D5EDF2 /* GADCustomEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventRequest.h; sourceTree = "<group>"; };
+		8091889619E2072900D5EDF2 /* GADSearchBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADSearchBannerView.h; sourceTree = "<group>"; };
+		8091889719E2072900D5EDF2 /* GADSearchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADSearchRequest.h; sourceTree = "<group>"; };
+		8091889819E2072900D5EDF2 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		8091889919E2072900D5EDF2 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		8091889A19E2072900D5EDF2 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		8091889B19E2072900D5EDF2 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		8091889C19E2072900D5EDF2 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		8091889D19E2072900D5EDF2 /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
+		8091889E19E2072900D5EDF2 /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
+		8091889F19E2072900D5EDF2 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		809188A019E2072900D5EDF2 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		809188A119E2072900D5EDF2 /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
+		809188A219E2072900D5EDF2 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		809188A319E2072900D5EDF2 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		809188A419E2072900D5EDF2 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		809188A519E2072900D5EDF2 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		809188A819E211D700D5EDF2 /* Swift_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swift_Bridging_Header.h; sourceTree = "<group>"; };
 		80940EB919AF0A2C0069B607 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
 		809A84E819D7CC510026AB6B /* come.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = come.wav; sourceTree = "<group>"; };
 		809A84E919D7CC510026AB6B /* count.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count.wav; sourceTree = "<group>"; };
@@ -73,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				809188A619E2072900D5EDF2 /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +140,8 @@
 		80471931197F56610075C696 /* SFChickens */ = {
 			isa = PBXGroup;
 			children = (
+				809188A819E211D700D5EDF2 /* Swift_Bridging_Header.h */,
+				8091888419E2072900D5EDF2 /* GoogleMobileAdsSdkiOS-6.12.0 */,
 				809A84E719D7CC510026AB6B /* sound */,
 				80471934197F56610075C696 /* AppDelegate.swift */,
 				80471936197F56610075C696 /* GameScene.sks */,
@@ -150,6 +185,74 @@
 				8047194A197F56610075C696 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8091888419E2072900D5EDF2 /* GoogleMobileAdsSdkiOS-6.12.0 */ = {
+			isa = PBXGroup;
+			children = (
+				8091888519E2072900D5EDF2 /* Add-ons */,
+				8091889819E2072900D5EDF2 /* GADAdMobExtras.h */,
+				8091889919E2072900D5EDF2 /* GADAdNetworkExtras.h */,
+				8091889A19E2072900D5EDF2 /* GADAdSize.h */,
+				8091889B19E2072900D5EDF2 /* GADBannerView.h */,
+				8091889C19E2072900D5EDF2 /* GADBannerViewDelegate.h */,
+				8091889D19E2072900D5EDF2 /* GADInAppPurchase.h */,
+				8091889E19E2072900D5EDF2 /* GADInAppPurchaseDelegate.h */,
+				8091889F19E2072900D5EDF2 /* GADInterstitial.h */,
+				809188A019E2072900D5EDF2 /* GADInterstitialDelegate.h */,
+				809188A119E2072900D5EDF2 /* GADModules.h */,
+				809188A219E2072900D5EDF2 /* GADRequest.h */,
+				809188A319E2072900D5EDF2 /* GADRequestError.h */,
+				809188A419E2072900D5EDF2 /* libGoogleAdMobAds.a */,
+				809188A519E2072900D5EDF2 /* README.txt */,
+			);
+			path = "GoogleMobileAdsSdkiOS-6.12.0";
+			sourceTree = "<group>";
+		};
+		8091888519E2072900D5EDF2 /* Add-ons */ = {
+			isa = PBXGroup;
+			children = (
+				8091888619E2072900D5EDF2 /* DoubleClick */,
+				8091888E19E2072900D5EDF2 /* Mediation */,
+				8091889519E2072900D5EDF2 /* Search */,
+			);
+			path = "Add-ons";
+			sourceTree = "<group>";
+		};
+		8091888619E2072900D5EDF2 /* DoubleClick */ = {
+			isa = PBXGroup;
+			children = (
+				8091888719E2072900D5EDF2 /* DFPBannerView.h */,
+				8091888819E2072900D5EDF2 /* DFPExtras.h */,
+				8091888919E2072900D5EDF2 /* DFPInterstitial.h */,
+				8091888A19E2072900D5EDF2 /* DFPSwipeableBannerView.h */,
+				8091888B19E2072900D5EDF2 /* GADAdSizeDelegate.h */,
+				8091888C19E2072900D5EDF2 /* GADAppEventDelegate.h */,
+				8091888D19E2072900D5EDF2 /* GADSwipeableBannerViewDelegate.h */,
+			);
+			path = DoubleClick;
+			sourceTree = "<group>";
+		};
+		8091888E19E2072900D5EDF2 /* Mediation */ = {
+			isa = PBXGroup;
+			children = (
+				8091888F19E2072900D5EDF2 /* GADCustomEventBanner.h */,
+				8091889019E2072900D5EDF2 /* GADCustomEventBannerDelegate.h */,
+				8091889119E2072900D5EDF2 /* GADCustomEventExtras.h */,
+				8091889219E2072900D5EDF2 /* GADCustomEventInterstitial.h */,
+				8091889319E2072900D5EDF2 /* GADCustomEventInterstitialDelegate.h */,
+				8091889419E2072900D5EDF2 /* GADCustomEventRequest.h */,
+			);
+			path = Mediation;
+			sourceTree = "<group>";
+		};
+		8091889519E2072900D5EDF2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				8091889619E2072900D5EDF2 /* GADSearchBannerView.h */,
+				8091889719E2072900D5EDF2 /* GADSearchRequest.h */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		809A84E719D7CC510026AB6B /* sound */ = {
@@ -249,6 +352,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				809FC62E19DD0E8C00AF9039 /* beep.wav in Resources */,
+				809188A719E2072900D5EDF2 /* README.txt in Resources */,
 				809A84F519D7CC510026AB6B /* lift.wav in Resources */,
 				809A84F019D7CC510026AB6B /* come.wav in Resources */,
 				809A84F219D7CC510026AB6B /* count2.wav in Resources */,
@@ -408,8 +512,14 @@
 				INFOPLIST_FILE = EggConveyor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EggConveyor/GoogleMobileAdsSdkiOS-6.12.0",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SFChickens;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EggConveyor/Swift_Bridging_Header.h";
 			};
 			name = Debug;
 		};
@@ -424,8 +534,14 @@
 				INFOPLIST_FILE = EggConveyor/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EggConveyor/GoogleMobileAdsSdkiOS-6.12.0",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SFChickens;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/EggConveyor/Swift_Bridging_Header.h";
 			};
 			name = Release;
 		};
