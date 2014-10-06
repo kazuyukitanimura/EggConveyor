@@ -3,3 +3,4 @@ xcuserdata
 xcshareddata
 *.swp
 node_modules
+Secret.swift

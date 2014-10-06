@@ -76,7 +76,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
         _button.addTarget(self, action: Selector("close"), forControlEvents: UIControlEvents.TouchDown)
         _button.hidden = true
         self.view.addSubview(_button)
-        gadInterstitial.adUnitID = ""
+        gadInterstitial.adUnitID = ADUNITID
         gadRequest.testDevices = [GAD_SIMULATOR_ID]
         gadInterstitial.loadRequest(gadRequest)
     }
